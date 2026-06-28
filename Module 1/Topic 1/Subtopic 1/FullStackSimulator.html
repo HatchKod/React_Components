@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Full Stack Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const APPS = {
+      instagram: { icon:"📸", name:"Instagram", fe:"The feed, stories & reels you scroll", be:"Decides which posts to show you", db:"Stores every photo, video & like" },
+      zomato:    { icon:"🍕", name:"Zomato",    fe:"Restaurant list, menu & your cart",   be:"Finds nearby food, handles your order", db:"Stores menus, orders & your address" },
+      whatsapp:  { icon:"💬", name:"WhatsApp",  fe:"The chat screen you see & type in",   be:"Routes your message to the right person", db:"Stores every message forever" },
+    };
+
+    // step 0 = idle
+    // steps 1-9 = animation (each ~700ms)
+    //   1: FE lit — user hit button
+    //   2: arrow1 forward — data leaving FE
+    //   3: BE lit — backend processing
+    //   4: arrow2 forward — data going to DB
+    //   5: DB lit — saving
+    //   6: arrow2 backward — DB responds
+    //   7: BE lit — backend sending response
+    //   8: arrow1 backward — response going to FE
+    //   9: FE lit — result shown
+    const TIMINGS = [0, 700, 1400, 2100, 2900, 3700, 4400, 5100, 5800];
+
+    function FullStackSimulator() {
+      const [name, setName]         = useState("");
+      const [started, setStarted]   = useState(false);
+      const [step, setStep]         = useState(0);
+      const [showDone, setShowDone] = useState(false);
+      const [activeApp, setActiveApp] = useState(null);
+      const [answer, setAnswer]     = useState("");
+      const [sentCount, setSentCount] = useState(0);
+      const [submitted, setSubmitted] = useState(false);
+
+      const start = () => {
+        if (!name.trim()) return;
+        setStarted(true);
+        TIMINGS.forEach((t, i) => setTimeout(() => setStep(i + 1), t));
+        setTimeout(() => setShowDone(true), 6600);
+      };
+
+      const reset = () => {
+        setName(""); setStarted(false); setStep(0);
+        setShowDone(false); setActiveApp(null);
+        setAnswer(""); setSentCount(0); setSubmitted(false);
+      };
+
+      useEffect(() => {
+        setSentCount(answer.split(/[.!?]+/).filter(s => s.trim().length > 0).length);
+      }, [answer]);
+
+      const feLit    = step === 1 || step === 9;
+      const arr1Fwd  = step === 2;
+      const beLit    = step === 3 || step === 7;
+      const arr2Fwd  = step === 4;
+      const dbLit    = step === 5;
+      const arr2Back = step === 6;
+      const arr1Back = step === 8;
+
+      const feMsg = step === 0 ? "Waiting for your input…"
+        : step === 1 ? `Sending '${name}' to Backend…`
+        : step <= 8  ? "Waiting for response…"
+        : `Done! Showing result to ${name} ✓`;
+
+      const beMsg = step === 0 ? "Waiting for a request…"
+        : step === 3 ? `Got '${name}'. Asking Database to save it…`
+        : step === 7 ? "Database saved it! Sending response to Frontend…"
+        : step >= 3  ? "Processing…"
+        : "Waiting…";
+
+      const dbMsg = step === 0 ? "Ready to store data…"
+        : step === 5 ? `Saving '${name}'… done ✓`
+        : step >= 5  ? `'${name}' is stored forever`
+        : step >= 4  ? "Receiving data…"
+        : "Waiting…";
+
+      return (
+        <div className="wrap">
+          <style>{`
+            *{box-sizing:border-box;margin:0;padding:0;}
+            .wrap{font-family:system-ui,sans-serif;background:#F8FAFC;padding:20px;max-width:700px;margin:auto;}
+
+            /* ── Header ── */
+            .hdr{margin-bottom:20px;}
+            .hdr h1{font-size:1.45rem;font-weight:700;color:#0F172A;margin-bottom:3px;}
+            .hdr p{font-size:.88rem;color:#64748B;}
+
+            /* ── Input row ── */
+            .irow{display:flex;gap:8px;margin-bottom:22px;}
+            .irow input{flex:1;padding:12px 14px;font-size:1rem;border:1.5px solid #CBD5E1;border-radius:10px;outline:none;transition:border .2s;}
+            .irow input:focus{border-color:#6366F1;}
+            .irow button{padding:12px 20px;background:#4F46E5;color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:.95rem;font-weight:600;white-space:nowrap;transition:background .2s;}
+            .irow button:hover:not(:disabled){background:#4338CA;}
+            .irow button:disabled{background:#A5B4FC;cursor:not-allowed;}
+
+            /* ── Flow ── */
+            .flow{display:flex;align-items:center;margin-bottom:20px;}
+
+            /* Boxes */
+            .box{flex:1;border-radius:14px;padding:18px 10px;text-align:center;border:2.5px solid transparent;transition:transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s, border-color .35s;}
+            .box.fe{background:#EEF2FF;}
+            .box.be{background:#ECFDF5;}
+            .box.db{background:#FFFBEB;}
+            .box.lit{transform:translateY(-7px) scale(1.04);}
+            .box.fe.lit{border-color:#6366F1;box-shadow:0 14px 30px rgba(99,102,241,.28);}
+            .box.be.lit{border-color:#10B981;box-shadow:0 14px 30px rgba(16,185,129,.28);}
+            .box.db.lit{border-color:#F59E0B;box-shadow:0 14px 30px rgba(245,158,11,.28);}
+            .badge{font-size:.58rem;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;padding:2px 9px;border-radius:20px;display:inline-block;margin-bottom:8px;}
+            .fe .badge{background:#C7D2FE;color:#3730A3;}
+            .be .badge{background:#D1FAE5;color:#065F46;}
+            .db .badge{background:#FEF3C7;color:#92400E;}
+            .bico{font-size:2rem;margin-bottom:6px;}
+            .bname{font-size:.88rem;font-weight:700;color:#1E293B;margin-bottom:5px;}
+            .bstatus{font-size:.73rem;color:#475569;min-height:2.8em;line-height:1.35;}
+
+            /* Arrows */
+            .arr{display:flex;flex-direction:column;align-items:center;width:42px;flex-shrink:0;gap:4px;padding:0 2px;}
+            .arr-sym{font-size:1rem;color:#CBD5E1;}
+            .arr-track{width:100%;height:4px;background:#E2E8F0;border-radius:2px;position:relative;overflow:hidden;}
+            .fill-fwd{position:absolute;top:0;left:0;height:100%;width:0;background:#6366F1;border-radius:2px;animation:goFwd .55s ease forwards;}
+            .fill-back{position:absolute;top:0;right:0;height:100%;width:0;background:#10B981;border-radius:2px;animation:goBack .55s ease forwards;}
+            @keyframes goFwd  {from{width:0%}to{width:100%}}
+            @keyframes goBack {from{width:0%}to{width:100%}}
+
+            /* ── Success card ── */
+            .done-card{background:#F0FDF4;border:2px solid #22C55E;border-radius:14px;padding:16px 18px;margin-bottom:16px;animation:pop .5s cubic-bezier(.34,1.56,.64,1);}
+            @keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+            .done-card h2{font-size:1.3rem;font-weight:700;color:#15803D;margin-bottom:4px;}
+            .done-card p{font-size:.88rem;color:#166534;line-height:1.5;}
+
+            /* ── Mini log ── */
+            .mlog{background:#0F172A;border-radius:12px;padding:14px 16px;margin-bottom:18px;}
+            .mlog-ttl{font-size:.62rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#475569;margin-bottom:9px;}
+            .mlog-row{font-size:.78rem;color:#CBD5E1;font-family:monospace;margin:4px 0;display:flex;align-items:center;gap:7px;}
+            .dot{width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0;}
+
+            /* ── App explorer ── */
+            .explorer{margin-bottom:22px;}
+            .explorer h3{font-size:1rem;font-weight:700;color:#0F172A;margin-bottom:3px;}
+            .explorer .hint{font-size:.82rem;color:#64748B;margin-bottom:11px;}
+            .app-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+            .app-btn{flex:1;min-width:95px;padding:9px 8px;border:2px solid #E2E8F0;border-radius:10px;background:#fff;cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;transition:all .2s;text-align:center;}
+            .app-btn:hover{border-color:#6366F1;color:#4F46E5;background:#EEF2FF;}
+            .app-btn.sel{border-color:#4F46E5;background:#EEF2FF;color:#3730A3;}
+            .app-layers{display:flex;gap:8px;flex-wrap:wrap;animation:pop .35s ease;}
+            .al{flex:1;min-width:110px;padding:10px 10px 12px;border-radius:10px;}
+            .al.fe{background:#EEF2FF;} .al.be{background:#ECFDF5;} .al.db{background:#FFFBEB;}
+            .al-lbl{font-size:.6rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;margin-bottom:4px;}
+            .al.fe .al-lbl{color:#3730A3;} .al.be .al-lbl{color:#065F46;} .al.db .al-lbl{color:#92400E;}
+            .al-txt{font-size:.8rem;color:#374151;line-height:1.4;}
+
+            /* Reset btn */
+            .reset-btn{background:#E2E8F0;color:#374151;padding:9px 15px;border:none;border-radius:9px;cursor:pointer;font-size:.85rem;font-weight:600;margin-bottom:22px;display:inline-block;}
+            .reset-btn:hover{background:#CBD5E1;}
+
+            /* ── Task ── */
+            .task{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.07);}
+            .task h3{font-size:1.05rem;font-weight:700;color:#0F172A;margin-bottom:6px;}
+            .task p{font-size:.86rem;color:#475569;margin-bottom:14px;line-height:1.65;}
+            .task strong{color:#0F172A;}
+            .ta{width:100%;border:1.5px solid #CBD5E1;border-radius:10px;padding:11px 12px;min-height:90px;font-size:.92rem;resize:vertical;outline:none;font-family:inherit;transition:border .2s;}
+            .ta:focus{border-color:#4F46E5;}
+            .cnt{font-size:.78rem;color:#94A3B8;margin-top:5px;}
+            .cnt.ok{color:#10B981;font-weight:600;}
+            .sub-btn{background:#4F46E5;color:#fff;padding:10px 20px;border:none;border-radius:9px;margin-top:11px;cursor:pointer;font-size:.9rem;font-weight:600;transition:background .2s;}
+            .sub-btn:hover:not(:disabled){background:#4338CA;}
+            .sub-btn:disabled{background:#A5B4FC;cursor:not-allowed;}
+            .confirm{background:#ECFDF5;border-left:4px solid #10B981;padding:13px 14px;margin-top:12px;border-radius:9px;font-size:.88rem;color:#065F46;line-height:1.5;}
+
+            @media(max-width:540px){
+              .flow{flex-direction:column;gap:4px;}
+              .arr{width:38px;height:36px;transform:rotate(90deg);}
+              .app-layers,.al{flex-direction:column;}
+            }
+          `}</style>
+
+          {/* Header */}
+          <div className="hdr">
+            <h1>See how an app works — live</h1>
+            <p>Type your name, tap the button, and watch your data travel through all 3 layers.</p>
+          </div>
+
+          {/* Input */}
+          <div className="irow">
+            <input
+              type="text"
+              placeholder="Type your name…"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              disabled={started}
+            />
+            <button onClick={start} disabled={!name.trim() || started}>
+              Send it →
+            </button>
+          </div>
+
+          {/* Flow diagram */}
+          <div className="flow">
+
+            {/* Frontend */}
+            <div className={`box fe${feLit ? " lit" : ""}`}>
+              <div className="badge">Frontend</div>
+              <div className="bico">📱</div>
+              <div className="bname">The Screen</div>
+              <div className="bstatus">{feMsg}</div>
+            </div>
+
+            {/* Arrow 1 */}
+            <div className="arr">
+              <div className="arr-sym">→</div>
+              <div className="arr-track">
+                {arr1Fwd  && <div key={`fwd1-${step}`} className="fill-fwd" />}
+                {arr1Back && <div key={`bk1-${step}`}  className="fill-back" />}
+              </div>
+            </div>
+
+            {/* Backend */}
+            <div className={`box be${beLit ? " lit" : ""}`}>
+              <div className="badge">Backend</div>
+              <div className="bico">⚙️</div>
+              <div className="bname">The Brain</div>
+              <div className="bstatus">{beMsg}</div>
+            </div>
+
+            {/* Arrow 2 */}
+            <div className="arr">
+              <div className="arr-sym">→</div>
+              <div className="arr-track">
+                {arr2Fwd  && <div key={`fwd2-${step}`} className="fill-fwd" />}
+                {arr2Back && <div key={`bk2-${step}`}  className="fill-back" />}
+              </div>
+            </div>
+
+            {/* Database */}
+            <div className={`box db${dbLit ? " lit" : ""}`}>
+              <div className="badge">Database</div>
+              <div className="bico">🗄️</div>
+              <div className="bname">The Memory</div>
+              <div className="bstatus">{dbMsg}</div>
+            </div>
+
+          </div>
+
+          {/* After animation */}
+          {showDone && <>
+
+            <div className="done-card">
+              <h2>Hello, {name}! 👋</h2>
+              <p>
+                Your name just traveled: <strong>Frontend → Backend → Database → Backend → Frontend</strong>.<br />
+                A developer who builds all 3 layers is called a <strong>Full Stack Developer</strong>.
+              </p>
+            </div>
+
+            <div className="mlog">
+              <div className="mlog-ttl">What just happened</div>
+              {[
+                `You typed '${name}' → Frontend sent it to Backend`,
+                "Backend asked Database to save it",
+                "Database confirmed: saved ✓",
+                "Backend sent the response back to Frontend",
+                `Frontend showed you the result`,
+              ].map((l, i) => (
+                <div key={i} className="mlog-row"><span className="dot" />{l}</div>
+              ))}
+            </div>
+
+            {/* App explorer */}
+            <div className="explorer">
+              <h3>Tap any app you use — see the same 3 layers</h3>
+              <div className="hint">Every app in the world is built exactly like what you just watched.</div>
+              <div className="app-btns">
+                {Object.entries(APPS).map(([key, app]) => (
+                  <button
+                    key={key}
+                    className={`app-btn${activeApp === key ? " sel" : ""}`}
+                    onClick={() => setActiveApp(activeApp === key ? null : key)}
+                  >
+                    {app.icon} {app.name}
+                  </button>
+                ))}
+              </div>
+              {activeApp && (
+                <div className="app-layers" key={activeApp}>
+                  <div className="al fe">
+                    <div className="al-lbl">Frontend</div>
+                    <div className="al-txt">{APPS[activeApp].fe}</div>
+                  </div>
+                  <div className="al be">
+                    <div className="al-lbl">Backend</div>
+                    <div className="al-txt">{APPS[activeApp].be}</div>
+                  </div>
+                  <div className="al db">
+                    <div className="al-lbl">Database</div>
+                    <div className="al-txt">{APPS[activeApp].db}</div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <button className="reset-btn" onClick={reset}>↺ Try with a different name</button>
+
+            {/* Reflection task */}
+            <div className="task">
+              <h3>Your turn 🙏</h3>
+              <p>
+                Write <strong>3 sentences</strong> — one for each layer:<br />
+                What is a <strong>Frontend</strong>? What is a <strong>Backend</strong>? What is a <strong>Database</strong>?<br />
+                Your own words. No copying. Simple and honest beats perfect and copied.
+              </p>
+              <textarea
+                className="ta"
+                placeholder="Write here…"
+                value={answer}
+                onChange={e => setAnswer(e.target.value)}
+                onPaste={e => e.preventDefault()}
+                onContextMenu={e => e.preventDefault()}
+              />
+              <div className={`cnt${sentCount >= 3 ? " ok" : ""}`}>
+                {sentCount} / 3 sentences{sentCount >= 3 ? " ✓ ready to submit" : ""}
+              </div>
+              {!submitted ? (
+                <button className="sub-btn" disabled={sentCount < 3} onClick={() => setSubmitted(true)}>
+                  Submit my answer →
+                </button>
+              ) : (
+                <div className="confirm">
+                  Thank you, {name}. Your mentor will read this. You just completed your first task on HatchKod. Keep going. 🚀
+                </div>
+              )}
+            </div>
+
+          </>}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<FullStackSimulator />);
+  </script>
+</body>
+</html>

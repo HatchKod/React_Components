@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Setup Guide — HatchKod 0.3.3</title>
+  <meta name="description" content="Set up your development environment step by step — Java, VS Code, and Git. A calm guided walkthrough for first-time developers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; background: #f8fafc; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script id="jsx-source" type="text/jsx-source">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ─────────────────────────────────────────────
+// SOUND ENGINE
+// ─────────────────────────────────────────────
+let audioCtx = null;
+function playSound(type, muted) {
+  if (muted) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    if (type === 'add') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(440, now + 0.1);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+      osc.start(now); osc.stop(now + 0.15);
+    } else if (type === 'remove') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(220, now + 0.1);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+      osc.start(now); osc.stop(now + 0.1);
+    } else if (type === 'correct') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523, now);
+      osc.frequency.setValueAtTime(659, now + 0.1);
+      osc.frequency.setValueAtTime(784, now + 0.2);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+      osc.start(now); osc.stop(now + 0.3);
+    } else if (type === 'submit') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(392, now);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+      osc.start(now); osc.stop(now + 0.4);
+    } else if (type === 'warn') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(330, now);
+      osc.frequency.setValueAtTime(277, now + 0.1);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      osc.start(now); osc.stop(now + 0.2);
+    } else if (type === 'reveal') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523, now);
+      osc.frequency.setValueAtTime(659, now + 0.1);
+      osc.frequency.setValueAtTime(784, now + 0.2);
+      osc.frequency.setValueAtTime(1047, now + 0.3);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+      osc.start(now); osc.stop(now + 0.5);
+    } else if (type === 'tick') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(800, now);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+      osc.start(now); osc.stop(now + 0.05);
+    }
+  } catch (e) {}
+}
+
+// ─────────────────────────────────────────────
+// STEP DATA
+// ─────────────────────────────────────────────
+const STEPS = [
+  {
+    id: 1, part: 'Part 1 — Install Java', partIndex: 0,
+    title: 'Download Java 17',
+    instruction: `Open your browser and go to:\nhttps://adoptium.net\n\nClick the big green button that says 'Latest LTS Release'.\n\nThis will download a file called something like:\nOpenJDK17U-jdk_x64_windows_hotspot_17.x.x.msi\n\nWait for it to finish downloading.`,
+    expected: 'A file downloaded in your browser. Usually appears at the bottom of your screen or in your Downloads folder.',
+    hasCode: false,
+    troubleshooter: [
+      {
+        label: "The website looks different / I see different buttons",
+        fix: "That is okay — the website may have updated. Look for any button that says 'JDK 17' or 'LTS'. Click that one. LTS means Long Term Support — it is the stable version we need."
+      },
+      {
+        label: "The download is very slow or stopped",
+        fix: "Try this direct link instead:\nhttps://github.com/adoptium/temurin17-binaries/releases/latest\nLook for a file ending in .msi (Windows) or .pkg (Mac)"
+      },
+      {
+        label: "I don't know if I have Windows or Mac",
+        fix: "Press the Windows key on your keyboard. If a Start menu appears — you have Windows. Download the .msi file.\nIf nothing happens and you see an Apple logo — you have a Mac. Download the .pkg file."
+      }
+    ]
+  },
+  {
+    id: 2, part: null, partIndex: 0,
+    title: 'Install the file you just downloaded',
+    instruction: `Find the downloaded file in your Downloads folder.\nDouble-click it.\n\nA setup window will open.\nKeep clicking 'Next' on every screen.\nWhen you see 'Finish' — click it.\n\nJava is now installed.`,
+    expected: "A setup wizard window with Next buttons. At the end it shows 'Installation Complete' or 'Finish'.",
+    hasCode: false,
+    troubleshooter: [
+      {
+        label: "It is asking me for an administrator password",
+        fix: "Type your laptop's login password. This is normal — installing software always needs permission. If you don't know your password, ask whoever manages your laptop."
+      },
+      {
+        label: "The installer opened and closed immediately / nothing happened",
+        fix: "Right-click the downloaded file. Select 'Run as Administrator'. Try again."
+      },
+      {
+        label: "It says Java is already installed",
+        fix: "Good news — you might already have Java! Skip to Step 3 and check the version."
+      }
+    ]
+  },
+  {
+    id: 3, part: null, partIndex: 0,
+    title: 'Open your terminal and check Java',
+    instruction: `Open your terminal:\n\nWindows: Press Windows key, type 'cmd', press Enter\nMac: Press Cmd + Space, type 'terminal', press Enter\n\nIn the black/dark window that opens, type:\n\njava -version\n\nPress Enter.`,
+    expected: "Something like:\nopenjdk version '17.0.x' 2023-xx-xx",
+    hasCode: true, code: 'java -version',
+    troubleshooter: [
+      {
+        label: "'java' is not recognized as an internal or external command",
+        fix: "Java installed but Windows cannot find it.\n\nDo this:\n1. Search 'Environment Variables' in Windows search\n2. Click 'Edit the system environment variables'\n3. Click 'Environment Variables' button\n4. Under 'System variables' find 'Path'\n5. Click Edit → New\n6. Paste: C:\\Program Files\\Eclipse Adoptium\\jdk-17.x.x.x-hotspot\\bin\n   (the exact path may vary slightly — check what folder was created in Program Files)\n7. Click OK everywhere\n8. Close and reopen terminal\n9. Try java -version again"
+      },
+      {
+        label: "I see a version number but it says Java 8 or Java 11",
+        fix: "You have an older Java installed. For this course we need Java 17. The new installation may not have replaced the old one.\n\nSearch 'Add or remove programs', uninstall the old Java version, then restart your laptop and try again."
+      },
+      {
+        label: "The terminal opened but I don't know how to type in it",
+        fix: "Click anywhere inside the dark window to make sure it is selected. Then just type — java -version — exactly as shown and press Enter. The terminal does not have a visible cursor you can click on like a text box."
+      }
+    ]
+  },
+  {
+    id: 4, part: 'Part 2 — Install VS Code', partIndex: 1,
+    title: 'Download VS Code',
+    instruction: `Go to: https://code.visualstudio.com\n\nClick the big blue Download button.\nIt will auto-detect your operating system.\n\nWait for the download to finish.`,
+    expected: "A file called VSCodeSetup-x64-x.x.x.exe (Windows) or VSCode-darwin.zip (Mac) in your downloads.",
+    hasCode: false,
+    troubleshooter: [
+      {
+        label: "Download is very slow",
+        fix: "VS Code is about 80MB. On a slow connection this can take 10-15 minutes. Keep the browser open and wait. Do not close it."
+      },
+      {
+        label: "It downloaded a .zip file instead of .exe",
+        fix: "You may be on Mac. Open the zip file, drag the VS Code icon to your Applications folder."
+      }
+    ]
+  },
+  {
+    id: 5, part: null, partIndex: 1,
+    title: 'Install VS Code',
+    instruction: `Double-click the downloaded file.\n\nKeep clicking Next.\n\nOn the 'Select Additional Tasks' screen — tick these two boxes:\n✓ Add 'Open with Code' action to Windows Explorer file context menu\n✓ Add to PATH\n\nClick Next then Install.`,
+    expected: "VS Code opens after installation. A welcome screen appears.",
+    hasCode: false,
+    troubleshooter: [
+      {
+        label: "I did not see the 'Select Additional Tasks' screen",
+        fix: "That is okay — some versions skip it. Continue with the installation normally."
+      },
+      {
+        label: "VS Code opened but it looks complicated and scary",
+        fix: "That is normal — you are seeing it for the first time. You do not need to understand anything on this screen yet. Just confirm it opened. We will learn VS Code properly in Module 1."
+      }
+    ]
+  },
+  {
+    id: 6, part: null, partIndex: 1,
+    title: 'Add Java support to VS Code',
+    instruction: `Inside VS Code:\n\n1. Look for the blocks icon on the left sidebar (it looks like four squares)\n   This is called Extensions\n\n2. In the search box type:\n   Extension Pack for Java\n\n3. Click the first result (by Microsoft)\n\n4. Click the blue Install button\n\n5. Wait for it to finish — takes 1-2 minutes`,
+    expected: "A blue Install button that turns into a green tick when done.",
+    hasCode: true, code: 'Extension Pack for Java',
+    troubleshooter: [
+      {
+        label: "I cannot find the blocks icon",
+        fix: "Press Ctrl+Shift+X on Windows (Cmd+Shift+X on Mac). This opens Extensions directly."
+      },
+      {
+        label: "The extension is installing very slowly",
+        fix: "This is normal on first install. It is downloading several tools. Leave VS Code open and wait. Do something else for 5 minutes and come back."
+      }
+    ]
+  },
+  {
+    id: 7, part: 'Part 3 — Install Git', partIndex: 2,
+    title: 'Download Git',
+    instruction: `Go to: https://git-scm.com/downloads\n\nClick the download for your operating system.\n\nWindows: A file called Git-2.x.x-64-bit.exe\nMac: Follow the instructions shown on the page`,
+    expected: "Git installer downloaded.",
+    hasCode: false,
+    troubleshooter: [
+      {
+        label: "Mac says Git is already installed",
+        fix: "Mac often comes with Git pre-installed. Open Terminal, type git --version. If you see a version number — you are done! Skip to Step 9."
+      }
+    ]
+  },
+  {
+    id: 8, part: null, partIndex: 2,
+    title: 'Install Git — keep all default settings',
+    instruction: `Double-click the downloaded file.\n\nImportant: keep clicking Next on every screen without changing anything.\n\nThe default settings are exactly right for this course.\n\nWhen you see Finish — click it.`,
+    expected: "Git installed. No window stays open — that is normal. Git works in the terminal.",
+    hasCode: false,
+    troubleshooter: [
+      {
+        label: "One screen asks me to choose a default editor — what do I pick?",
+        fix: "Select 'Use Visual Studio Code as Git's default editor' from the dropdown. Then click Next."
+      },
+      {
+        label: "Installation finished but I am not sure if it worked",
+        fix: "Open a new terminal window and type:\ngit --version\nIf you see 'git version 2.x.x' it worked perfectly."
+      }
+    ]
+  },
+  {
+    id: 9, part: null, partIndex: 2,
+    title: 'Introduce yourself to Git',
+    instruction: `Open your terminal and type these two commands — one at a time.\n\nReplace the name and email with your own:\n\ngit config --global user.name 'Your Name'\n\ngit config --global user.email 'youremail@gmail.com'\n\nPress Enter after each one.\n\nNothing will appear on screen after — that means it worked.`,
+    expected: "Nothing. A blank line. That is correct. Git saved your details silently.",
+    hasCode: true, code: "git config --global user.name 'Your Name'\ngit config --global user.email 'youremail@gmail.com'",
+    troubleshooter: [
+      {
+        label: "It showed an error with my name",
+        fix: "Make sure you typed the single quotes ' ' around your name exactly as shown. If your name has a space, the quotes are required."
+      },
+      {
+        label: "I don't have an email — which one should I use?",
+        fix: "Use your college email or any Gmail you have. You will need this same email when creating your GitHub account in Module 1."
+      }
+    ]
+  }
+];
+
+const PART_LABELS = ['Part 1 — Install Java', 'Part 2 — Install VS Code', 'Part 3 — Install Git'];
+const PART_COLORS = ['#3B82F6', '#8B5CF6', '#10B981'];
+
+// ─────────────────────────────────────────────
+// STYLES
+// ─────────────────────────────────────────────
+const CSS = `
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafc; font-family: 'Outfit', sans-serif; }
+
+@keyframes fadeInDown  { from { opacity:0; transform:translateY(-24px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn      { from { opacity:0; } to { opacity:1; } }
+@keyframes slideUp     { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes slideIn     { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
+@keyframes popIn       { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+@keyframes slideDown   { from { opacity:0; max-height:0; } to { opacity:1; max-height:600px; } }
+@keyframes pulse       { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+@keyframes blink       { 0%,100% { opacity:1; } 50% { opacity:0; } }
+@keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity:1; } 100% { transform: translateY(100vh) rotate(720deg); opacity:0; } }
+@keyframes checkPop    { 0% { transform:scale(0); opacity:0; } 60% { transform:scale(1.3); } 100% { transform:scale(1); opacity:1; } }
+@keyframes shimmer     { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
+@keyframes borderPulse { 0%,100% { border-color:#22c55e; box-shadow:0 0 0 0 rgba(34,197,94,0); } 50% { border-color:#16a34a; box-shadow:0 0 0 6px rgba(34,197,94,.15); } }
+
+.dsg-wrap { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 6rem; color: #1e293b; min-height: 100vh; }
+
+.dsg-mute {
+  position: fixed; top: 1.25rem; right: 1.25rem; z-index: 200;
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 999px;
+  width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.35rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.1);
+  transition: all .2s;
+}
+.dsg-mute:hover { transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,.15); }
+
+.dsg-header { text-align: center; margin-bottom: 2rem; animation: fadeInDown .6s ease-out; }
+.dsg-header h1 { font-size: 2rem; font-weight: 700; color: #0f172a; margin-bottom: .6rem; line-height: 1.3; }
+.dsg-header p  { color: #64748b; font-size: 1rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+/* Progress bar */
+.dsg-progress-wrap { margin-bottom: 2.5rem; animation: fadeIn .8s ease-out; }
+.dsg-progress-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+.dsg-progress-label span { font-size: .9rem; color: #64748b; font-weight: 500; }
+.dsg-progress-label strong { font-size: .9rem; color: #0f172a; font-weight: 600; }
+.dsg-progress-track { height: 7px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+.dsg-progress-fill {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 10px rgba(34,197,94,.4);
+}
+
+/* Part label */
+.dsg-part-label {
+  display: flex; align-items: center; gap: .75rem;
+  margin: 2rem 0 1rem; font-weight: 700; font-size: 1rem; color: #fff;
+  padding: .6rem 1.25rem; border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+}
+.dsg-part-label-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.6); flex-shrink: 0; }
+
+/* Step card */
+.dsg-step-card {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-left: 4px solid #cbd5e1;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+.dsg-step-card.active {
+  border-left-color: #3B82F6;
+  box-shadow: 0 4px 20px rgba(59,130,246,.12);
+}
+.dsg-step-card.done {
+  border-left-color: #22c55e;
+  background: #f9fffe;
+  box-shadow: none;
+}
+
+.dsg-step-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  cursor: default;
+}
+.dsg-step-num {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .95rem; flex-shrink: 0;
+  transition: all .3s;
+}
+.dsg-step-num.pending  { background: #f1f5f9; color: #64748b; border: 2px solid #e2e8f0; }
+.dsg-step-num.active   { background: #EFF6FF; color: #1D4ED8; border: 2px solid #3B82F6; }
+.dsg-step-num.done     { background: #DCFCE7; color: #15803D; border: 2px solid #22c55e; font-size: 1rem; }
+
+.dsg-step-title-wrap { flex: 1; min-width: 0; }
+.dsg-step-title { font-weight: 600; font-size: 1rem; color: #0f172a; }
+.dsg-step-title.done-title { color: #166534; }
+.dsg-step-done-badge { font-size: .78rem; color: #22c55e; font-weight: 600; margin-top: .15rem; }
+
+/* Step body */
+.dsg-step-body { padding: 0 1.25rem 1.5rem; animation: slideDown .3s ease-out; }
+
+.dsg-instruction {
+  color: #374151; line-height: 1.75; font-size: .97rem;
+  white-space: pre-line; margin-bottom: 1rem;
+}
+
+.dsg-code-block {
+  background: #1E1E1E; color: #4AF626;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .88rem; line-height: 1.7;
+  padding: .85rem 1.1rem; border-radius: 10px;
+  white-space: pre; overflow-x: auto;
+  margin-bottom: 1.25rem;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.3);
+}
+
+.dsg-expected {
+  background: #f0f9ff; border-left: 3px solid #0EA5E9;
+  padding: .75rem 1rem; border-radius: 0 8px 8px 0;
+  color: #0369a1; font-size: .88rem; line-height: 1.65;
+  margin-bottom: 1.25rem; white-space: pre-line;
+}
+.dsg-expected strong { display: block; margin-bottom: .25rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; opacity: .7; }
+
+.dsg-btn-row { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+.dsg-btn-done {
+  flex: 1; min-width: 160px;
+  padding: .75rem 1.25rem; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff; font-size: .95rem; font-weight: 600;
+  font-family: 'Outfit', sans-serif; cursor: pointer;
+  transition: all .2s; box-shadow: 0 4px 12px rgba(34,197,94,.3);
+  display: flex; align-items: center; justify-content: center; gap: .4rem;
+}
+.dsg-btn-done:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(34,197,94,.4); }
+
+.dsg-btn-trouble {
+  flex: 1; min-width: 200px;
+  padding: .75rem 1.25rem; border-radius: 10px; border: none;
+  background: #FFFBEB; color: #92400E; font-size: .9rem; font-weight: 600;
+  font-family: 'Outfit', sans-serif; cursor: pointer;
+  border: 1.5px solid #FCD34D; transition: all .2s;
+  display: flex; align-items: center; justify-content: center; gap: .4rem;
+}
+.dsg-btn-trouble:hover { background: #FEF3C7; border-color: #F59E0B; transform: translateY(-1px); }
+.dsg-btn-trouble.open { background: #FEF3C7; border-color: #F59E0B; }
+
+/* Troubleshooter panel */
+.dsg-trouble-panel {
+  background: #FFFBEB; border-top: 1.5px solid #FDE68A;
+  padding: 1.25rem; animation: slideDown .3s ease-out; overflow: hidden;
+}
+.dsg-trouble-panel h4 { font-size: .92rem; font-weight: 700; color: #78350F; margin-bottom: .85rem; }
+
+.dsg-trouble-option {
+  background: #fff; border: 1.5px solid #FDE68A; border-radius: 10px;
+  margin-bottom: .6rem; overflow: hidden; transition: all .2s;
+}
+.dsg-trouble-option-btn {
+  width: 100%; text-align: left; padding: .75rem 1rem;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Outfit', sans-serif; font-size: .9rem;
+  color: #92400E; font-weight: 500; display: flex;
+  align-items: center; gap: .5rem; transition: background .2s;
+}
+.dsg-trouble-option-btn:hover { background: #FEF3C7; }
+.dsg-trouble-option-btn .arrow { transition: transform .2s; font-size: .75rem; }
+.dsg-trouble-option-btn.open .arrow { transform: rotate(90deg); }
+.dsg-trouble-fix {
+  padding: .75rem 1rem 1rem;
+  border-top: 1px solid #FDE68A;
+  color: #78350F; font-size: .88rem; line-height: 1.75;
+  white-space: pre-line; animation: fadeIn .25s ease-out;
+}
+
+/* Section 2 */
+.dsg-section2 { animation: slideUp .5s ease-out; }
+
+.dsg-confetti-wrap {
+  position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden;
+}
+.dsg-confetti-dot {
+  position: absolute; width: 10px; height: 10px; border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+
+.dsg-celebration-text {
+  text-align: center; padding: 2.5rem 1.5rem 1.5rem;
+  animation: fadeInDown .6s ease-out;
+}
+.dsg-celebration-text p { font-size: 1.35rem; font-weight: 600; color: #0f172a; margin-bottom: .25rem; }
+.dsg-celebration-text span { font-size: .95rem; color: #64748b; }
+
+/* Terminal */
+.dsg-terminal-wrap {
+  background: #1E1E1E; border-radius: 14px;
+  overflow: hidden; margin: 1.5rem 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,.35);
+  animation: popIn .5s ease-out;
+}
+.dsg-terminal-header {
+  background: #2D2D2D; padding: .65rem 1rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.dsg-terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+.dsg-terminal-label {
+  flex: 1; text-align: center; font-size: .8rem;
+  color: #888; font-family: 'Courier New', monospace; font-weight: 500;
+}
+.dsg-terminal-body {
+  padding: 1.25rem 1.5rem; min-height: 180px;
+  font-family: 'Courier New', Courier, monospace; font-size: .92rem;
+  color: #4AF626; line-height: 1.7;
+}
+.dsg-terminal-line { display: flex; align-items: flex-start; gap: .5rem; }
+.dsg-terminal-prompt { color: #888; flex-shrink: 0; }
+.dsg-terminal-input-line { display: flex; align-items: center; gap: .5rem; margin-top: .5rem; }
+.dsg-terminal-input {
+  background: none; border: none; outline: none;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .92rem; color: #4AF626; flex: 1;
+  caret-color: #4AF626;
+}
+.dsg-terminal-input::placeholder { color: #444; animation: blink 1.2s infinite; }
+.dsg-terminal-cursor {
+  width: 9px; height: 1.1em; background: #4AF626;
+  animation: blink .9s infinite; flex-shrink: 0;
+}
+
+.dsg-terminal-nudge {
+  background: #2a2a2a; border: 1px solid #f59e0b;
+  border-radius: 8px; padding: .6rem .9rem;
+  color: #f59e0b; font-family: 'Courier New', monospace;
+  font-size: .82rem; margin-top: .5rem;
+  animation: fadeIn .3s ease-out;
+}
+
+/* Success card */
+.dsg-success-card {
+  background: #ECFDF5; border: 2px solid #22c55e;
+  border-radius: 16px; padding: 2rem 1.75rem;
+  margin: 1.5rem 0; animation: popIn .5s ease-out;
+  box-shadow: 0 4px 24px rgba(34,197,94,.2);
+}
+.dsg-success-card h2 { font-size: 1.9rem; font-weight: 700; color: #14532D; margin-bottom: 1rem; }
+.dsg-success-card p  { color: #166534; font-size: .95rem; line-height: 1.75; margin-bottom: 1rem; }
+.dsg-check-list { list-style: none; margin: 1rem 0; }
+.dsg-check-list li {
+  display: flex; align-items: center; gap: .75rem;
+  color: #166534; font-weight: 600; font-size: 1rem;
+  margin-bottom: .6rem; opacity: 0;
+  transition: opacity .3s;
+}
+.dsg-check-list li.visible { opacity: 1; animation: checkPop .4s ease-out forwards; }
+
+/* Reveal card */
+.dsg-reveal-card {
+  background: #FFFBEB; border-left: 5px solid #F59E0B;
+  border-radius: 0 16px 16px 0; padding: 2rem 2rem 1.75rem;
+  margin: 1.5rem 0; animation: slideIn .5s ease-out;
+  box-shadow: 0 4px 24px rgba(245,158,11,.15);
+}
+.dsg-reveal-card h2 { font-size: 1.5rem; font-weight: 700; color: #78350F; margin-bottom: .85rem; }
+.dsg-reveal-card p  { color: #92400E; font-size: .97rem; line-height: 1.8; margin-bottom: .6rem; }
+
+/* Reflection textarea */
+.dsg-reflection-wrap { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.75rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.dsg-reflection-wrap label { display: block; font-weight: 600; font-size: 1.05rem; color: #0f172a; margin-bottom: .75rem; line-height: 1.5; }
+.dsg-reflection-wrap p { color: #64748b; font-size: .9rem; line-height: 1.6; margin-bottom: .85rem; }
+.dsg-textarea {
+  width: 100%; padding: 1rem 1.1rem; border: 1.5px solid #e2e8f0;
+  border-radius: 10px; font-family: 'Outfit', sans-serif;
+  font-size: 1rem; resize: vertical; min-height: 130px;
+  background: #fff; color: #0f172a; transition: all .2s; line-height: 1.65;
+}
+.dsg-textarea:focus { outline: none; border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
+.dsg-textarea::placeholder { color: #94a3b8; }
+.dsg-counter { font-size: .85rem; color: #94a3b8; margin-top: .5rem; font-weight: 500; transition: color .3s; }
+.dsg-counter.ready { color: #22c55e; }
+
+.dsg-btn-submit {
+  display: block; width: 100%; max-width: 420px; margin: 0 auto;
+  padding: 1.1rem; border-radius: 12px; border: none;
+  background: linear-gradient(135deg, #1D4ED8, #7C3AED);
+  color: #fff; font-size: 1.1rem; font-weight: 700;
+  font-family: 'Outfit', sans-serif; cursor: pointer;
+  transition: all .2s; box-shadow: 0 4px 16px rgba(29,78,216,.3);
+}
+.dsg-btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,78,216,.4); }
+.dsg-btn-submit:disabled { background: #cbd5e1; color: #f8fafc; cursor: not-allowed; box-shadow: none; }
+
+/* Done screen */
+.dsg-done-card {
+  background: #fff; border: 1px solid #e2e8f0;
+  border-radius: 20px; padding: 3rem 2rem;
+  text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,.08);
+  animation: popIn .6s ease-out; margin-top: 2rem;
+}
+.dsg-done-card h1 { font-size: 2.5rem; font-weight: 700; color: #0f172a; margin-bottom: 1.25rem; }
+.dsg-done-card p  { color: #475569; font-size: 1.05rem; line-height: 1.8; max-width: 520px; margin: 0 auto .75rem; }
+.dsg-done-card .highlight { color: #1D4ED8; font-weight: 700; }
+
+@media (max-width: 600px) {
+  .dsg-wrap { padding: 1.5rem 1rem 5rem; }
+  .dsg-header h1 { font-size: 1.5rem; }
+  .dsg-btn-row { flex-direction: column; }
+  .dsg-btn-done, .dsg-btn-trouble { min-width: 0; }
+  .dsg-success-card h2 { font-size: 1.5rem; }
+}
+`;
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function countSentences(text) {
+  const t = text.trim();
+  if (!t) return 0;
+  return t.split(/[.!?]+/).filter(s => s.trim().length > 3).length;
+}
+
+// ─────────────────────────────────────────────
+// CONFETTI
+// ─────────────────────────────────────────────
+const CONFETTI_COLORS = ['#22c55e','#3B82F6','#F59E0B','#EC4899','#8B5CF6','#14B8A6'];
+function Confetti({ show }) {
+  if (!show) return null;
+  const dots = Array.from({ length: 40 }, (_, i) => ({
+    id: i,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    left: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 1.5}s`,
+    duration: `${2 + Math.random() * 2}s`,
+    size: `${6 + Math.random() * 8}px`,
+    rotate: Math.random() > 0.5 ? 'borderRadius:50%' : '',
+  }));
+  return (
+    <div className="dsg-confetti-wrap" aria-hidden="true">
+      {dots.map(d => (
+        <div key={d.id} className="dsg-confetti-dot" style={{
+          background: d.color,
+          left: d.left,
+          top: '-20px',
+          width: d.size,
+          height: d.size,
+          borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+          animationDuration: d.duration,
+          animationDelay: d.delay,
+        }} />
+      ))}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+// STEP CARD
+// ─────────────────────────────────────────────
+function StepCard({ step, status, isExpanded, onDone, onOpenTrouble, muted }) {
+  const [openOption, setOpenOption] = useState(null);
+  const [troubleOpen, setTroubleOpen] = useState(false);
+
+  const handleDone = () => {
+    playSound('correct', muted);
+    onDone(step.id);
+  };
+
+  const handleTrouble = () => {
+    playSound('warn', muted);
+    const next = !troubleOpen;
+    setTroubleOpen(next);
+    if (next) setOpenOption(null);
+    onOpenTrouble && onOpenTrouble(step.id, next);
+  };
+
+  const numState = status === 'done' ? 'done' : status === 'active' ? 'active' : 'pending';
+
+  return (
+    <div
+      className={`dsg-step-card ${status === 'done' ? 'done' : status === 'active' ? 'active' : ''}`}
+      id={`step-card-${step.id}`}
+    >
+      <div className="dsg-step-header">
+        <div className={`dsg-step-num ${numState}`}>
+          {status === 'done' ? '✓' : step.id}
+        </div>
+        <div className="dsg-step-title-wrap">
+          <div className={`dsg-step-title ${status === 'done' ? 'done-title' : ''}`}>
+            {step.title}
+          </div>
+          {status === 'done' && (
+            <div className="dsg-step-done-badge">Done ✓</div>
+          )}
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="dsg-step-body">
+          <div className="dsg-instruction">{step.instruction}</div>
+
+          {step.hasCode && (
+            <div className="dsg-code-block">{step.code}</div>
+          )}
+
+          <div className="dsg-expected">
+            <strong>Expected to see</strong>
+            {step.expected}
+          </div>
+
+          <div className="dsg-btn-row">
+            <button id={`btn-done-${step.id}`} className="dsg-btn-done" onClick={handleDone}>
+              ✓ Done — I see this
+            </button>
+            <button
+              id={`btn-trouble-${step.id}`}
+              className={`dsg-btn-trouble${troubleOpen ? ' open' : ''}`}
+              onClick={handleTrouble}
+            >
+              ⚠ Something looks different
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isExpanded && troubleOpen && (
+        <div className="dsg-trouble-panel">
+          <h4>What's different? Click to see the fix 👇</h4>
+          {step.troubleshooter.map((opt, idx) => (
+            <div key={idx} className="dsg-trouble-option">
+              <button
+                className={`dsg-trouble-option-btn${openOption === idx ? ' open' : ''}`}
+                onClick={() => setOpenOption(openOption === idx ? null : idx)}
+              >
+                <span className="arrow">▶</span>
+                {opt.label}
+              </button>
+              {openOption === idx && (
+                <div className="dsg-trouble-fix">{opt.fix}</div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+// TERMINAL SIMULATOR
+// ─────────────────────────────────────────────
+function TerminalSimulator({ muted, onSuccess }) {
+  const [lines, setLines] = useState([]);
+  const [input, setInput] = useState('');
+  const [nudge, setNudge] = useState(false);
+  const inputRef = useRef(null);
+
+  const handleKey = (e) => {
+    if (e.key !== 'Enter') return;
+    const cmd = input.trim().toLowerCase().replace(/\s+/g, ' ');
+    const typedLine = input;
+    setInput('');
+    setNudge(false);
+
+    if (cmd === 'java -version') {
+      setLines(prev => [
+        ...prev,
+        { type: 'cmd', text: typedLine },
+        { type: 'out', text: 'openjdk version "17.0.9" 2023-10-17' },
+        { type: 'out', text: 'OpenJDK Runtime Environment Temurin-17.0.9+9' },
+        { type: 'out', text: 'OpenJDK 64-Bit Server VM Temurin-17.0.9+9 (build 17.0.9+9, mixed mode, sharing)' },
+      ]);
+      setTimeout(() => {
+        playSound('correct', muted);
+        setTimeout(() => {
+          playSound('reveal', muted);
+          onSuccess();
+        }, 500);
+      }, 100);
+    } else if (typedLine.trim() !== '') {
+      setLines(prev => [
+        ...prev,
+        { type: 'cmd', text: typedLine },
+        { type: 'err', text: `'${typedLine}': command not found` },
+      ]);
+      setNudge(true);
+    }
+  };
+
+  useEffect(() => {
+    inputRef.current && inputRef.current.focus();
+  }, []);
+
+  return (
+    <div className="dsg-terminal-wrap" onClick={() => inputRef.current && inputRef.current.focus()}>
+      <div className="dsg-terminal-header">
+        <div className="dsg-terminal-dot" style={{ background: '#FF5F57' }} />
+        <div className="dsg-terminal-dot" style={{ background: '#FFBD2E' }} />
+        <div className="dsg-terminal-dot" style={{ background: '#28C840' }} />
+        <div className="dsg-terminal-label">Terminal</div>
+      </div>
+      <div className="dsg-terminal-body">
+        {lines.map((line, i) => (
+          <div key={i} className="dsg-terminal-line">
+            {line.type === 'cmd' && <span className="dsg-terminal-prompt">C:\Users\Ravi&gt;</span>}
+            <span style={{ color: line.type === 'err' ? '#FF6B6B' : '#4AF626' }}>
+              {line.text}
+            </span>
+          </div>
+        ))}
+        <div className="dsg-terminal-input-line">
+          <span className="dsg-terminal-prompt">C:\Users\Ravi&gt;</span>
+          <input
+            ref={inputRef}
+            className="dsg-terminal-input"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKey}
+            placeholder="type java -version here"
+            autoComplete="off"
+            spellCheck="false"
+            id="terminal-input"
+          />
+        </div>
+        {nudge && (
+          <div className="dsg-terminal-nudge">
+            💡 Type exactly: java -version &nbsp;(lowercase, with a hyphen between java and version)
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+// MAIN COMPONENT
+// ─────────────────────────────────────────────
+function DevSetupGuide() {
+  const [muted, setMuted] = useState(false);
+  const [stepStatus, setStepStatus] = useState(
+    Object.fromEntries(STEPS.map(s => [s.id, 'pending']))
+  );
+  const [activeStep, setActiveStep] = useState(1);
+  const [allDone, setAllDone] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [terminalSuccess, setTerminalSuccess] = useState(false);
+  const [checkmarks, setCheckmarks] = useState([false, false, false]);
+  const [showReveal, setShowReveal] = useState(false);
+  const [reflection, setReflection] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const section2Ref = useRef(null);
+
+  useEffect(() => {
+    const tag = document.createElement('style');
+    tag.textContent = CSS;
+    document.head.appendChild(tag);
+    return () => document.head.removeChild(tag);
+  }, []);
+
+  const completedCount = Object.values(stepStatus).filter(s => s === 'done').length;
+  const totalCount = STEPS.length;
+
+  const handleStepDone = (stepId) => {
+    const newStatus = { ...stepStatus, [stepId]: 'done' };
+    setStepStatus(newStatus);
+    const nextStep = STEPS.find(s => s.id === stepId + 1);
+    if (nextStep) {
+      setActiveStep(nextStep.id);
+      newStatus[nextStep.id] = 'active';
+      setStepStatus({ ...newStatus, [nextStep.id]: 'active' });
+    } else {
+      // All done
+      setAllDone(true);
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 4000);
+    }
+  };
+
+  const handleTerminalSuccess = () => {
+    // Show checkmarks one by one
+    setTimeout(() => {
+      setCheckmarks([true, false, false]);
+      playSound('tick', muted);
+    }, 300);
+    setTimeout(() => {
+      setCheckmarks([true, true, false]);
+      playSound('tick', muted);
+    }, 800);
+    setTimeout(() => {
+      setCheckmarks([true, true, true]);
+      playSound('tick', muted);
+    }, 1300);
+    setTimeout(() => {
+      setTerminalSuccess(true);
+      setShowReveal(true);
+      playSound('reveal', muted);
+    }, 1700);
+    setTimeout(() => {
+      section2Ref.current && section2Ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 2000);
+  };
+
+  const sentenceCount = countSentences(reflection);
+  const canSubmit = sentenceCount >= 2;
+
+  const handleSubmit = () => {
+    if (!canSubmit) return;
+    playSound('submit', muted);
+    setSubmitted(true);
+  };
+
+  const getStepState = (stepId) => {
+    if (stepStatus[stepId] === 'done') return 'done';
+    if (stepId === activeStep) return 'active';
+    return 'pending';
+  };
+
+  // Group steps by part
+  let lastPart = null;
+
+  if (submitted) {
+    return (
+      <div className="dsg-wrap">
+        <Confetti show={true} />
+        <div className="dsg-done-card" id="done-card">
+          <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🎓</div>
+          <h1>Module 0 Complete.</h1>
+          <p>You did something most people never do.</p>
+          <p>You found a real problem.<br />You talked to a real business owner.<br />You planned a real solution.<br />And you set up a real developer's machine.</p>
+          <p>Most students start a coding course by watching videos.</p>
+          <p className="highlight">You started by going outside and finding a problem worth solving.</p>
+          <p style={{ marginTop: '.75rem' }}>That is the difference.</p>
+          <p style={{ fontWeight: 700, color: '#0f172a', fontSize: '1.2rem', marginTop: '1.5rem' }}>
+            Module 1 starts now. Let's build. 🚀
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="dsg-wrap">
+      <Confetti show={showConfetti} />
+
+      <button
+        id="mute-toggle"
+        className="dsg-mute"
+        onClick={() => setMuted(m => !m)}
+        title={muted ? 'Unmute sounds' : 'Mute sounds'}
+        aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+      >
+        {muted ? '🔇' : '🔊'}
+      </button>
+
+      {/* ══ HEADER ══ */}
+      <div className="dsg-header">
+        <h1>Let's get your laptop ready — one step at a time 💻</h1>
+        <p>
+          Follow each step carefully. Tick it when done.<br />
+          If something looks different — hit <strong>"Something looks different"</strong> and we will fix it.
+        </p>
+      </div>
+
+      {/* ══ PROGRESS BAR ══ */}
+      <div className="dsg-progress-wrap">
+        <div className="dsg-progress-label">
+          <span>Overall progress</span>
+          <strong>{completedCount} of {totalCount} steps done</strong>
+        </div>
+        <div className="dsg-progress-track">
+          <div className="dsg-progress-fill" style={{ width: `${(completedCount / totalCount) * 100}%` }} />
+        </div>
+      </div>
+
+      {/* ══ SECTION 1 — STEP CARDS ══ */}
+      {!allDone && STEPS.map(step => {
+        const showPartLabel = step.part !== null;
+        const partIdx = step.partIndex;
+        return (
+          <div key={step.id}>
+            {showPartLabel && (
+              <div
+                className="dsg-part-label"
+                style={{ background: PART_COLORS[partIdx] }}
+                id={`part-label-${partIdx}`}
+              >
+                <div className="dsg-part-label-dot" />
+                {step.part}
+              </div>
+            )}
+            <StepCard
+              step={step}
+              status={getStepState(step.id)}
+              isExpanded={step.id === activeStep && stepStatus[step.id] !== 'done'}
+              onDone={handleStepDone}
+              muted={muted}
+            />
+          </div>
+        );
+      })}
+
+      {/* Completed steps shown condensed */}
+      {allDone && STEPS.map(step => {
+        const showPartLabel = step.part !== null;
+        return (
+          <div key={step.id}>
+            {showPartLabel && (
+              <div
+                className="dsg-part-label"
+                style={{ background: PART_COLORS[step.partIndex] }}
+              >
+                <div className="dsg-part-label-dot" />
+                {step.part}
+              </div>
+            )}
+            <div className="dsg-step-card done" id={`step-card-${step.id}`}>
+              <div className="dsg-step-header">
+                <div className="dsg-step-num done">✓</div>
+                <div className="dsg-step-title-wrap">
+                  <div className="dsg-step-title done-title">{step.title}</div>
+                  <div className="dsg-step-done-badge">Done ✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {/* ══ SECTION 2 — VERIFICATION MOMENT ══ */}
+      {allDone && (
+        <div className="dsg-section2" id="section-2">
+          <div className="dsg-celebration-text">
+            <p>All steps done! 🎉</p>
+            <span>One final check...</span>
+          </div>
+
+          <TerminalSimulator muted={muted} onSuccess={handleTerminalSuccess} />
+
+          {terminalSuccess && (
+            <div className="dsg-success-card" id="success-card">
+              <h2>Your laptop is ready. 🚀</h2>
+              <p>
+                That version number means Java is installed and your laptop can run your code.
+              </p>
+              <p>
+                Every developer checks this exact command on every new machine they set up.
+                You just did it for the first time.
+              </p>
+              <ul className="dsg-check-list" id="checklist-items">
+                {[
+                  '✅ Java 17 installed and working',
+                  '✅ VS Code installed with Java extension',
+                  '✅ Git installed and configured',
+                ].map((item, i) => (
+                  <li key={i} className={checkmarks[i] ? 'visible' : ''}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {showReveal && (
+            <div className="dsg-reveal-card" id="reveal-card" ref={section2Ref}>
+              <h2>Your machine is now a developer's machine 💻</h2>
+              <p>
+                From today — this laptop is not just for downloading notes and watching YouTube.
+              </p>
+              <p>It is a development machine.</p>
+              <p>
+                The same setup you just completed — Java, VS Code, Git — is what every Java developer
+                has on their laptop in every company in every city in India.
+              </p>
+              <p>
+                <strong>You are now set up exactly like them.</strong>
+              </p>
+            </div>
+          )}
+
+          {showReveal && (
+            <div className="dsg-reflection-wrap" id="reflection-wrap">
+              <label htmlFor="reflection-input">
+                One last thing — how do you feel right now?<br />
+                <span style={{ fontWeight: 400, fontSize: '.97rem' }}>
+                  Not about the setup. About everything you did in Module 0.
+                </span>
+              </label>
+              <p>
+                You found a real business. You talked to a real person. You defined your problem,
+                your features, your screens. And now your laptop is ready.
+              </p>
+              <p style={{ fontStyle: 'italic', color: '#94a3b8', fontSize: '.88rem' }}>
+                Write honestly. Nobody grades this. But you will read this again on the last day of the internship.
+              </p>
+              <textarea
+                id="reflection-input"
+                className="dsg-textarea"
+                placeholder="Honestly right now I feel..."
+                value={reflection}
+                onChange={e => setReflection(e.target.value)}
+                onPaste={e => e.preventDefault()}
+                onContextMenu={e => e.preventDefault()}
+                rows={5}
+              />
+              <div id="sentence-counter" className={`dsg-counter${canSubmit ? ' ready' : ''}`}>
+                {canSubmit
+                  ? `✓ ${sentenceCount} sentences written — ready to submit`
+                  : `${sentenceCount} of 2 sentences written`}
+              </div>
+            </div>
+          )}
+
+          {showReveal && (
+            <button
+              id="submit-btn"
+              className="dsg-btn-submit"
+              disabled={!canSubmit}
+              onClick={handleSubmit}
+            >
+              I am ready for Module 1 →
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<DevSetupGuide />);
+  </script>
+
+  <!-- Bootstrap: transform JSX and execute -->
+  <script>
+    (function() {
+      var src = document.getElementById('jsx-source').textContent;
+      try {
+        var result = Babel.transform(src, {
+          presets: [['react', { runtime: 'classic' }]]
+        });
+        var fn = new Function('React', 'ReactDOM', result.code);
+        fn(React, ReactDOM);
+      } catch(e) {
+        document.getElementById('root').innerHTML =
+          '<div style="color:red;padding:2rem;font-family:monospace;white-space:pre-wrap;">Error: ' + e.message + '</div>';
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>
