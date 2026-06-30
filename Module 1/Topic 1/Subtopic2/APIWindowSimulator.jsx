@@ -132,10 +132,15 @@ const playSound = (type) => {
 };
 
 export default function APIWindowSimulator() {
+  // Read context injected by the LMS via URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  const lmsSubtopicId = urlParams.get('subtopicId') || null;
+  const lmsTaskId     = urlParams.get('taskId')     || null;
+
   const [selectedScenario, setSelectedScenario] = useState('chai');
   const [progress, setProgress] = useState(0);
   const [conversations, setConversations] = useState([]);
-  
+
   const [animating, setAnimating] = useState(false);
   const [animationStage, setAnimationStage] = useState(0);
   const [activePair, setActivePair] = useState(null);
@@ -148,6 +153,33 @@ export default function APIWindowSimulator() {
 
   const currentScenario = SCENARIOS[selectedScenario];
   const isComplete = progress >= 3;
+
+  // Fire HK_RESULT to the parent LMS when the student submits their reflection
+  useEffect(() => {
+    if (!taskSubmitted) return;
+    const payload = {
+      type:              'HK_RESULT',
+      version:           '1',
+      exerciseId:        'm1-t1-s2-api-window',
+      exerciseType:      'interactive',
+      status:            'completed',
+      score:             3,
+      maxScore:          3,
+      answers: {
+        scenario:          selectedScenario,
+        stepsCompleted:    progress,
+        reflectionLength:  taskText.length,
+        sentenceCount:     sentenceCount,
+      },
+      metadata: {
+        subtopicId: lmsSubtopicId,
+        taskId:     lmsTaskId,
+      },
+      timeSpentSeconds:  null,
+      completedAt:       new Date().toISOString(),
+    };
+    window.parent.postMessage(payload, '*');
+  }, [taskSubmitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleScenarioChange = (id) => {
     if (animating) return;
