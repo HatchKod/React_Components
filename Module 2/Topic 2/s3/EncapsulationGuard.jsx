@@ -127,8 +127,81 @@ function Dabba({ label, locked, value, testFlash }) {
   );
 }
 
+// ─── TRAVELER — the animated attempt walking through the zones ──────────────
+// type: "pass" (walks all the way down to the dabba), "blocked" (stopped and
+// bounced back at the bodyguard), "read" (value floats up from the dabba out)
+function Traveler({ id, type, value, onArrive }) {
+  const startTop = type === "read" ? 92 : 4;
+  const endTop = type === "pass" ? 92 : type === "blocked" ? 44 : 4;
+  const [top, setTop] = useState(startTop);
+  const [shake, setShake] = useState(false);
+  const [pop, setPop] = useState(false);
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    setTop(startTop);
+    setShake(false);
+    setPop(false);
+    setFading(false);
+    const t1 = setTimeout(() => setTop(endTop), 40);
+    const t2 = setTimeout(() => { setPop(true); if (type === "blocked") setShake(true); }, 40 + 850);
+    const holdFor = 550;
+    const t3 = setTimeout(() => setFading(true), 40 + 850 + holdFor);
+    const t4 = setTimeout(() => onArrive && onArrive(), 40 + 850 + holdFor + 400);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const icon = type === "blocked" ? "🚫" : type === "read" ? "👁️" : "🏃";
+  const glow = type === "blocked" ? "#F87171" : type === "read" ? "#60A5FA" : "#34D399";
+
+  return (
+    <div style={{
+      position: "absolute", left: "50%", top: top + "%",
+      transform: `translate(-50%, -50%) scale(${pop ? 1.5 : 1})${shake ? " translateX(4px)" : ""}`,
+      transition: "top 0.85s cubic-bezier(.34,1.2,.64,1), transform 0.25s ease",
+      opacity: fading ? 0 : 1, animation: shake ? "shake 0.35s" : "none",
+      fontSize: 44, zIndex: 20, pointerEvents: "none",
+      filter: `drop-shadow(0 0 10px ${glow})`
+    }}>
+      {type === "read"
+        ? <span style={{ background: "#1E3A8A", color: "#DBEAFE", padding: "6px 14px", borderRadius: 20, fontSize: 20, fontWeight: 800, whiteSpace: "nowrap", boxShadow: "0 4px 14px rgba(30,58,138,0.5)" }}>{value}</span>
+        : icon}
+    </div>
+  );
+}
+
+// ─── FLASH + STAMP — big, unmissable feedback on every attempt ──────────────
+function FlashOverlay({ id, color }) {
+  return (
+    <div key={id} style={{
+      position: "absolute", inset: 0, background: color, opacity: 0,
+      animation: "flashFade 0.7s ease-out", borderRadius: 16, pointerEvents: "none", zIndex: 3
+    }} />
+  );
+}
+
+function StatusStamp({ id, type }) {
+  const map = {
+    pass: { text: "PASSED THROUGH ✅", color: "#059669" },
+    blocked: { text: "BLOCKED 🚫", color: "#DC2626" },
+    read: { text: "VALUE READ 👁️", color: "#1D4ED8" },
+  };
+  const { text, color } = map[type] || map.pass;
+  return (
+    <div key={id} style={{
+      position: "absolute", top: "44%", left: "50%",
+      transform: "translate(-50%, -50%) rotate(-6deg)",
+      fontSize: 22, fontWeight: 900, color, background: "#fff",
+      border: `4px solid ${color}`, borderRadius: 14, padding: "10px 20px",
+      zIndex: 25, animation: "stampPop 1.3s ease forwards",
+      boxShadow: "0 10px 24px rgba(0,0,0,0.28)", whiteSpace: "nowrap", letterSpacing: 0.5
+    }}>{text}</div>
+  );
+}
+
 // ─── PHASE 1 — SLOT 1 ────────────────────────────────────────────────────────
-function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result, setResult }) {
+function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result, setResult, locked, slot, fireTravel }) {
   const [input, setInput] = useState("");
   const [attempted, setAttempted] = useState(false);
 
@@ -138,8 +211,13 @@ function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result
     setBreakValue(n);
     setAttempted(true);
     onAttempt(n);
-    if (n < 0) { playSound("warn"); setResult("neg"); }
-    else { playSound("tick"); setResult("pos"); }
+    if (locked) {
+      playSound("warn"); setResult("blocked"); fireTravel("blocked", n);
+    } else if (n < 0) {
+      playSound("warn"); setResult("neg"); fireTravel("pass", n);
+    } else {
+      playSound("tick"); setResult("pos"); fireTravel("pass", n);
+    }
   };
 
   return (
@@ -183,13 +261,25 @@ function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result
             Same code. No protection either way.
           </div>
         )}
+        {result === "blocked" && (
+          <div style={{ marginTop: 14, background: "#0F172A", color: "#E2E8F0", borderRadius: 8, padding: 14, fontFamily: "monospace", fontSize: 13, lineHeight: 1.8, animation: "slideIn 0.4s ease" }}>
+            ravi.age = {breakValue} ❌<br />
+            <span style={{ color: "#F87171" }}>Cannot access private field from outside.</span><br />
+            <span style={{ color: "#F87171" }}>The bodyguard blocked it — watch the right panel.</span>
+          </div>
+        )}
       </div>
 
-      {attempted && (
+      {attempted && slot === 1 && (
         <button onClick={() => { playSound("correct"); onNext(); }}
           style={{ marginTop: 16, padding: "12px 24px", background: "#1E293B", color: "#fff", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
           I see the problem →
         </button>
+      )}
+      {locked && (
+        <div style={{ marginTop: 10, fontSize: 12, color: "#94A3B8" }}>
+          Fields are locked now — try clicking "Set age directly" again above and watch what happens on the right.
+        </div>
       )}
     </div>
   );
@@ -247,11 +337,9 @@ function Slot2({ onNext, playSound, privacy, setPrivacy, breakValue, result }) {
         <div>{"}"}</div>
       </div>
 
-      {allPrivate && result && (
-        <div style={{ marginTop: 14, background: "#0F172A", color: "#E2E8F0", borderRadius: 10, padding: 14, fontFamily: "monospace", fontSize: 13, animation: "slideIn 0.4s ease" }}>
-          ravi.age = {breakValue} ❌<br />
-          <span style={{ color: "#F87171" }}>Cannot access private field from outside.</span><br />
-          <span style={{ color: "#F87171" }}>The bodyguard blocked it.</span>
+      {allPrivate && (
+        <div style={{ marginTop: 14, background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 10, padding: 12, fontSize: 13, color: "#065F46", animation: "slideIn 0.4s ease" }}>
+          🔒 All three fields are locked. Scroll up and click <strong>"Set age directly →"</strong> again — watch the bodyguard stop it this time.
         </div>
       )}
 
@@ -382,15 +470,14 @@ function Slot3({ onDone, playSound, getter, setGetter, setter, setSetter }) {
 }
 
 // ─── PHASE 1 — ASSEMBLED CLASS + TEST ────────────────────────────────────────
-function AssembledClass({ getter, setter, checkExpr, onDone, playSound }) {
+function AssembledClass({ getter, setter, checkExpr, onDone, playSound, ageValue, setAgeValue, fireTravel }) {
   const [neg, setNeg] = useState(false);
   const [pos, setPos] = useState(false);
   const [got, setGot] = useState(false);
-  const [ageValue, setAgeValue] = useState(null);
 
-  const testNeg = () => { setNeg(true); playSound("warn"); };
-  const testPos = () => { setPos(true); setAgeValue(21); playSound("correct"); };
-  const testGet = () => { setGot(true); playSound("tick"); };
+  const testNeg = () => { setNeg(true); playSound("warn"); fireTravel("blocked", -500); };
+  const testPos = () => { setPos(true); setAgeValue(21); playSound("correct"); fireTravel("pass", 21); };
+  const testGet = () => { setGot(true); playSound("tick"); fireTravel("read", ageValue ?? 21); };
 
   useEffect(() => {
     if (neg && pos && got) onDone({ negativeBlocked: true, positiveAllowed: true, getterWorked: true });
@@ -472,14 +559,17 @@ function RevealCard({ onDone, playSound }) {
 }
 
 // ─── PHASE 1 RIGHT VISUAL ────────────────────────────────────────────────────
-function Phase1Visual({ slot, privacy, breakValue, result, testResults }) {
+function Phase1Visual({ slot, privacy, breakValue, result, testResults, travel, ageDabbaValue }) {
   const fields = ["name", "age", "plan"];
   const anyPrivate = fields.some(f => privacy[f] === "private");
   const allPrivate = fields.every(f => privacy[f] === "private");
   const bgState = slot >= 4 ? "window" : allPrivate ? "standing" : "sitting";
+  const bgAlert = travel && travel.type === "blocked";
+
+  const flashColor = travel?.type === "blocked" ? "rgba(220,38,38,0.28)" : travel?.type === "read" ? "rgba(37,99,235,0.22)" : "rgba(5,150,105,0.24)";
 
   return (
-    <div>
+    <div style={{ position: "relative", minHeight: 460, overflow: "hidden", borderRadius: 14 }}>
       <div style={{ background: "#EFF6FF", borderRadius: 10, padding: 12, marginBottom: 8, textAlign: "center" }}>
         <div style={{ fontSize: 10, fontWeight: 700, color: "#1E40AF", letterSpacing: 1, marginBottom: 6 }}>OUTSIDE WORLD</div>
         <div style={{ fontSize: 12, color: "#374151" }}>
@@ -487,7 +577,7 @@ function Phase1Visual({ slot, privacy, breakValue, result, testResults }) {
         </div>
       </div>
 
-      <div style={{ background: "#FFFBEB", borderRadius: 10, padding: 14, marginBottom: 8, textAlign: "center" }}>
+      <div style={{ background: bgAlert ? "#FEF2F2" : "#FFFBEB", transition: "background 0.3s", borderRadius: 10, padding: 14, marginBottom: 8, textAlign: "center" }}>
         <div style={{ fontSize: 10, fontWeight: 700, color: "#92400E", letterSpacing: 1, marginBottom: 6 }}>THE BODYGUARD</div>
         <Bodyguard state={bgState} />
         <div style={{ fontSize: 11, color: "#78350F", marginTop: 6, fontWeight: 600 }}>
@@ -496,18 +586,21 @@ function Phase1Visual({ slot, privacy, breakValue, result, testResults }) {
           {bgState === "window" && "At the window with a clipboard 📋"}
         </div>
         {slot >= 4 && testResults?.checkExpr && <Clipboard text={testResults.checkExpr} />}
-        {testResults?.neg && <div style={{ marginTop: 6, fontSize: 20 }}>❌</div>}
-        {testResults?.pos && <div style={{ marginTop: 6, fontSize: 20 }}>✅</div>}
       </div>
 
       <div style={{ background: "#F9FAFB", borderRadius: 10, padding: 12 }}>
         <div style={{ fontSize: 10, fontWeight: 700, color: "#374151", letterSpacing: 1, marginBottom: 8, textAlign: "center" }}>CLASS FIELDS</div>
         <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
           <Dabba label="name" locked={privacy.name === "private"} value={anyPrivate ? "🔒" : null} />
-          <Dabba label="age" locked={privacy.age === "private"} value={testResults?.pos ? 21 : null} testFlash={testResults?.neg ? "shake" : testResults?.pos ? "open" : null} />
+          <Dabba label="age" locked={privacy.age === "private"} value={ageDabbaValue}
+            testFlash={travel?.type === "blocked" ? "shake" : travel?.type === "pass" ? "open" : null} />
           <Dabba label="plan" locked={privacy.plan === "private"} value={anyPrivate ? "🔒" : null} />
         </div>
       </div>
+
+      {travel && <FlashOverlay key={"flash" + travel.id} id={travel.id} color={flashColor} />}
+      {travel && <Traveler key={travel.id} id={travel.id} type={travel.type} value={travel.value} />}
+      {travel && <StatusStamp key={"stamp" + travel.id} id={travel.id} type={travel.type} />}
     </div>
   );
 }
@@ -718,8 +811,19 @@ export default function EncapsulationGuard() {
   const [result, setResult] = useState(null);
   const [breakAttempted, setBreakAttempted] = useState(false);
 
+  // animated traveler — the attempt walking through the zones on the right
+  const [travel, setTravel] = useState(null);
+  const [ageDabbaValue, setAgeDabbaValue] = useState(null);
+  const travelIdRef = useRef(0);
+  const fireTravel = (type, value) => {
+    travelIdRef.current += 1;
+    setTravel({ id: travelIdRef.current, type, value });
+    if (type === "pass") setAgeDabbaValue(value);
+  };
+
   // slot 2
   const [privacy, setPrivacy] = useState({ name: "", age: "", plan: "" });
+  const allPrivate = ["name", "age", "plan"].every(f => privacy[f] === "private");
 
   // slot 3
   const [getter, setGetter] = useState({ returnType: "", methodName: "" });
@@ -780,6 +884,14 @@ export default function EncapsulationGuard() {
         @keyframes slideIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
         @keyframes popIn { from { opacity:0; transform:scale(0.5); } to { opacity:1; transform:scale(1); } }
         @keyframes shake { 0%,100% { transform:translateX(0); } 25% { transform:translateX(-4px); } 75% { transform:translateX(4px); } }
+        @keyframes flashFade { 0% { opacity:0.55; } 100% { opacity:0; } }
+        @keyframes stampPop {
+          0% { opacity:0; transform:translate(-50%,-50%) rotate(-6deg) scale(0.3); }
+          15% { opacity:1; transform:translate(-50%,-50%) rotate(-6deg) scale(1.25); }
+          28% { transform:translate(-50%,-50%) rotate(-6deg) scale(1); }
+          78% { opacity:1; }
+          100% { opacity:0; transform:translate(-50%,-50%) rotate(-6deg) scale(0.92); }
+        }
         textarea, input, select { font-family: inherit; }
       `}</style>
 
@@ -806,6 +918,7 @@ export default function EncapsulationGuard() {
                 onAttempt={() => setBreakAttempted(true)}
                 breakValue={breakValue} setBreakValue={setBreakValue}
                 result={result} setResult={setResult}
+                locked={allPrivate} slot={slot} fireTravel={fireTravel}
               />
               {slot >= 2 && (
                 <Slot2
@@ -827,6 +940,8 @@ export default function EncapsulationGuard() {
                 <AssembledClass
                   getter={getter} setter={setter} checkExpr={checkExpr}
                   playSound={playSound}
+                  ageValue={ageDabbaValue} setAgeValue={setAgeDabbaValue}
+                  fireTravel={fireTravel}
                   onDone={(res) => { setTestResults({ ...res, checkExpr }); setShowReveal(true); playSound("correct"); }}
                 />
               )}
@@ -842,7 +957,7 @@ export default function EncapsulationGuard() {
             </div>
             <div style={{ flex: "1 1 340px", minWidth: 0, position: "sticky", top: 16 }}>
               <div style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 14, padding: 20 }}>
-                <Phase1Visual slot={slot} privacy={privacy} breakValue={breakValue} result={result} testResults={testResults} />
+                <Phase1Visual slot={slot} privacy={privacy} breakValue={breakValue} result={result} testResults={testResults} travel={travel} ageDabbaValue={ageDabbaValue} />
               </div>
             </div>
           </div>
