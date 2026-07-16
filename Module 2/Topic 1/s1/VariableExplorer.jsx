@@ -4,14 +4,12 @@ const STYLE = `
   .ve-root { font-family: system-ui,-apple-system,sans-serif; background:#F9FAFB; min-height:100vh; padding:24px 16px; text-align:left; }
   .ve-root * { box-sizing:border-box; }
   .card { background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:24px; margin-bottom:24px; }
+  .split-layout { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; margin-top:16px; }
+  @media(max-width:800px){ .split-layout { grid-template-columns:1fr; } }
+  .split-left, .split-right { min-width:0; }
   .dabba-row { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin:24px 0; }
   @media(max-width:500px){ .dabba-row { flex-direction:column; align-items:center; } }
   .dabba-wrap { display:flex; flex-direction:column; align-items:center; position:relative; width:120px; }
-  .bubble { background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15); padding:8px 14px;
-    font-size:1.2rem; color:#1E293B; font-weight:700; margin-bottom:8px;
-    animation:floatUp 0.3s ease; position:relative; }
-  .bubble::after { content:''; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%);
-    width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid #fff; }
   @keyframes floatUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
   .badge { border-radius:20px; padding:4px 12px; font-size:0.75rem; font-weight:600; margin-top:8px; }
   .badge-string { background:#DBEAFE; color:#1D4ED8; }
@@ -19,7 +17,7 @@ const STYLE = `
   .badge-double { background:#FCE7F3; color:#9D174D; }
   .badge-boolean { background:#DCFCE7; color:#166534; }
   .code-line { background:#1E293B; color:#E2E8F0; border-radius:8px; padding:10px 14px; font-family:'Courier New',monospace;
-    font-size:0.78rem; margin-top:8px; width:100%; max-width:240px; }
+    font-size:0.78rem; margin-top:8px; width:100%; max-width:100%; }
   .kw { color:#60A5FA; } .str { color:#4ADE80; } .num { color:#FB923C; } .cm { color:#6B7280; }
   .tap-hint { font-size:0.7rem; color:#9CA3AF; margin-top:4px; }
   .pattern-box { background:#F0FDF4; border:1px solid #86EFAC; border-radius:8px; padding:16px; margin-top:16px;
@@ -28,6 +26,7 @@ const STYLE = `
   input, select, textarea { width:100%; border:1.5px solid #E2E8F0; border-radius:8px; padding:10px 12px;
     font-size:0.95rem; font-family:inherit; outline:none; transition:border 0.2s; }
   input:focus, select:focus, textarea:focus { border-color:#F59E0B; }
+  input:disabled, select:disabled { background:#F3F4F6; color:#9CA3AF; }
   .hint-warn { color:#B45309; font-size:0.8rem; margin-top:4px; }
   .hint-ok { color:#16A34A; font-size:0.8rem; margin-top:4px; }
   .btn { background:#F59E0B; color:#fff; border:none; border-radius:8px; padding:12px 24px;
@@ -69,6 +68,20 @@ const STYLE = `
   .toggle-bool button { padding:8px 20px; border-radius:8px; border:1.5px solid #E2E8F0;
     cursor:pointer; font-size:0.9rem; background:#fff; }
   .toggle-bool button.active { background:#DCFCE7; border-color:#16A34A; color:#166534; font-weight:700; }
+  .slot-card { background:#F8FAFC; border-radius:10px; padding:16px 18px; margin-bottom:14px; }
+  .slot-row { display:flex; gap:12px; }
+  @media(max-width:500px){ .slot-row { flex-direction:column; } }
+  .slot-input-group { flex:1; min-width:0; }
+  .slot-input-group label { margin-top:0; }
+  .locked-slot-line { display:flex; align-items:center; gap:8px; font-weight:700; color:#166534; margin-bottom:4px; font-size:0.85rem; }
+  .dabba-shelf { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; align-items:flex-end;
+    min-height:170px; padding:12px; }
+  .dabba-name-tag { background:#1E293B; color:#fff; font-size:0.72rem; font-weight:700; padding:3px 10px;
+    border-radius:12px; margin-bottom:6px; white-space:nowrap; }
+  .complete-tick { position:absolute; top:-6px; right:-6px; background:#16A34A; color:#fff; width:22px; height:22px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700;
+    z-index:5; box-shadow:0 2px 4px rgba(0,0,0,0.2); }
+  .shelf-hint { color:#9CA3AF; font-size:0.85rem; text-align:center; }
 `;
 
 const TOOLTIPS = {
@@ -92,61 +105,53 @@ function Tooltip({ label, children }) {
   );
 }
 
-function SteelDabba({ label, value, type, isOpen, onClick }) {
-  const bodyColor = "#FEF3C7";
-  const border = "#B45309";
-  const lid = "#FDE68A";
+const TYPE_COLORS = {
+  String: { body: "#DBEAFE", border: "#1D4ED8", lid: "#BFDBFE" },
+  int: { body: "#FEF3C7", border: "#B45309", lid: "#FDE68A" },
+  double: { body: "#FCE7F3", border: "#9D174D", lid: "#FBCFE8" },
+  boolean: { body: "#DCFCE7", border: "#166534", lid: "#BBF7D0" },
+};
+
+function LiveDabba({ type, name, value, complete, dim }) {
+  if (!type) return null;
+  const c = TYPE_COLORS[type];
+  const hasName = !!(name && name.trim());
+  const hasValue = !!(value !== undefined && value !== null && String(value).trim() !== "");
+  const displayValue = type === "String" ? `"${value}"` : `${value}`;
   return (
-    <div className="dabba-wrap">
-      {isOpen && (
-        <div className="bubble">{type === "String" ? `"${value}"` : `${value}`}</div>
-      )}
-      <svg
-        width="100"
-        height="130"
-        viewBox="0 0 100 130"
-        style={{ cursor: "pointer", overflow: "visible" }}
-        onClick={onClick}
-      >
-        {/* lid */}
-        <ellipse
-          cx="50" cy="18" rx="42" ry="12" fill={lid} stroke={border} strokeWidth="2"
-          style={{
-            transformOrigin: "50px 12px",
-            transform: isOpen ? "rotateX(-120deg)" : "rotateX(0deg)",
-            transition: "transform 0.3s ease",
-          }}
-        />
-        {/* body */}
-        <rect x="8" y="18" width="84" height="100" rx="6" fill={bodyColor} stroke={border} strokeWidth="2" />
-        {/* bottom ellipse */}
-        <ellipse cx="50" cy="118" rx="42" ry="10" fill={bodyColor} stroke={border} strokeWidth="2" />
-        {/* label strip */}
-        <rect x="18" y="50" width="64" height="30" rx="4" fill="#fff" />
-        <text x="50" y="70" textAnchor="middle" fontWeight="700" fontSize="13" fill="#1E293B" fontFamily="system-ui">{label}</text>
-      </svg>
-      {!isOpen && <span className="tap-hint">Tap to open</span>}
+    <div className="dabba-wrap" style={{ opacity: dim ? 0.3 : 1 }}>
+      {hasName && <div className="dabba-name-tag">{name}</div>}
+      <div style={{ position: "relative" }}>
+        {complete && <span className="complete-tick">✓</span>}
+        <svg width="100" height="130" viewBox="0 0 100 130" style={{ overflow: "visible" }}>
+          <ellipse
+            cx="50" cy="18" rx="42" ry="12" fill={c.lid} stroke={c.border} strokeWidth="2"
+            style={{
+              transformOrigin: "50px 12px",
+              transform: hasValue ? "rotateX(-120deg)" : "rotateX(0deg)",
+              transition: "transform 0.3s ease",
+            }}
+          />
+          <rect x="8" y="18" width="84" height="100" rx="6" fill={c.body} stroke={c.border} strokeWidth="2" />
+          <ellipse cx="50" cy="118" rx="42" ry="10" fill={c.body} stroke={c.border} strokeWidth="2" />
+          {hasValue && (
+            <g
+              style={{
+                transform: hasValue ? "translateY(0px)" : "translateY(50px)",
+                transition: "transform 0.4s ease",
+              }}
+            >
+              <rect x="14" y="58" width="72" height="28" rx="6" fill="#fff" opacity="0.95" />
+              <text x="50" y="77" textAnchor="middle" fontWeight="700" fontSize="12" fill="#1E293B" fontFamily="system-ui">
+                {displayValue}
+              </text>
+            </g>
+          )}
+        </svg>
+      </div>
     </div>
   );
 }
-
-const DABBAS = [
-  { label: "name", value: "Ravi", type: "String" },
-  { label: "age", value: 21, type: "int" },
-  { label: "city", value: "Karimnagar", type: "String" },
-];
-
-const CODE_LINES = [
-  <>
-    <span className="kw">String</span> name = <span className="str">"Ravi"</span>; <span className="cm">// dabba for words</span>
-  </>,
-  <>
-    <span className="kw">int</span> age = <span className="num">21</span>; <span className="cm">// dabba for numbers</span>
-  </>,
-  <>
-    <span className="kw">String</span> city = <span className="str">"Karimnagar"</span>; <span className="cm">// dabba for words</span>
-  </>,
-];
 
 const TYPE_OPTS = [
   { value: "String", label: "String — for words (names, plans, cities)" },
@@ -244,18 +249,96 @@ function validateName(name) {
   return "ok";
 }
 
+function isSlotComplete(slot) {
+  if (!slot.type || !slot.name) return false;
+  if (validateName(slot.name) !== "ok") return false;
+  if (slot.type === "boolean") return slot.boolTouched;
+  return slot.value.trim() !== "";
+}
+
 function CodeLine({ type, name, value }) {
-  const val = type === "String" ? `"${value}"` : value;
+  if (!type) {
+    return (
+      <div className="code-line" style={{ color: "#94A3B8", fontStyle: "italic" }}>
+        Select a type to start building this line...
+      </div>
+    );
+  }
+  const comment =
+    type === "String" ? "dabba for words" :
+    type === "int" ? "dabba for numbers" :
+    type === "double" ? "dabba for decimals" : "dabba for yes/no";
+  const valueNode =
+    type === "String" ? <span className="str">"{value || "value"}"</span> :
+    (type === "int" || type === "double") ? <span className="num">{value || "0"}</span> :
+    <span className="kw">{value || "true"}</span>;
   return (
-    <div className="code-line" style={{ maxWidth: "100%", marginTop: 8 }}>
-      <span className="kw">{type}</span> {name} = {type === "String" ? <span className="str">"{value}"</span> : type === "int" || type === "double" ? <span className="num">{value}</span> : <span className="kw">{value}</span>}; <span className="cm">// {type === "String" ? "dabba for words" : type === "int" ? "dabba for numbers" : type === "double" ? "dabba for decimals" : "dabba for yes/no"}</span>
+    <div className="code-line">
+      <span className="kw">{type}</span> {name || "name"} = {valueNode}; <span className="cm">// {comment}</span>
     </div>
   );
 }
 
-function FullProgram({ custom }) {
+function SlotRow({ index, slot, hint, locked, ready, onType, onName, onValue, onBoolToggle, onConfirm }) {
+  if (locked) {
+    return (
+      <div className="slot-card">
+        <div className="locked-slot-line">✓ Slot {index + 1} complete</div>
+        <CodeLine type={slot.type} name={slot.name} value={slot.value} />
+      </div>
+    );
+  }
+  return (
+    <div className="slot-card">
+      <h3>Variable slot {index + 1}</h3>
+      <div className="slot-row">
+        <div className="slot-input-group">
+          <label>Type</label>
+          <select value={slot.type} onChange={(e) => onType(e.target.value)}>
+            <option value="">Select a type...</option>
+            {TYPE_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+          {slot.type && <div className="type-example">{TYPE_EXAMPLES[slot.type]}</div>}
+        </div>
+        <div className="slot-input-group">
+          <label>Name</label>
+          <input placeholder="e.g. gymName" value={slot.name} onChange={(e) => onName(e.target.value)} />
+          {hint === "space" && <div className="hint-warn">⚠️ No spaces. Try camelCase.</div>}
+          {hint === "capital" && <div className="hint-warn">⚠️ Start with a small letter.</div>}
+          {hint === "ok" && <div className="hint-ok">✓ Looks good</div>}
+        </div>
+        <div className="slot-input-group">
+          <label>Value</label>
+          {slot.type === "boolean" ? (
+            <div className="toggle-bool">
+              <button className={slot.value === "true" ? "active" : ""} onClick={() => onBoolToggle("true")}>true</button>
+              <button className={slot.value === "false" ? "active" : ""} onClick={() => onBoolToggle("false")}>false</button>
+            </div>
+          ) : (
+            <input
+              placeholder={VALUE_PLACEHOLDERS[slot.type] || "Enter a value"}
+              value={slot.value}
+              onChange={(e) => onValue(e.target.value)}
+              disabled={!slot.type}
+            />
+          )}
+        </div>
+      </div>
+      <CodeLine type={slot.type} name={slot.name} value={slot.value} />
+      {ready && (
+        <div style={{ marginTop: 12 }}>
+          <button className="btn" onClick={onConfirm}>
+            {index < 2 ? "Confirm & next slot →" : "Confirm slot →"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FullProgram({ vars }) {
   const [copied, setCopied] = useState(false);
-  const customVal = custom.type === "String" ? `"${custom.value}"` : custom.value;
+  const fmtVal = (v) => (v.type === "String" ? `"${v.value}"` : v.value);
   const code = `// the program's name ↓
 public class MyFirstProgram {
 
@@ -263,16 +346,10 @@ public class MyFirstProgram {
     public static void main(String[] args) {
 
         // your dabbas ↓
-        String name = "Ravi";         // dabba: words
-        int age = 21;                 // dabba: numbers
-        String city = "Karimnagar";   // dabba: words
-        ${custom.type} ${custom.name} = ${customVal}; // your dabba
+${vars.map((v) => `        ${v.type} ${v.name} = ${fmtVal(v)};`).join("\n")}
 
         // Java's mouth — speaks to terminal ↓
-        System.out.println("My name is " + name);
-        System.out.println("My age is " + age);
-        System.out.println("I am from " + city);
-        System.out.println("${custom.name} = " + ${custom.name});
+${vars.map((v) => `        System.out.println("${v.name} = " + ${v.name});`).join("\n")}
 
     } // close front door
 
@@ -288,11 +365,10 @@ public class MyFirstProgram {
   const L = ({ i = 0, children }) => (
     <div style={{ paddingLeft: `${i * 2}ch`, lineHeight: "1.75", whiteSpace: "pre" }}>{children}</div>
   );
-  const customValJSX = custom.type === "String"
-    ? <><span className="str">"{custom.value}"</span></>
-    : custom.type === "boolean"
-    ? <span className="kw">{custom.value}</span>
-    : <span className="num">{custom.value}</span>;
+  const valJSX = (v) =>
+    v.type === "String" ? <><span className="str">"{v.value}"</span></> :
+    v.type === "boolean" ? <span className="kw">{v.value}</span> :
+    <span className="num">{v.value}</span>;
 
   return (
     <div className="full-code" style={{ fontFamily: "'Courier New',Consolas,monospace", fontSize: "0.85rem" }}>
@@ -304,16 +380,14 @@ public class MyFirstProgram {
       <L i={1}><Tooltip label="public static void main"><span className="kw">public static void main</span></Tooltip>{"("}<span className="kw">String</span>{"[] args) {"}</L>
       <L>&nbsp;</L>
       <L i={2}><span className="cm">{"// your dabbas ↓"}</span></L>
-      <L i={2}><span className="kw">String</span>{" name = "}<span className="str">"Ravi"</span>{";"}<span className="cm">{"         // dabba: words"}</span></L>
-      <L i={2}><span className="kw">int</span>{" age = "}<span className="num">21</span>{";"}<span className="cm">{"                 // dabba: numbers"}</span></L>
-      <L i={2}><span className="kw">String</span>{" city = "}<span className="str">"Karimnagar"</span>{";"}<span className="cm">{"   // dabba: words"}</span></L>
-      <L i={2}><span className="kw">{custom.type}</span>{` ${custom.name} = `}{customValJSX}{";"}<span className="cm">{" // your dabba"}</span></L>
+      {vars.map((v, i) => (
+        <L key={i} i={2}><span className="kw">{v.type}</span>{` ${v.name} = `}{valJSX(v)}{";"}</L>
+      ))}
       <L>&nbsp;</L>
       <L i={2}><span className="cm">{"// Java's mouth — speaks to terminal ↓"}</span></L>
-      <L i={2}><Tooltip label="System.out.println"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"My name is \" + name"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
-      <L i={2}><Tooltip label="System.out.println"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"My age is \" + age"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
-      <L i={2}><Tooltip label="System.out.println"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"I am from \" + city"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
-      <L i={2}><Tooltip label="System.out.println"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{`"${custom.name} = " + ${custom.name}`}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
+      {vars.map((v, i) => (
+        <L key={i} i={2}><Tooltip label="System.out.println"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{`"${v.name} = " + ${v.name}`}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
+      ))}
       <L>&nbsp;</L>
       <L i={1}>{"} "}<span className="cm">{"// close front door"}</span></L>
       <L>&nbsp;</L>
@@ -329,40 +403,63 @@ const REVEAL_LINES = [
   ["public static void main", "the front door — starts here"],
 ];
 
-export default function VariableExplorer() {
-  const { play, setMuted, muted } = useSounds();
-  const [isMuted, setIsMuted] = useState(false);
-  const [opened, setOpened] = useState([false, false, false]);
-  const [showPattern, setShowPattern] = useState(false);
-  const [showCreateForm, setShowCreateForm] = useState(false);
+function parseProjectVars(code) {
+  const lines = code.split("\n");
+  const result = [];
+  const seen = new Set();
+  const lineRe = /\b(String|int|double|boolean)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?);?\s*(?:\/\/.*)?$/;
+  for (const line of lines) {
+    const m = line.match(lineRe);
+    if (!m) continue;
+    const [, type, name, rawVal] = m;
+    if (seen.has(name) || validateName(name) !== "ok") continue;
+    let value = rawVal.trim();
+    if (type === "String") value = value.replace(/^["']|["']$/g, "");
+    if (!value) continue;
+    seen.add(name);
+    result.push({ type, name, value });
+  }
+  return result;
+}
 
-  // Create your own dabba
-  const [cType, setCType] = useState("");
-  const [cName, setCName] = useState("");
-  const [cValue, setCValue] = useState("");
-  const [boolVal, setBoolVal] = useState("true");
-  const [nameHint, setNameHint] = useState(null);
-  const [customDabba, setCustomDabba] = useState(null);
+const emptySlot = () => ({ type: "", name: "", value: "", boolTouched: false });
+
+export default function VariableExplorer() {
+  const { play, setMuted } = useSounds();
+  const [isMuted, setIsMuted] = useState(false);
+
+  // Phase 1 — guided slots
+  const [slots, setSlots] = useState([emptySlot(), emptySlot(), emptySlot()]);
+  const [completed, setCompleted] = useState([false, false, false]);
+  const [visibleCount, setVisibleCount] = useState(1);
+  const [nameHints, setNameHints] = useState([null, null, null]);
+  const [showPattern, setShowPattern] = useState(false);
   const [showFullProg, setShowFullProg] = useState(false);
   const [revealLines, setRevealLines] = useState(0);
   const [showReveal, setShowReveal] = useState(false);
 
-  // Section 2
+  // Section 2 — free project
   const [editorCode, setEditorCode] = useState("");
   const [plainText, setPlainText] = useState("");
   const [editorHint, setEditorHint] = useState(null);
+  const [projectVars, setProjectVars] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [showSection2, setShowSection2] = useState(false);
 
-  const allOpen = opened.every(Boolean);
+  const allSlotsComplete = completed.every(Boolean);
 
   useEffect(() => {
-    if (allOpen && !showPattern) {
+    if (allSlotsComplete && !showPattern) {
       play("correct");
       setShowPattern(true);
-      setTimeout(() => setShowCreateForm(true), 600);
     }
-  }, [allOpen]);
+  }, [allSlotsComplete]);
+
+  const handleConfirmSlot = (i) => {
+    play("add");
+    setCompleted((prev) => prev.map((c, idx) => (idx === i ? true : c)));
+    if (i < 2) setVisibleCount((v) => Math.max(v, i + 2));
+  };
 
   const toggleMute = () => {
     const next = !isMuted;
@@ -370,29 +467,19 @@ export default function VariableExplorer() {
     setMuted(next);
   };
 
-  const openDabba = (i) => {
-    if (opened[i]) return;
-    play("add");
-    setOpened((prev) => { const n = [...prev]; n[i] = true; return n; });
+  const updateSlot = (i, patch) => {
+    setSlots((prev) => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
   };
 
-  const nameValidation = validateName(cName);
-  const effectiveValue = cType === "boolean" ? boolVal : cValue;
-  const canCreate = cType && cName && nameValidation === "ok" && (cType === "boolean" ? true : cValue.trim());
-
-  const handleNameChange = (e) => {
-    const v = e.target.value;
-    setCName(v);
-    const vld = validateName(v);
+  const handleType = (i, val) => updateSlot(i, { type: val, value: "", boolTouched: false });
+  const handleName = (i, val) => {
+    updateSlot(i, { name: val });
+    const vld = validateName(val);
     if (vld === "space" || vld === "capital") play("warn");
-    setNameHint(vld);
+    setNameHints((prev) => prev.map((h, idx) => (idx === i ? vld : h)));
   };
-
-  const handleCreate = () => {
-    if (!canCreate) return;
-    play("correct");
-    setCustomDabba({ type: cType, name: cName, value: effectiveValue });
-  };
+  const handleValue = (i, val) => updateSlot(i, { value: val });
+  const handleBoolToggle = (i, val) => updateSlot(i, { value: val, boolTouched: true });
 
   const handleShowFull = () => {
     play("tick");
@@ -418,15 +505,17 @@ export default function VariableExplorer() {
   const handleEditorChange = (e) => {
     const v = e.target.value;
     setEditorCode(v);
-    // Check for space in variable name
     const lines = v.split("\n");
+    let hint = null;
     for (const line of lines) {
       const m = line.match(/\b(String|int|double|boolean)\s+([a-zA-Z_]\S*\s+\S)/);
-      if (m) { play("warn"); setEditorHint("space"); return; }
+      if (m) { hint = "space"; break; }
       const m2 = line.match(/\b(String|int|double|boolean)\s+([A-Z])/);
-      if (m2) { play("warn"); setEditorHint("capital"); return; }
+      if (m2) { hint = "capital"; break; }
     }
-    setEditorHint(null);
+    if (hint) play("warn");
+    setEditorHint(hint);
+    setProjectVars(parseProjectVars(v));
   };
 
   const sentences = countSentences(plainText);
@@ -438,31 +527,45 @@ export default function VariableExplorer() {
     setSubmitted(true);
   };
 
+  const fullProgVars = slots.map((s) => ({ type: s.type, name: s.name, value: s.value }));
+
   return (
     <>
       <style>{STYLE}</style>
       <button className="mute-btn" onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
       <div className="ve-root">
 
-        {/* ===== SECTION 1 ===== */}
+        {/* ===== PHASE 1 — GUIDED ===== */}
         <div className="card">
           <h1>Every variable is a dabba with a name 🫙</h1>
-          <p>Click each dabba to see what is inside. Then create your own.</p>
+          <p>Fill in each variable slot on the left. Watch your dabba come to life on the right.</p>
 
-          <div className="dabba-row">
-            {DABBAS.map((d, i) => (
-              <div key={d.label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-                <SteelDabba {...d} isOpen={opened[i]} onClick={() => openDabba(i)} />
-                {opened[i] && (
-                  <>
-                    <span className={`badge badge-${d.type.toLowerCase()}`}>
-                      {d.type === "String" ? "String — holds words" : "int — holds numbers"}
-                    </span>
-                    <div className="code-line">{CODE_LINES[i]}</div>
-                  </>
-                )}
+          <div className="split-layout">
+            <div className="split-left">
+              {slots.slice(0, visibleCount).map((s, i) => (
+                <SlotRow
+                  key={i}
+                  index={i}
+                  slot={s}
+                  hint={nameHints[i]}
+                  locked={completed[i]}
+                  ready={!completed[i] && isSlotComplete(s)}
+                  onType={(v) => handleType(i, v)}
+                  onName={(v) => handleName(i, v)}
+                  onValue={(v) => handleValue(i, v)}
+                  onBoolToggle={(v) => handleBoolToggle(i, v)}
+                  onConfirm={() => handleConfirmSlot(i)}
+                />
+              ))}
+            </div>
+            <div className="split-right">
+              <div className="dabba-shelf">
+                {slots.slice(0, visibleCount).map((s, i) => (
+                  <LiveDabba key={i} type={s.type} name={s.name} value={s.value} complete={completed[i]} />
+                ))}
+                {!slots[0].type && <p className="shelf-hint">Pick a type in Slot 1 to see your first dabba appear here.</p>}
               </div>
-            ))}
+            </div>
           </div>
 
           {showPattern && (
@@ -477,73 +580,11 @@ export default function VariableExplorer() {
           )}
         </div>
 
-        {/* ===== PART B ===== */}
-        {showCreateForm && !customDabba && (
+        {/* ===== YOUR PROGRAM ===== */}
+        {showPattern && (
           <div className="card">
-            <h2>Now make your own dabba 🫙</h2>
-            <p>Think about your project. What detail do you want to store?</p>
-
-            <label>What type?</label>
-            <select value={cType} onChange={(e) => { setCType(e.target.value); setCValue(""); }}>
-              <option value="">Select a type...</option>
-              {TYPE_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
-            {cType && <div className="type-example">{TYPE_EXAMPLES[cType]}</div>}
-
-            <label>Name your dabba</label>
-            <input
-              placeholder="e.g. gymName"
-              value={cName}
-              onChange={handleNameChange}
-            />
-            {nameHint === "space" && <div className="hint-warn">⚠️ No spaces allowed. Try: gymName instead of gym name</div>}
-            {nameHint === "capital" && <div className="hint-warn">⚠️ Start with small letter. Try: gymName instead of GymName</div>}
-            {nameHint === "ok" && <div className="hint-ok">✓ Looks good</div>}
-
-            <label>What goes inside?</label>
-            {cType === "boolean" ? (
-              <div className="toggle-bool">
-                <button className={boolVal === "true" ? "active" : ""} onClick={() => setBoolVal("true")}>true</button>
-                <button className={boolVal === "false" ? "active" : ""} onClick={() => setBoolVal("false")}>false</button>
-              </div>
-            ) : (
-              <input
-                placeholder={VALUE_PLACEHOLDERS[cType] || "Enter a value"}
-                value={cValue}
-                onChange={(e) => setCValue(e.target.value)}
-                disabled={!cType}
-              />
-            )}
-
-            <div style={{ marginTop: 20 }}>
-              <button className="btn" disabled={!canCreate} onClick={handleCreate}>Create my dabba →</button>
-            </div>
-          </div>
-        )}
-
-        {/* ===== CUSTOM DABBA RESULT ===== */}
-        {customDabba && (
-          <div className="card">
-            <h2>Your dabba 🎉</h2>
-            <div className="dabba-row">
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <SteelDabba
-                  label={customDabba.name}
-                  value={customDabba.value}
-                  type={customDabba.type}
-                  isOpen={true}
-                  onClick={() => {}}
-                />
-                <span className={`badge badge-${customDabba.type.toLowerCase()}`}>
-                  {customDabba.type}
-                </span>
-                <CodeLine type={customDabba.type} name={customDabba.name} value={customDabba.value} />
-              </div>
-            </div>
-            <div className="pattern-box" style={{ marginTop: 12 }}>
-              <p style={{ fontWeight: 700 }}>You just created a Java variable.</p>
-              <p>That line of code is yours. You wrote it. 🎉</p>
-            </div>
+            <h2>Your 3 variables 🎉</h2>
+            <p>Those three lines? You just wrote real Java code.</p>
 
             {!showFullProg && (
               <button className="btn-outline" style={{ marginTop: 16 }} onClick={handleShowFull}>
@@ -551,12 +592,11 @@ export default function VariableExplorer() {
               </button>
             )}
 
-            {/* ===== PART C ===== */}
             {showFullProg && (
               <>
                 <div style={{ marginTop: 20 }}>
                   <h3 style={{ marginBottom: 12 }}>Your complete Java program:</h3>
-                  <FullProgram custom={customDabba} />
+                  <FullProgram vars={fullProgVars} />
                 </div>
 
                 <div className="card" style={{ marginTop: 20, background: "#FEF3C7", border: "1px solid #F59E0B" }}>
@@ -573,7 +613,6 @@ export default function VariableExplorer() {
               </>
             )}
 
-            {/* ===== REVEAL CARD ===== */}
             {showReveal && (
               <div className="reveal-card" style={{ marginTop: 20 }}>
                 <h2 style={{ marginBottom: 12 }}>You just learned 4 Java concepts 🎉</h2>
@@ -602,7 +641,7 @@ export default function VariableExplorer() {
           </div>
         )}
 
-        {/* ===== SECTION 2 ===== */}
+        {/* ===== PHASE 2 — FREE PROJECT ===== */}
         {showSection2 && (
           <>
             <hr className="section-divider" />
@@ -634,60 +673,80 @@ export default function VariableExplorer() {
             </div>
 
             <div className="card">
-              {/* Code editor */}
-              <h3>Write your 3 variables here:</h3>
-              <div className="editor-area">
-                <textarea
-                  value={editorCode}
-                  onChange={handleEditorChange}
-                  onPaste={(e) => e.preventDefault()}
-                  onContextMenu={(e) => e.preventDefault()}
-                  placeholder={"// Write your 3 project variables below\n// Replace the blanks with real values\n\nString __________ = '__________';  // stores the ____\nint __________ = 0;                // stores the ____\nString __________ = '__________';  // stores the ____"}
-                  style={{ color: editorCode ? "#E2E8F0" : "#6B7280" }}
-                />
-              </div>
-              {editorHint === "space" && <div className="hint-warn">⚠️ Variable names cannot have spaces.</div>}
-              {editorHint === "capital" && <div className="hint-warn">⚠️ Start variable names with a small letter.</div>}
+              <div className="split-layout">
+                <div className="split-left">
+                  <h3>Write your 3 variables here:</h3>
+                  <div className="editor-area">
+                    <textarea
+                      value={editorCode}
+                      onChange={handleEditorChange}
+                      onPaste={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
+                      placeholder={"// Write your 3 project variables below\n// Replace the blanks with real values\n\nString __________ = '__________';  // stores the ____\nint __________ = 0;                // stores the ____\nString __________ = '__________';  // stores the ____"}
+                      style={{ color: editorCode ? "#E2E8F0" : "#6B7280" }}
+                    />
+                  </div>
+                  {editorHint === "space" && <div className="hint-warn">⚠️ Variable names cannot have spaces.</div>}
+                  {editorHint === "capital" && <div className="hint-warn">⚠️ Start variable names with a small letter.</div>}
 
-              {/* Plain words */}
-              <div className="plain-area" style={{ marginTop: 16 }}>
-                <h3>In plain words:</h3>
-                <p style={{ fontSize: "0.9rem" }}>In one sentence — what does each variable store about your project's main thing? Write it like you are explaining to a friend.</p>
-                <textarea
-                  value={plainText}
-                  onChange={(e) => setPlainText(e.target.value)}
-                  onPaste={(e) => e.preventDefault()}
-                  onContextMenu={(e) => e.preventDefault()}
-                  placeholder={"memberName stores the name of each gym member.\nmemberAge stores how old they are.\nmemberPlan stores which plan they joined on."}
-                  style={{ minHeight: 100, marginTop: 8 }}
-                />
-                <div className={`sentence-counter ${sentences >= 1 ? "ok" : ""}`}>
-                  {sentences} sentence{sentences !== 1 ? "s" : ""} written {sentences >= 1 ? "✓" : ""}
+                  <div className="plain-area" style={{ marginTop: 16 }}>
+                    <h3>In plain words:</h3>
+                    <p style={{ fontSize: "0.9rem" }}>In one sentence — what does each variable store about your project's main thing? Write it like you are explaining to a friend.</p>
+                    <textarea
+                      value={plainText}
+                      onChange={(e) => setPlainText(e.target.value)}
+                      onPaste={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
+                      placeholder={"memberName stores the name of each gym member.\nmemberAge stores how old they are.\nmemberPlan stores which plan they joined on."}
+                      style={{ minHeight: 100, marginTop: 8 }}
+                    />
+                    <div className={`sentence-counter ${sentences >= 1 ? "ok" : ""}`}>
+                      {sentences} sentence{sentences !== 1 ? "s" : ""} written {sentences >= 1 ? "✓" : ""}
+                    </div>
+                  </div>
+
+                  {canSubmit && !submitted && (
+                    <div style={{ marginTop: 20 }}>
+                      <button className="btn" onClick={handleSubmit}>
+                        These are my first project variables →
+                      </button>
+                    </div>
+                  )}
+
+                  {submitted && (
+                    <div className="success-card" style={{ marginTop: 20 }}>
+                      <h2 style={{ marginBottom: 12 }}>Your first project code is written. 🎯</h2>
+                      <p>Those 3 variables?</p>
+                      <p>In <strong>subtopic 1.2.1</strong> — they become the fields inside your Java class.</p>
+                      <p>In <strong>Module 2</strong> — Spring Boot reads that class and creates your database table.</p>
+                      <p>In <strong>Module 4</strong> — React displays those values on your app's screen.</p>
+                      <p style={{ marginTop: 14, fontWeight: 700, fontSize: "1.05rem" }}>
+                        Every line you write from here builds directly on what you just wrote.<br /><br />
+                        This is not a tutorial exercise.<br />
+                        This is your actual project starting.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="split-right">
+                  <h3 style={{ opacity: 0.6 }}>Phase 1 dabbas</h3>
+                  <div className="dabba-shelf">
+                    {slots.map((s, i) => (
+                      <LiveDabba key={i} type={s.type} name={s.name} value={s.value} complete={completed[i]} dim />
+                    ))}
+                  </div>
+                  <h3 style={{ marginTop: 12 }}>Your project dabbas</h3>
+                  <div className="dabba-shelf">
+                    {projectVars.map((v, i) => (
+                      <LiveDabba key={v.name + i} type={v.type} name={v.name} value={v.value} complete={true} />
+                    ))}
+                    {projectVars.length === 0 && (
+                      <p className="shelf-hint">Write a valid variable on the left to see it appear here.</p>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              {canSubmit && !submitted && (
-                <div style={{ marginTop: 20 }}>
-                  <button className="btn" onClick={handleSubmit}>
-                    These are my first project variables →
-                  </button>
-                </div>
-              )}
-
-              {submitted && (
-                <div className="success-card" style={{ marginTop: 20 }}>
-                  <h2 style={{ marginBottom: 12 }}>Your first project code is written. 🎯</h2>
-                  <p>Those 3 variables?</p>
-                  <p>In <strong>subtopic 1.2.1</strong> — they become the fields inside your Java class.</p>
-                  <p>In <strong>Module 2</strong> — Spring Boot reads that class and creates your database table.</p>
-                  <p>In <strong>Module 4</strong> — React displays those values on your app's screen.</p>
-                  <p style={{ marginTop: 14, fontWeight: 700, fontSize: "1.05rem" }}>
-                    Every line you write from here builds directly on what you just wrote.<br /><br />
-                    This is not a tutorial exercise.<br />
-                    This is your actual project starting.
-                  </p>
-                </div>
-              )}
             </div>
           </>
         )}
