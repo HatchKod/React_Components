@@ -223,17 +223,17 @@ function AnnotatedMethod() {
         borderLeft: "4px solid #8B5CF6",
       }}
     >
-      <span style={cmt}>{"// write the procedure once — give it a name"}</span>
+      <span style={cmt}>{"// write the procedure once - give it a name"}</span>
       {"\n"}
-      <TT tip="Belongs to the class — you can call it directly">
+      <TT tip="Belongs to the class - you can call it directly">
         <span style={kw}>static</span>
       </TT>
       {" "}
-      <TT tip="Does something but gives nothing back — no return value">
+      <TT tip="Does something but gives nothing back - no return value">
         <span style={kw}>void</span>
       </TT>
       {" "}
-      <TT tip="The procedure's name — call this to run all the steps">
+      <TT tip="The procedure's name - call this to run all the steps">
         <span style={nm}>welcomeMember</span>
       </TT>
       {"("}
@@ -269,7 +269,7 @@ function AnnotatedMethod() {
       {");"}
       {"\n"}
       {"} "}
-      <span style={cmt}>{"// method ends — all 3 steps done"}</span>
+      <span style={cmt}>{"// method ends - all 3 steps done"}</span>
     </pre>
   );
 }
@@ -385,7 +385,7 @@ export default function MethodBuilder() {
     if (!showReveal) return;
     playSound("reveal", muted);
     const lines = [
-      { bold: "Method", rest: " → a named procedure — write once, call anywhere" },
+      { bold: "Method", rest: " → a named procedure - write once, call anywhere" },
       { bold: "Parameter", rest: " → the information a method needs to do its job" },
       { bold: "void", rest: " → does something, gives nothing back" },
     ];
@@ -398,7 +398,7 @@ export default function MethodBuilder() {
     setTimeout(() => {
       setRevealLines((prev) => [
         ...prev,
-        { bold: "static", rest: " → belongs to the class — call it directly by name" },
+        { bold: "static", rest: " → belongs to the class - call it directly by name" },
       ]);
       playSound("tick", muted);
     }, lines.length * 500);
@@ -409,17 +409,17 @@ export default function MethodBuilder() {
   const paramInfo = {
     "A name (String name)": { type: "String", param: "name", example: "Ravi" },
     "A number (int number)": { type: "int", param: "number", example: "12" },
-    "A status — yes/no (boolean status)": { type: "boolean", param: "status", example: "true" },
-    "Nothing — it works on its own": { type: "", param: "", example: "" },
+    "A status - yes/no (boolean status)": { type: "boolean", param: "status", example: "true" },
+    "Nothing - it works on its own": { type: "", param: "", example: "" },
   };
 
   const validateMethodName = (val) => {
     setMethodName(val);
     if (val.includes(" ")) {
-      setNameWarn("No spaces — use camelCase, e.g. confirmBooking");
+      setNameWarn("No spaces - use camelCase, e.g. confirmBooking");
       playSound("warn", muted);
     } else if (val.length > 0 && val[0] === val[0].toUpperCase() && /[a-zA-Z]/.test(val[0])) {
-      setNameWarn("Method names start lowercase — e.g. confirmBooking, not ConfirmBooking");
+      setNameWarn("Method names start lowercase - e.g. confirmBooking, not ConfirmBooking");
       playSound("warn", muted);
     } else {
       setNameWarn("");
@@ -505,7 +505,7 @@ export default function MethodBuilder() {
             Write once. Use anywhere. 🔁
           </h1>
           <p style={{ color: "#64748B", marginTop: 8, fontSize: 16 }}>
-            See why methods exist — and how calling one is like calling a procedure by name.
+            See why methods exist - and how calling one is like calling a procedure by name.
           </p>
           <div
             style={{
@@ -520,7 +520,7 @@ export default function MethodBuilder() {
               fontWeight: 600,
             }}
           >
-            Subtopic 1.1.4 — Methods
+            Subtopic 1.1.4 - Methods
           </div>
         </div>
 
@@ -555,15 +555,15 @@ export default function MethodBuilder() {
                   overflowX: "auto",
                 }}
               >
-                <span style={cmt}>{"// welcome Ravi — 3 lines"}</span>{"\n"}
+                <span style={cmt}>{"// welcome Ravi - 3 lines"}</span>{"\n"}
                 {"System.out.println("}<span style={str}>"Welcome, Ravi! 👋"</span>{");"}{"\n"}
                 {"System.out.println("}<span style={str}>"Membership active. ✅"</span>{");"}{"\n"}
                 {"System.out.println("}<span style={str}>"Great workout! 💪"</span>{");"}{"\n\n"}
-                <span style={cmt}>{"// welcome Suresh — same 3 lines again"}</span>{"\n"}
+                <span style={cmt}>{"// welcome Suresh - same 3 lines again"}</span>{"\n"}
                 {"System.out.println("}<span style={str}>"Welcome, Suresh! 👋"</span>{");"}{"\n"}
                 {"System.out.println("}<span style={str}>"Membership active. ✅"</span>{");"}{"\n"}
                 {"System.out.println("}<span style={str}>"Great workout! 💪"</span>{");"}{"\n\n"}
-                <span style={cmt}>{"// welcome Priya — same 3 lines AGAIN"}</span>{"\n"}
+                <span style={cmt}>{"// welcome Priya - same 3 lines AGAIN"}</span>{"\n"}
                 {"System.out.println("}<span style={str}>"Welcome, Priya! 👋"</span>{");"}{"\n"}
                 {"System.out.println("}<span style={str}>"Membership active. ✅"</span>{");"}{"\n"}
                 {"System.out.println("}<span style={str}>"Great workout! 💪"</span>{");"}
@@ -692,7 +692,7 @@ export default function MethodBuilder() {
                 <strong>Same procedure. Different person. Every time.</strong>
                 <br /><br />
                 The guard did not invent a new procedure for each person.
-                He has one procedure — and he runs it for whoever shows up.
+                He has one procedure - and he runs it for whoever shows up.
                 <br /><br />
                 <strong>That is exactly what a method does.</strong>
               </div>
@@ -737,7 +737,7 @@ export default function MethodBuilder() {
             }}
           >
             <h2 style={{ margin: "0 0 6px", fontSize: 20, fontWeight: 700 }}>
-              The method — written once
+              The method - written once
             </h2>
             <p style={{ color: "#64748B", margin: "0 0 20px", fontSize: 15 }}>
               Hover any underlined word for an explanation.
@@ -754,7 +754,7 @@ export default function MethodBuilder() {
             </div>
 
             <h3 style={{ margin: "24px 0 10px", fontSize: 17, fontWeight: 700 }}>
-              Call it — as many times as you want
+              Call it - as many times as you want
             </h3>
 
             <pre
@@ -770,7 +770,7 @@ export default function MethodBuilder() {
                 overflowX: "auto",
               }}
             >
-              <span style={{ ...cmt, color: "#94A3B8" }}>{"// call the method — pass in the name each time"}</span>
+              <span style={{ ...cmt, color: "#94A3B8" }}>{"// call the method - pass in the name each time"}</span>
               {"\n"}
               <TT tip="Runs all the steps inside the method">
                 <span style={nm}>welcomeMember</span>
@@ -787,7 +787,7 @@ export default function MethodBuilder() {
 
             {/* Live call demo */}
             <div style={{ marginTop: 20 }}>
-              <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>Try it — call the method</div>
+              <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>Try it - call the method</div>
               <div className="call-demo" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {["Ravi", "Suresh", "Priya"].map((name) => (
@@ -849,7 +849,7 @@ export default function MethodBuilder() {
                   <strong>3 calls. 9 lines of output.</strong><br />
                   The method ran 3 times. You wrote the steps only once.
                   <br /><br />
-                  If the gym owner says change the message — you change it in ONE place.
+                  If the gym owner says change the message - you change it in ONE place.
                   All 3 calls update automatically.
                 </div>
               )}
@@ -962,7 +962,7 @@ export default function MethodBuilder() {
                     }}
                   />
                   <div style={{ fontSize: 12, marginTop: 4, color: nameWarn ? "#B45309" : "#64748B" }}>
-                    {nameWarn || (methodName ? "✓ Looks good" : "camelCase. Starts with a verb — show, confirm, welcome, print")}
+                    {nameWarn || (methodName ? "✓ Looks good" : "camelCase. Starts with a verb - show, confirm, welcome, print")}
                   </div>
                 </div>
 
@@ -986,8 +986,8 @@ export default function MethodBuilder() {
                     <option value="">Select</option>
                     <option>A name (String name)</option>
                     <option>A number (int number)</option>
-                    <option>A status — yes/no (boolean status)</option>
-                    <option>Nothing — it works on its own</option>
+                    <option>A status - yes/no (boolean status)</option>
+                    <option>Nothing - it works on its own</option>
                   </select>
                 </div>
 
@@ -1038,7 +1038,7 @@ export default function MethodBuilder() {
             {built && (
               <div style={{ animation: "fadeIn 0.4s ease" }}>
                 <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 8 }}>
-                  Your method — {finalActionLabel}
+                  Your method - {finalActionLabel}
                 </div>
                 <pre
                   style={{
@@ -1054,7 +1054,7 @@ export default function MethodBuilder() {
                     borderLeft: "4px solid #8B5CF6",
                   }}
                 >
-                  <span style={cmt}>{`// write once — ${finalActionLabel}`}</span>
+                  <span style={cmt}>{`// write once - ${finalActionLabel}`}</span>
                   {"\n"}
                   <span style={kw}>static</span> <span style={kw}>void</span>{" "}
                   <span style={nm}>{methodName}</span>(
@@ -1086,7 +1086,7 @@ export default function MethodBuilder() {
                 </pre>
 
                 <div style={{ fontWeight: 700, fontSize: 15, margin: "18px 0 8px" }}>
-                  Call it — pass in real information
+                  Call it - pass in real information
                 </div>
                 <pre
                   style={{
@@ -1100,7 +1100,7 @@ export default function MethodBuilder() {
                     margin: 0,
                   }}
                 >
-                  <span style={{ ...cmt, color: "#94A3B8" }}>{"// call it — pass in real information"}</span>
+                  <span style={{ ...cmt, color: "#94A3B8" }}>{"// call it - pass in real information"}</span>
                   {"\n"}
                   <span style={nm}>{methodName}</span>(
                   {pInfo.example && <span style={str}>"{pInfo.example}"</span>}
@@ -1170,7 +1170,7 @@ export default function MethodBuilder() {
                   {firstCallDone && (
                     <div style={{ marginTop: 12, fontSize: 14, lineHeight: 1.7, color: "#334155" }}>
                       <strong>Your method works. 🎯</strong><br />
-                      Change the name — call it again. Same steps. Different information. Every time.
+                      Change the name - call it again. Same steps. Different information. Every time.
                     </div>
                   )}
                 </div>
@@ -1237,8 +1237,8 @@ export default function MethodBuilder() {
                       animation: "fadeIn 0.5s ease",
                     }}
                   >
-                    Every action your neighbourhood app performs — booking a slot, welcoming a member,
-                    confirming a room — will be a method exactly like this.
+                    Every action your neighbourhood app performs - booking a slot, welcoming a member,
+                    confirming a room - will be a method exactly like this.
                   </div>
                 )}
               </div>
@@ -1301,7 +1301,7 @@ export default function MethodBuilder() {
                   <span style={{ fontWeight: 700, fontSize: 16 }}>Curious? See loop + method together 👀</span>
                 </button>
                 <p style={{ color: "#64748B", fontSize: 13, margin: "6px 0 0 22px" }}>
-                  Optional — only if you want to see what happens when you combine both.
+                  Optional - only if you want to see what happens when you combine both.
                 </p>
 
                 {showLoopPreview && (
@@ -1322,14 +1322,14 @@ export default function MethodBuilder() {
                       <span style={cmt}>{"// your list"}</span>{"\n"}
                       <span style={kw}>String</span>[] members = {"{"}<span style={str}>"Ravi"</span>, <span style={str}>"Suresh"</span>, <span style={str}>"Priya"</span>{"}"};
                       {"\n\n"}
-                      <span style={cmt}>{"// your method — written once"}</span>{"\n"}
+                      <span style={cmt}>{"// your method - written once"}</span>{"\n"}
                       <span style={kw}>static</span> <span style={kw}>void</span> <span style={nm}>welcomeMember</span>(<span style={kw}>String</span> <span style={pr}>name</span>) {"{"}
                       {"\n    System.out.println("}<span style={str}>"Welcome, "</span>+name+<span style={str}>"! 👋"</span>{");"}
                       {"\n    System.out.println("}<span style={str}>"Your membership is active. ✅"</span>{");"}
                       {"\n    System.out.println("}<span style={str}>"Have a great workout! 💪"</span>{");"}
                       {"\n}"}
                       {"\n\n"}
-                      <span style={cmt}>{"// your loop — calls the method for each member"}</span>{"\n"}
+                      <span style={cmt}>{"// your loop - calls the method for each member"}</span>{"\n"}
                       <span style={kw}>for</span> (<span style={kw}>int</span> i = 0; i {"<"} members.length; i++) {"{"} <span style={cmt}>{"// for every member"}</span>
                       {"\n    "}<span style={nm}>welcomeMember</span>(members[i]); <span style={cmt}>{"// call method for this member"}</span>
                       {"\n}"}
@@ -1445,7 +1445,7 @@ export default function MethodBuilder() {
               >
                 Start with <span style={kw}>static void</span><br />
                 Give it a name that describes the action<br />
-                Give it one parameter — the information it needs<br />
+                Give it one parameter - the information it needs<br />
                 Write 2-3 System.out.println lines inside<br />
                 Add a comment on every line
               </div>
@@ -1483,7 +1483,7 @@ export default function MethodBuilder() {
                     onChange={(e) => setCode(e.target.value)}
                     onPaste={(e) => e.preventDefault()}
                     onContextMenu={(e) => e.preventDefault()}
-                    placeholder={`// write your method once\n// static = belongs to class\n// void = does something, gives nothing back\nstatic void __________(String __________) {\n//          ↑ method name    ↑ parameter\n\n\n\n// what it does — step 1\nSystem.out.println('__________' + __________ + '__________');\n// step 2\nSystem.out.println('__________');\n// step 3\nSystem.out.println('__________');\n} // method ends\n\n// call it with a real value\n__________('__________'); // runs all steps`}
+                    placeholder={`// write your method once\n// static = belongs to class\n// void = does something, gives nothing back\nstatic void __________(String __________) {\n//          ↑ method name    ↑ parameter\n\n\n\n// what it does - step 1\nSystem.out.println('__________' + __________ + '__________');\n// step 2\nSystem.out.println('__________');\n// step 3\nSystem.out.println('__________');\n} // method ends\n\n// call it with a real value\n__________('__________'); // runs all steps`}
                     style={{
                       width: "100%",
                       minHeight: 260,
@@ -1504,7 +1504,7 @@ export default function MethodBuilder() {
 
                 <div style={{ marginBottom: 20 }}>
                   <label style={{ display: "block", fontWeight: 600, fontSize: 15, marginBottom: 8 }}>
-                    In one sentence — when will you reuse this method in your project?
+                    In one sentence - when will you reuse this method in your project?
                   </label>
                   <textarea
                     value={reflection}
@@ -1574,18 +1574,18 @@ export default function MethodBuilder() {
                 </h3>
                 <div style={{ fontSize: 15, lineHeight: 1.9, color: "#065F46", maxWidth: 540, margin: "0 auto", textAlign: "left" }}>
                   You now know:<br />
-                  ✓ Variable — dabba with a name<br />
-                  ✓ Data Type — what kind fits inside<br />
-                  ✓ Boolean — true or false<br />
-                  ✓ if/else — computer makes decisions<br />
-                  ✓ Curly braces — groups code together<br />
-                  ✓ Array — list dabba with multiple items<br />
-                  ✓ for loop — go through every item<br />
-                  ✓ Array Index — get item by position<br />
-                  ✓ Method — write once, call anywhere<br />
-                  ✓ Parameter — information method needs<br />
-                  ✓ void — does something, returns nothing<br />
-                  ✓ static — belongs to class, call directly
+                  ✓ Variable - dabba with a name<br />
+                  ✓ Data Type - what kind fits inside<br />
+                  ✓ Boolean - true or false<br />
+                  ✓ if/else - computer makes decisions<br />
+                  ✓ Curly braces - groups code together<br />
+                  ✓ Array - list dabba with multiple items<br />
+                  ✓ for loop - go through every item<br />
+                  ✓ Array Index - get item by position<br />
+                  ✓ Method - write once, call anywhere<br />
+                  ✓ Parameter - information method needs<br />
+                  ✓ void - does something, returns nothing<br />
+                  ✓ static - belongs to class, call directly
                   <div style={{ textAlign: "center", marginTop: 16, fontWeight: 800 }}>
                     12 concepts. All understood.<br />
                     All connected to YOUR project.
@@ -1604,7 +1604,7 @@ export default function MethodBuilder() {
                       textAlign: "center",
                     }}
                   >
-                    Next — Topic 2.<br />
+                    Next - Topic 2.<br />
                     You learn to think in blueprints.<br />
                     Classes and objects.<br />
                     The way real Java developers think every day.

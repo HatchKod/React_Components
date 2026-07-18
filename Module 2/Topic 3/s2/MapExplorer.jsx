@@ -60,8 +60,8 @@ function valC(t) { return <span style={{ color: O }}>{t}</span>; }
 function str(t) { return <span style={{ color: G }}>{t}</span>; }
 function cm(t) { return <span style={{ color: GR }}>{t}</span>; }
 function ang(t) { return <span style={{ color: P }}>{t}</span>; }
-function mapTip(t) { return <Tip text="Stores pairs — key connects to value. Look up by name, not position."><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
-function hashMapTip(t) { return <Tip text="Most common Map — use by default"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function mapTip(t) { return <Tip text="Stores pairs - key connects to value. Look up by name, not position."><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function hashMapTip(t) { return <Tip text="Most common Map - use by default"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
 
 // ─── FLASH + STAMP ────────────────────────────────────────────────────────────
 function FlashOverlay({ id, color }) {
@@ -184,7 +184,7 @@ function ContactList({ pairs, mapName, keyType, valueType, getKey, scanState, si
         <div style={{ background: "#1E293B", color: "#fff", padding: "8px 14px", fontSize: 12, fontWeight: 700 }}>
           {mapName || "yourMap"} <span style={{ fontWeight: 400, color: "#94A3B8" }}>Map&lt;{keyType || "?"}, {valueType || "?"}&gt;</span>
         </div>
-        {empty && <div style={{ padding: 24, textAlign: "center", color: "#94A3B8", fontSize: 13 }}>— empty — no pairs yet —</div>}
+        {empty && <div style={{ padding: 24, textAlign: "center", color: "#94A3B8", fontSize: 13 }}>- empty - no pairs yet -</div>}
         {pairs.map((p, i) => (
           <ContactRow key={p.key} pair={p} rowRef={el => (rowRefs.current[i] = el)}
             state={getKey === p.key ? "get" : scanState && scanState.index === i ? "beam" : scanState && scanState.doneIndex === i ? (scanState.found ? "found" : null) : (scanState && scanState.allShake && !scanState.found ? "notfound" : null)} />
@@ -208,7 +208,7 @@ function ContactList({ pairs, mapName, keyType, valueType, getKey, scanState, si
   );
 }
 
-// ─── SLOT 1 — the List-can't-connect problem ─────────────────────────────────
+// ─── SLOT 1 - the List-can't-connect problem ─────────────────────────────────
 function Slot1({ onNext, playSound, onTry, tried }) {
   return (
     <div style={{ marginBottom: 26 }}>
@@ -235,7 +235,7 @@ function Slot1({ onNext, playSound, onTry, tried }) {
       {tried && (
         <div style={{ marginTop: 14, background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: 10, padding: 14, fontSize: 13, color: "#7F1D1D", lineHeight: 1.7, animation: "slideIn 0.4s ease" }}>
           The List has the names. But it has no idea what price goes with each name.<br /><br />
-          A List stores items — not pairs. You need something that connects one thing to another.
+          A List stores items - not pairs. You need something that connects one thing to another.
         </div>
       )}
       {tried && (
@@ -248,7 +248,7 @@ function Slot1({ onNext, playSound, onTry, tried }) {
   );
 }
 
-// ─── SLOT 2 — create a Map ────────────────────────────────────────────────────
+// ─── SLOT 2 - create a Map ────────────────────────────────────────────────────
 function Slot2({ onNext, playSound }) {
   const [keyType, setKeyType] = useState("");
   const [valType, setValType] = useState("");
@@ -271,7 +271,7 @@ function Slot2({ onNext, playSound }) {
 
   return (
     <div style={{ marginBottom: 26, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Map — every key connects to one value</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Map - every key connects to one value</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 13, lineHeight: 1.9 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           {mapTip("Map")}{ang("<")}
@@ -292,8 +292,8 @@ function Slot2({ onNext, playSound }) {
           {ang(">")} planPrices = {kw("new")} {hashMapTip("HashMap")}{ang("<>()")};
         </div>
         <div style={{ color: GR, fontSize: 11, marginTop: 4 }}>{"// key type, value type"}</div>
-        {keyWrong && <div style={{ color: "#F87171", fontSize: 11 }}>Plan names are words — try String for key</div>}
-        {valWrong && <div style={{ color: "#F87171", fontSize: 11 }}>Prices are whole numbers — try Integer for value</div>}
+        {keyWrong && <div style={{ color: "#F87171", fontSize: 11 }}>Plan names are words - try String for key</div>}
+        {valWrong && <div style={{ color: "#F87171", fontSize: 11 }}>Prices are whole numbers - try Integer for value</div>}
       </div>
 
       {ok && (
@@ -316,7 +316,7 @@ function Slot2({ onNext, playSound }) {
   );
 }
 
-// ─── SLOT 3 — put / get / containsKey / size ─────────────────────────────────
+// ─── SLOT 3 - put / get / containsKey / size ─────────────────────────────────
 function Slot3({ onDone, playSound, pairs, putAll, getKey, runGet, checkRecord, runCheck, sizeChecked, runSize }) {
   const [keys, setKeys] = useState(["", "", ""]);
   const [vals, setVals] = useState(["", "", ""]);
@@ -337,7 +337,7 @@ function Slot3({ onDone, playSound, pairs, putAll, getKey, runGet, checkRecord, 
     <div style={{ marginBottom: 26, animation: "slideIn 0.4s ease" }}>
       <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>Four things you can do with a Map</div>
 
-      <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 14, marginBottom: 6 }}>PUT — planPrices.put()</div>
+      <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 14, marginBottom: 6 }}>PUT - planPrices.put()</div>
       {[0, 1, 2].map(i => (
         <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
           <input value={keys[i]} disabled={added} onChange={e => { const c = [...keys]; c[i] = e.target.value; setKeys(c); }}
@@ -364,7 +364,7 @@ function Slot3({ onDone, playSound, pairs, putAll, getKey, runGet, checkRecord, 
 
       {pairs.length >= 3 && (
         <>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>GET — planPrices.get(key)</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>GET - planPrices.get(key)</div>
           <select value={getChoice} onChange={e => doGet(e.target.value)}
             style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #CBD5E1", fontSize: 13 }}>
             <option value="">Which plan?</option>
@@ -380,7 +380,7 @@ function Slot3({ onDone, playSound, pairs, putAll, getKey, runGet, checkRecord, 
 
       {getKey && (
         <>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>CONTAINSKEY — check if a plan exists</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>CONTAINSKEY - check if a plan exists</div>
           <div style={{ display: "flex", gap: 8 }}>
             <input value={checkInput} onChange={e => setCheckInput(e.target.value)} placeholder="type any plan name to check"
               style={{ width: 200, padding: "8px 10px", borderRadius: 8, border: "1px solid #CBD5E1", fontSize: 13 }} />
@@ -400,7 +400,7 @@ function Slot3({ onDone, playSound, pairs, putAll, getKey, runGet, checkRecord, 
 
       {checkRecord && (
         <>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>SIZE — planPrices.size()</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>SIZE - planPrices.size()</div>
           <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 8, padding: 12, fontFamily: "monospace", fontSize: 12 }}>
             planPrices.{mth("size")}(); {cm(`// how many pairs? → ${pairs.length}`)}
           </div>
@@ -424,7 +424,7 @@ function Slot3({ onDone, playSound, pairs, putAll, getKey, runGet, checkRecord, 
   );
 }
 
-// ─── SLOT 4 — unique key rule ─────────────────────────────────────────────────
+// ─── SLOT 4 - unique key rule ─────────────────────────────────────────────────
 function Slot4({ onDone, playSound, pairs, runReplace, replaceRecord }) {
   const [newPrice, setNewPrice] = useState("");
   const targetKey = pairs[0]?.key || "";
@@ -436,7 +436,7 @@ function Slot4({ onDone, playSound, pairs, runReplace, replaceRecord }) {
 
   return (
     <div style={{ marginBottom: 26, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>One key — one value. Always.</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>One key - one value. Always.</div>
       <div style={{ fontSize: 13, color: "#374151", marginBottom: 10 }}>
         What happens if you put <strong>{targetKey}</strong> again with a different price?
       </div>
@@ -454,7 +454,7 @@ function Slot4({ onDone, playSound, pairs, runReplace, replaceRecord }) {
           <div style={{ marginTop: 12, background: "#1E293B", color: "#E2E8F0", borderRadius: 8, padding: 12, fontFamily: "monospace", fontSize: 12, lineHeight: 1.8 }}>
             {cm("// putting an existing key again")}<br />
             planPrices.{mth("put")}({str(`"${replaceRecord.key}"`)}, {valC(replaceRecord.newValue)}); {cm("// → replaces the old value")}<br />
-            planPrices.{mth("get")}({str(`"${replaceRecord.key}"`)}); {cm(`// → ${replaceRecord.newValue} — old value is gone`)}
+            planPrices.{mth("get")}({str(`"${replaceRecord.key}"`)}); {cm(`// → ${replaceRecord.newValue} - old value is gone`)}
           </div>
           <div style={{ marginTop: 10, fontSize: 13, color: "#374151" }}>
             {replaceRecord.key} now has the new price. The old price is gone.<br />
@@ -473,10 +473,10 @@ function Slot4({ onDone, playSound, pairs, runReplace, replaceRecord }) {
 // ─── REVEAL ───────────────────────────────────────────────────────────────────
 function RevealCard({ onDone, playSound }) {
   const items = [
-    ["Map", "stores pairs — every key connects to one value"],
-    ["HashMap", "most common Map — use this by default"],
+    ["Map", "stores pairs - every key connects to one value"],
+    ["HashMap", "most common Map - use this by default"],
     [".put(key, value)", "add one pair"],
-    [".get(key)", "get the value for this key — instant, no searching"],
+    [".get(key)", "get the value for this key - instant, no searching"],
     [".containsKey(key)", "does this key exist?"],
     [".size()", "how many pairs in the Map"],
     ["Unique keys", "same key again = replaces old value"],
@@ -517,7 +517,7 @@ function RevealCard({ onDone, playSound }) {
 function Phase1Visual({ slot, tried, pairs, mapName, keyType, valueType, getKey, scanState, sizePulse, pulse }) {
   return (
     <div style={{ position: "relative", minHeight: 300 }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", letterSpacing: 1, marginBottom: 10, textAlign: "center" }}>YOUR MAP — LIVE</div>
+      <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", letterSpacing: 1, marginBottom: 10, textAlign: "center" }}>YOUR MAP - LIVE</div>
 
       {slot === 1 && (
         <div style={{ textAlign: "center" }}>
@@ -537,9 +537,9 @@ function Phase1Visual({ slot, tried, pairs, mapName, keyType, valueType, getKey,
             ))}
           </div>
           {tried && (
-            <div style={{ marginTop: 24, fontSize: 12, color: "#DC2626", fontWeight: 700, animation: "popIn 0.3s ease 0.5s both" }}>no price found — a List doesn't store that connection</div>
+            <div style={{ marginTop: 24, fontSize: 12, color: "#DC2626", fontWeight: 700, animation: "popIn 0.3s ease 0.5s both" }}>no price found - a List doesn't store that connection</div>
           )}
-          <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 8 }}>List — items only, no connections</div>
+          <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 8 }}>List - items only, no connections</div>
         </div>
       )}
 
@@ -584,7 +584,7 @@ function parsePhase2(code) {
   return { keyType, valueType, mapName, pairs, getKeys, containsKeys, sizeUsed, operationsUsed };
 }
 
-const PHASE2_STARTER = `// YOUR PROJECT — Map
+const PHASE2_STARTER = `// YOUR PROJECT - Map
 
 // What pairs does your app need?
 // Gym: plan name -> price
@@ -635,7 +635,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              In one sentence — what pairs will your Map store, and why is a Map better than a List for this?
+              In one sentence - what pairs will your Map store, and why is a Map better than a List for this?
             </div>
             <textarea
               value={reflection}
@@ -674,7 +674,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
         <div style={{ background: "#ECFDF5", border: "2px solid #10B981", borderRadius: 16, padding: 28, animation: "slideIn 0.5s ease" }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: "#064E3B", marginBottom: 14, textAlign: "center" }}>Your Map is live. 📇</div>
           <div style={{ fontSize: 14, color: "#065F46", lineHeight: 1.9 }}>
-            {parsed.mapName || "Your Map"} connects every key straight to its value — instant lookup, no searching.<br /><br />
+            {parsed.mapName || "Your Map"} connects every key straight to its value - instant lookup, no searching.<br /><br />
             List = items in sequence. Map = pairs by name.<br /><br />
             In a later module, data from a database will often arrive shaped exactly like this.
           </div>
@@ -693,14 +693,14 @@ function Phase2Visual({ parsed }) {
         Phase 1 Map (planPrices)
       </div>
       <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", marginBottom: 8, textAlign: "center" }}>
-        Your project's Map — live
+        Your project's Map - live
       </div>
       <ContactList pairs={parsed.pairs} mapName={parsed.mapName} keyType={parsed.keyType} valueType={parsed.valueType} getKey={lastGet} scanState={null} empty={parsed.pairs.length === 0} />
 
       <div style={{ background: "#F9FAFB", borderRadius: 10, padding: 14, marginTop: 12, fontSize: 12, color: "#374151", lineHeight: 1.9 }}>
-        Map name: <strong>{parsed.mapName || "—"}</strong><br />
-        Key type: <strong>{parsed.keyType || "—"}</strong><br />
-        Value type: <strong>{parsed.valueType || "—"}</strong><br />
+        Map name: <strong>{parsed.mapName || "-"}</strong><br />
+        Key type: <strong>{parsed.keyType || "-"}</strong><br />
+        Value type: <strong>{parsed.valueType || "-"}</strong><br />
         Pairs: <strong>{parsed.pairs.length}</strong>
       </div>
     </div>
@@ -730,7 +730,7 @@ export default function MapExplorer() {
   const [tried, setTried] = useState(false);
   const onTry = () => { setTried(true); playSound("warn"); };
 
-  // slot 2 — map identity (fixed for phase 1 guided demo)
+  // slot 2 - map identity (fixed for phase 1 guided demo)
   const mapName = "planPrices";
   const keyType = "String";
   const valueType = "Integer";
@@ -859,7 +859,7 @@ export default function MapExplorer() {
       <div style={{ background: "linear-gradient(135deg,#1E293B,#334155)", color: "#fff", padding: "32px 24px 28px", textAlign: "center" }}>
         <div style={{ fontSize: 12, color: "#94A3B8", letterSpacing: 2, marginBottom: 6 }}>SUBTOPIC 1.3.2 · HATCHKOD</div>
         <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>Map Explorer</div>
-        <div style={{ fontSize: 15, color: "#CBD5E1" }}>The phone contact list — look up by name, not position</div>
+        <div style={{ fontSize: 15, color: "#CBD5E1" }}>The phone contact list - look up by name, not position</div>
       </div>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 16px" }}>

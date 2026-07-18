@@ -7,7 +7,7 @@ const SCENARIOS = {
     pairs: [
       { req: "Show me today's snacks menu", res: "Samosa ₹10, Bread Pakoda ₹15, Bun Maska ₹12" },
       { req: "How many cups of chai are left?", res: "43 cups available right now" },
-      { req: "Save my order — 2 cutting chai", res: "Done! Your order is saved. Total: ₹20" }
+      { req: "Save my order - 2 cutting chai", res: "Done! Your order is saved. Total: ₹20" }
     ]
   },
   gym: {
@@ -32,7 +32,7 @@ const SCENARIOS = {
     id: 'hotel',
     label: '🏨 Hotel',
     pairs: [
-      { req: "Show me rooms available tonight", res: "3 rooms available — AC Double, Non-AC Single, Suite" },
+      { req: "Show me rooms available tonight", res: "3 rooms available - AC Double, Non-AC Single, Suite" },
       { req: "What time is checkout tomorrow?", res: "Checkout is at 11AM. Late checkout available till 2PM" },
       { req: "Book the AC Double room for tonight", res: "Done! AC Double room booked. Key at reception" }
     ]
@@ -569,7 +569,7 @@ export default function APIWindowSimulator() {
               API = the window through which apps talk to each other.
             </p>
             <p style={{ margin: '0', color: '#78350F', fontSize: '16px', lineHeight: '1.6' }}>
-              When you build your neighbourhood app —<br/>
+              When you build your neighbourhood app -<br/>
               your screen will send requests through YOUR API.<br/>
               Your backend will send answers back through YOUR API.<br/><br/>
               You already understand how. You just watched it happen.
@@ -587,10 +587,10 @@ export default function APIWindowSimulator() {
             <h3 style={{ margin: '0 0 20px', fontSize: '26px', color: '#111827' }}>Before you move forward 🙏</h3>
             <div style={{ color: '#4b5563', marginBottom: '32px', fontSize: '16px', lineHeight: '1.6' }}>
               <p style={{ marginBottom: '16px' }}>
-                You just watched a request travel from the screen, through the window, to the brain — and the answer come back the same way.
+                You just watched a request travel from the screen, through the window, to the brain - and the answer come back the same way.
               </p>
               <p style={{ marginBottom: '16px' }}>
-                In your own words — <strong>explain what the window does. Why does it exist? What would happen without it?</strong>
+                In your own words - <strong>explain what the window does. Why does it exist? What would happen without it?</strong>
               </p>
               <p style={{ marginBottom: '24px' }}>
                 Write like you are explaining to your classmate who missed today's session.
@@ -669,7 +669,7 @@ export default function APIWindowSimulator() {
                       transform: isSubmitReady ? 'scale(1.02)' : 'scale(1)'
                     }}
                   >
-                    I wrote this myself — submit →
+                    I wrote this myself - submit →
                   </button>
                 </div>
               </div>

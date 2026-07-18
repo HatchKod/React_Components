@@ -57,10 +57,10 @@ function exc(t) { return <span style={{ color: Y, fontWeight: 700 }}>{t}</span>;
 function ev(t) { return <span style={{ color: O }}>{t}</span>; }
 function str(t) { return <span style={{ color: G }}>{t}</span>; }
 function cm(t) { return <span style={{ color: GR }}>{t}</span>; }
-function tryTip(t) { return <Tip text="Attempt this — if it fails, go straight to catch"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
-function catchTip(t) { return <Tip text="Handle the failure here — app continues after"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
-function finallyTip(t) { return <Tip text="Always runs — whether try worked or catch ran"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
-function parseIntTip(t) { return <Tip text="Converts String to int — throws Exception if not a number"><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
+function tryTip(t) { return <Tip text="Attempt this - if it fails, go straight to catch"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function catchTip(t) { return <Tip text="Handle the failure here - app continues after"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function finallyTip(t) { return <Tip text="Always runs - whether try worked or catch ran"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function parseIntTip(t) { return <Tip text="Converts String to int - throws Exception if not a number"><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
 
 // ─── FLASH + STAMP ────────────────────────────────────────────────────────────
 function FlashOverlay({ id, color }) {
@@ -77,7 +77,7 @@ function StatusStamp({ id, text, color }) {
   );
 }
 
-// ─── BUILDING — the gym building with windows ────────────────────────────────
+// ─── BUILDING - the gym building with windows ────────────────────────────────
 function Building({ runId, mode }) {
   // mode: "idle" | "good" | "crash" | "recovering"
   const [flickerOn, setFlickerOn] = useState(true);
@@ -166,7 +166,7 @@ function Building({ runId, mode }) {
   );
 }
 
-// ─── HEARTBEAT — vital signs of the app ───────────────────────────────────────
+// ─── HEARTBEAT - vital signs of the app ───────────────────────────────────────
 function Heartbeat({ mode, runId }) {
   const alive = mode === "good" || (mode === "recovering");
   const flat = mode === "crash" || mode === "idle";
@@ -198,7 +198,7 @@ function Terminal({ runId, lines }) {
 
   return (
     <div style={{ background: "#0F172A", borderRadius: 10, padding: 12, marginTop: 12, minHeight: 70, fontFamily: "monospace", fontSize: 12, lineHeight: 1.8 }}>
-      {lines.length === 0 && <div style={{ color: "#475569" }}>— run a test to see output —</div>}
+      {lines.length === 0 && <div style={{ color: "#475569" }}>- run a test to see output -</div>}
       {lines.slice(0, count).map((l, i) => (
         <div key={i} style={{ color: l.color, animation: "slideIn 0.25s ease", fontWeight: l.bold ? 700 : 400 }}>{l.text}</div>
       ))}
@@ -206,7 +206,7 @@ function Terminal({ runId, lines }) {
   );
 }
 
-// ─── SLOT 1 — the crash without protection ───────────────────────────────────
+// ─── SLOT 1 - the crash without protection ───────────────────────────────────
 function Slot1({ onNext, playSound, onGood, onBad, badTested }) {
   const [output, setOutput] = useState([]);
   const [runId, setRunId] = useState(0);
@@ -234,7 +234,7 @@ function Slot1({ onNext, playSound, onGood, onBad, badTested }) {
     <div style={{ marginBottom: 26 }}>
       <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>What happens without protection?</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 13, lineHeight: 1.9 }}>
-        <div style={{ color: GR }}>{"// no protection — dangerous"}</div>
+        <div style={{ color: GR }}>{"// no protection - dangerous"}</div>
         <div>{kw("String")} userInput = {str('"twenty one"')};{"  "}{cm("// bad input")}</div>
         <div>{kw("int")} age = {parseIntTip("Integer.parseInt")}(userInput);{"  "}{cm("// convert to number")}</div>
         <div>{kw("System")}.out.println({str('"Age saved: "')} + age);</div>
@@ -267,7 +267,7 @@ function Slot1({ onNext, playSound, onGood, onBad, badTested }) {
   );
 }
 
-// ─── SLOT 2 — add try/catch ───────────────────────────────────────────────────
+// ─── SLOT 2 - add try/catch ───────────────────────────────────────────────────
 function Slot2({ onNext, playSound }) {
   const [b1, setB1] = useState("");
   const [b2, setB2] = useState("");
@@ -317,12 +317,12 @@ function Slot2({ onNext, playSound }) {
         <div style={{ animation: "slideIn 0.4s ease" }}>
           <div style={{ marginTop: 12, background: "#0F172A", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 13, lineHeight: 1.9 }}>
             <div>{tryTip("try")} {"{"}{"  "}{cm("// attempt this")}</div>
-            <div style={{ paddingLeft: 24 }}>{kw("int")} age = {parseIntTip("Integer.parseInt")}(userInput);{"  "}{cm("// risky — might fail")}</div>
+            <div style={{ paddingLeft: 24 }}>{kw("int")} age = {parseIntTip("Integer.parseInt")}(userInput);{"  "}{cm("// risky - might fail")}</div>
             <div style={{ paddingLeft: 24 }}>{kw("System")}.out.println({str('"Age saved: "')} + age);{"  "}{cm("// only runs if try works")}</div>
-            <div>{"} "}{catchTip("catch")} ({exc("Exception")} {ev("e")}) {"{  "}{cm("// if try fails — come here")}</div>
+            <div>{"} "}{catchTip("catch")} ({exc("Exception")} {ev("e")}) {"{  "}{cm("// if try fails - come here")}</div>
             <div style={{ paddingLeft: 24 }}>{kw("System")}.out.println({str('"Please enter a number."')});{"  "}{cm("// friendly message")}</div>
             <div>{"}"}</div>
-            <div>{kw("System")}.out.println({str('"App still running. ✅"')});{"  "}{cm("// always runs — no crash")}</div>
+            <div>{kw("System")}.out.println({str('"App still running. ✅"')});{"  "}{cm("// always runs - no crash")}</div>
           </div>
           <div style={{ marginTop: 10, fontSize: 13, color: "#374151" }}>Now test it with bad input →</div>
           <button onClick={() => { playSound("tick"); onNext(); }}
@@ -335,7 +335,7 @@ function Slot2({ onNext, playSound }) {
   );
 }
 
-// ─── SLOT 3 — test the protection ─────────────────────────────────────────────
+// ─── SLOT 3 - test the protection ─────────────────────────────────────────────
 function Slot3({ onDone, playSound, onGood, onBad, goodTested, badTested }) {
   const [output, setOutput] = useState([]);
   const [runId, setRunId] = useState(0);
@@ -396,13 +396,13 @@ function FinallyBonus({ onDone, playSound }) {
         <div>{"} "}{catchTip("catch")} ({exc("Exception")} {ev("e")}) {"{"}</div>
         <div style={{ paddingLeft: 24, color: GR }}>{"// handle failure"}</div>
         <div>{"} "}{finallyTip("finally")} {"{"}</div>
-        <div style={{ paddingLeft: 24, color: GR }}>{"// this ALWAYS runs —"}</div>
+        <div style={{ paddingLeft: 24, color: GR }}>{"// this ALWAYS runs -"}</div>
         <div style={{ paddingLeft: 24, color: GR }}>{"// whether try worked or catch ran"}</div>
         <div style={{ paddingLeft: 24 }}>{kw("System")}.out.println({str('"Attempt finished."')});{"  "}{cm("// always prints")}</div>
         <div>{"}"}</div>
       </div>
       <div style={{ marginTop: 10, fontSize: 13, color: "#374151" }}>
-        finally runs no matter what. Use it to clean up after a try/catch — always.
+        finally runs no matter what. Use it to clean up after a try/catch - always.
       </div>
       <button onClick={() => { playSound("correct"); onDone(); }}
         style={{ marginTop: 14, padding: "12px 24px", background: "#1E293B", color: "#fff", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
@@ -416,10 +416,10 @@ function FinallyBonus({ onDone, playSound }) {
 function RevealCard({ onDone, playSound }) {
   const items = [
     ["Exception", "an unexpected problem that stops your code"],
-    ["try { }", "attempt this — if it fails, go to catch"],
-    ["catch (Exception e) { }", "handle the failure here — app continues after this"],
-    ["finally { }", "always runs — success or failure"],
-    ["Integer.parseInt()", "converts String to int — throws Exception if not a number"],
+    ["try { }", "attempt this - if it fails, go to catch"],
+    ["catch (Exception e) { }", "handle the failure here - app continues after this"],
+    ["finally { }", "always runs - success or failure"],
+    ["Integer.parseInt()", "converts String to int - throws Exception if not a number"],
   ];
   const [ticked, setTicked] = useState([]);
   useEffect(() => {
@@ -449,7 +449,7 @@ function RevealCard({ onDone, playSound }) {
 function Phase1Visual({ buildingMode, runId, pulse }) {
   return (
     <div style={{ position: "relative", minHeight: 260 }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", letterSpacing: 1, marginBottom: 10, textAlign: "center" }}>YOUR APP — LIVE</div>
+      <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", letterSpacing: 1, marginBottom: 10, textAlign: "center" }}>YOUR APP - LIVE</div>
       <Building runId={runId} mode={buildingMode} />
       {pulse && <FlashOverlay key={"f" + pulse.id} id={pulse.id} color={pulse.color} />}
       {pulse && <StatusStamp key={"s" + pulse.id} id={pulse.id} text={pulse.text} color={pulse.stampColor} />}
@@ -541,7 +541,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              In one sentence — describe one place in your project where bad input could cause a crash, and how try/catch will protect it.
+              In one sentence - describe one place in your project where bad input could cause a crash, and how try/catch will protect it.
             </div>
             <textarea
               value={reflection}
@@ -579,7 +579,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
         <div style={{ background: "#ECFDF5", border: "2px solid #10B981", borderRadius: 16, padding: 28, animation: "slideIn 0.5s ease" }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: "#064E3B", marginBottom: 14, textAlign: "center" }}>Your app is protected. 🔋</div>
           <div style={{ fontSize: 14, color: "#065F46", lineHeight: 1.9 }}>
-            Bad input no longer crashes your app — it gets caught and handled with a friendly message.<br /><br />
+            Bad input no longer crashes your app - it gets caught and handled with a friendly message.<br /><br />
             Your app keeps running no matter what a user types.<br /><br />
             In a later module, you'll protect even more risky operations this same way.
           </div>
@@ -636,11 +636,11 @@ export default function TryCatchGuard() {
   const [phase, setPhase] = useState(1);
   const [slot, setSlot] = useState(1);
 
-  // slot 1 — crash demo
+  // slot 1 - crash demo
   const [goodTestedNoProtect, setGoodTestedNoProtect] = useState(false);
   const [badTestedNoProtect, setBadTestedNoProtect] = useState(false);
 
-  // slot 3 — protected demo
+  // slot 3 - protected demo
   const [goodTestedProtect, setGoodTestedProtect] = useState(false);
   const [badTestedProtect, setBadTestedProtect] = useState(false);
 

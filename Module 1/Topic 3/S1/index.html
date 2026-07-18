@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feature Budget — MVP Selector</title>
+  <title>Feature Budget - MVP Selector</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
 <body>
   <div id="root"></div>
 
-  <!-- JSX source stored as inert template — browser won't execute it -->
+  <!-- JSX source stored as inert template - browser won't execute it -->
   <script id="jsx-source" type="text/jsx-source">
 const featureData = {
   Gym: [
@@ -239,7 +239,7 @@ function FeatureBudget() {
       return (
         <div className="fb-warning">
           <strong>Wait a minute... 🤔</strong><br/>
-          One of your features is marked Complex — meaning it could take 6+ weeks on its own.
+          One of your features is marked Complex - meaning it could take 6+ weeks on its own.
           This might be risky for your 8-week timeline. Consider swapping it for a Simpler version.
         </div>
       );
@@ -273,7 +273,7 @@ function FeatureBudget() {
       {stage === 1 && (
         <>
           <div style={{ textAlign: 'center', marginBottom: '1rem', fontWeight: 'bold' }}>
-            First — which type of business are you building for?
+            First - which type of business are you building for?
           </div>
           <div className="fb-domain-selector">
             {[
@@ -334,7 +334,7 @@ function FeatureBudget() {
                       <button className="fb-btn-remove" onClick={() => removeFeature(feat.id)}>Remove ×</button>
                     </div>
                   ) : (
-                    <div key={i} className="fb-slot">Slot {i + 1} — add a feature here</div>
+                    <div key={i} className="fb-slot">Slot {i + 1} - add a feature here</div>
                   );
                 })}
                 <div className="fb-coins">
@@ -354,7 +354,7 @@ function FeatureBudget() {
               </ol>
               {getFeedback()}
               <div className="fb-note">
-                <strong>What you just defined is called an MVP</strong> — Minimum Viable Product.
+                <strong>What you just defined is called an MVP</strong> - Minimum Viable Product.
                 The smallest version of your app that actually solves the problem. Every product in the world starts here.
               </div>
               <button className="fb-btn-primary" onClick={() => { playSound('submit', muted); setStage(2); }}>
@@ -373,14 +373,14 @@ function FeatureBudget() {
           <div className="fb-summary-card" style={{ marginTop: 0, marginBottom: '2rem' }}>
             <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#1e293b' }}>
               You just chose your 3 features.<br/><br/>
-              Now — for each feature, write one sentence explaining <strong>WHY</strong> you chose it.<br/><br/>
-              Not what it does — you already know that. <strong>WHY</strong> this one matters more than the others you didn't pick.<br/><br/>
+              Now - for each feature, write one sentence explaining <strong>WHY</strong> you chose it.<br/><br/>
+              Not what it does - you already know that. <strong>WHY</strong> this one matters more than the others you didn't pick.<br/><br/>
               <em>Your own words only. No copying. No ChatGPT.</em>
             </p>
           </div>
           <div className="fb-instruction-note">
             <strong>How to unlock the next step:</strong><br/>
-            Write a meaningful sentence for each feature — at least 4 words and 15 characters per box.
+            Write a meaningful sentence for each feature - at least 4 words and 15 characters per box.
           </div>
           {selectedFeatures.map((feat, i) => (
             <div key={feat.id} className="fb-textarea-container">
@@ -396,7 +396,7 @@ function FeatureBudget() {
           ))}
           <button className="fb-btn-primary" disabled={!allJustified} style={{ marginTop: '2rem' }}
             onClick={() => { playSound('submit', muted); setStage(3); }}>
-            My MVP is locked — let's build it →
+            My MVP is locked - let's build it →
           </button>
         </div>
       )}
@@ -406,7 +406,7 @@ function FeatureBudget() {
           <h2>Your MVP is locked. 🔒</h2>
           <p>3 features. Real business. Real problem.</p>
           <p>Everything you learn from Module 1 onwards is a brick for this building.</p>
-          <p>Next — let's draw what it looks like before we write a single line of code.</p>
+          <p>Next - let's draw what it looks like before we write a single line of code.</p>
         </div>
       )}
     </div>

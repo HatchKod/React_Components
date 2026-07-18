@@ -296,7 +296,7 @@ export default function RestAPIBuilder() {
           <span className="code-pkg">package</span> com.yourname.gymapp;<br/><br/>
           <span className="code-pkg">import</span> org.springframework.web.bind.annotation.GetMapping; <span className="code-cmt">// mapping annotation</span><br/>
           <span className="code-pkg">import</span> org.springframework.web.bind.annotation.RestController; <span className="code-cmt">// controller annotation</span><br/><br/>
-          <span className="code-kw has-tooltip">@RestController<div className="tooltip">This class handles HTTP requests — every method with @GetMapping becomes an endpoint</div></span> <span className="code-cmt">// this class handles requests</span><br/>
+          <span className="code-kw has-tooltip">@RestController<div className="tooltip">This class handles HTTP requests - every method with @GetMapping becomes an endpoint</div></span> <span className="code-cmt">// this class handles requests</span><br/>
           <span className="code-pkg">public class</span> <span className="code-cls">{domain}Controller</span> {"{"}<br/><br/>
           &nbsp;&nbsp;<span className="code-kw has-tooltip">@GetMapping<div className="tooltip">Maps GET request to this method</div></span>(<span className="code-str">"/{dPath}/hello"</span>) <span className="code-cmt">// GET /{dPath}/hello</span><br/>
           &nbsp;&nbsp;<span className="code-pkg">public</span> String hello() {"{"}<br/>
@@ -371,7 +371,7 @@ export default function RestAPIBuilder() {
             <>
               {/* SLOT 1 */}
               <div className={`card ${slot === 1 ? 'active' : 'complete'}`}>
-                <h2 className="card-header">REST — request, response, done.</h2>
+                <h2 className="card-header">REST - request, response, done.</h2>
                 <p style={{ color: '#64748B' }}>Every URL maps to a specific response. It is a predictable conversation.</p>
                 
                 <div className="chat-panel">
@@ -392,7 +392,7 @@ export default function RestAPIBuilder() {
                   {convStep >= 2 && (
                     <div className="chat-bubble chat-left" style={{ marginTop: '16px' }}>
                       <span className="method-badge badge-post">POST /gym/members</span><br/>
-                      Add a new member — Anitha
+                      Add a new member - Anitha
                     </div>
                   )}
 
@@ -470,7 +470,7 @@ export default function RestAPIBuilder() {
               {/* SLOT 3 */}
               {slot2Checked && (
                 <div className="card active" style={{ animation: 'slideIn 0.3s' }}>
-                  <h2 className="card-header">Add one more endpoint — see how routing works</h2>
+                  <h2 className="card-header">Add one more endpoint - see how routing works</h2>
                   <div className="code-container" style={{ margin: '16px 0' }}>
                     &nbsp;&nbsp;<span className="code-kw">@GetMapping</span>(<span className="code-str">"/{domain.toLowerCase()}/status"</span>)<br/>
                     &nbsp;&nbsp;<span className="code-pkg">public</span> String status() {"{"}<br/>
@@ -492,7 +492,7 @@ export default function RestAPIBuilder() {
                         {revealLines >= 2 && <div className="reveal-line">✅ <b>Endpoint</b> → a specific URL your API responds to</div>}
                         {revealLines >= 3 && <div className="reveal-line">✅ <b>@RestController</b> → this class handles HTTP requests</div>}
                         {revealLines >= 4 && <div className="reveal-line">✅ <b>@GetMapping</b> → maps a GET request to a method</div>}
-                        {revealLines >= 5 && <div className="reveal-line">✅ <b>GET</b> → fetch/read data — does not change anything</div>}
+                        {revealLines >= 5 && <div className="reveal-line">✅ <b>GET</b> → fetch/read data - does not change anything</div>}
                         {revealLines >= 6 && <div className="reveal-line">✅ <b>HTTP 200 OK</b> → the universal success response code</div>}
                         {revealLines >= 7 && (
                           <div style={{ marginTop: '30px', textAlign: 'center', animation: 'slideIn 0.5s' }}>
@@ -513,7 +513,7 @@ export default function RestAPIBuilder() {
           {phase === 2 && (
             <div className="card active" style={{ animation: 'slideIn 0.4s' }}>
               <h2 className="card-header" style={{ fontSize: '1.6rem' }}>Build your real project controller</h2>
-              <p style={{ color: '#64748B' }}>Add two meaningful endpoints that make sense for YOUR business. (Not hello or status — real domain endpoints).</p>
+              <p style={{ color: '#64748B' }}>Add two meaningful endpoints that make sense for YOUR business. (Not hello or status - real domain endpoints).</p>
               
               <div style={{ background: '#F0FDF4', padding: '16px', borderRadius: '8px', borderLeft: '4px solid #10B981', margin: '20px 0', color: '#065F46' }}>
                 <b>Hint for your {domain} API:</b><br/>
@@ -555,7 +555,7 @@ export default function RestAPIBuilder() {
               {p2Check3 && (
                 <div style={{ marginTop: '32px', animation: 'slideIn 0.3s' }}>
                   <h4 style={{ margin: '0 0 12px 0' }}>Reflection:</h4>
-                  <p style={{ color: '#475569', margin: '0 0 12px 0' }}>In one sentence — what is the difference between /hello and your new endpoints? Why do we need different endpoints?</p>
+                  <p style={{ color: '#475569', margin: '0 0 12px 0' }}>In one sentence - what is the difference between /hello and your new endpoints? Why do we need different endpoints?</p>
                   <textarea 
                     className="reflection-box"
                     placeholder="/hello is just a welcome message. We need different endpoints because..."

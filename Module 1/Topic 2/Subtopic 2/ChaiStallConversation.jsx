@@ -9,7 +9,7 @@ const STEPS = [
     options: [
       {
         id: "A",
-        text: "Anna, nenu [your college] student. Local shops kosam chinna apps build chesthunna — free ga, naa learning kosam. Two minutes matrame.",
+        text: "Anna, nenu [your college] student. Local shops kosam chinna apps build chesthunna - free ga, naa learning kosam. Two minutes matrame.",
         isBest: true,
         ownerReply: "Sare sare, cheppu. (Okay okay, tell me)",
         nudge: null
@@ -483,7 +483,7 @@ export default function ChaiStallConversation() {
         <div className="chai-label">Conversation Simulator</div>
         <h1 className="chai-title">Busy Chai Stall Anna ☕</h1>
         <p className="chai-subtitle">
-          Anna is serving 40+ customers right now. Pick the right words at each step — or watch the conversation go wrong.
+          Anna is serving 40+ customers right now. Pick the right words at each step - or watch the conversation go wrong.
         </p>
       </div>
 
@@ -498,7 +498,7 @@ export default function ChaiStallConversation() {
       </div>
 
       <div className="scene-card">
-        <strong>Scene:</strong> College gate chai stall, 8am. Anna is moving fast — cups in hand, cash on the counter, students calling out orders. This is your moment.
+        <strong>Scene:</strong> College gate chai stall, 8am. Anna is moving fast - cups in hand, cash on the counter, students calling out orders. This is your moment.
       </div>
 
       <div className="chat-window">
@@ -591,7 +591,7 @@ export default function ChaiStallConversation() {
             <>
               {selectedOption.isBest ? (
                 <div className="feedback-card good">
-                  Right move. Anna is still listening — keep going.
+                  Right move. Anna is still listening - keep going.
                 </div>
               ) : (
                 <div className="feedback-card nudge">
@@ -631,9 +631,9 @@ export default function ChaiStallConversation() {
           <div className="lesson-card-wrap">
             <div className="lesson-card-title">What made this work:</div>
             <ul className="lesson-list">
-              <li>You named yourself and said "two minutes" — Anna relaxed immediately.</li>
+              <li>You named yourself and said "two minutes" - Anna relaxed immediately.</li>
               <li>You asked about her daily routine, not "do you have problems".</li>
-              <li>You asked if it would help — you didn't just announce you'd build it.</li>
+              <li>You asked if it would help - you didn't just announce you'd build it.</li>
             </ul>
           </div>
         </div>

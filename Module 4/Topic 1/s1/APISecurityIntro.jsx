@@ -217,9 +217,9 @@ const ATTACKS = [
     desc: 'see everyone’s data',
     responseTerm: 'GET /gym/members\n→ 200 OK\n\n[\n  { "id":1, "name":"Ravi", "age":21, "plan":"Basic" },\n  { "id":2, "name":"Priya", "age":22, "plan":"Premium" },\n  { "id":3, "name":"Kiran", "age":25, "plan":"Annual" }\n]',
     responseTermBlocked: 'GET /gym/members\n→ 401 Unauthorized\n\n{ "error": "Full authentication is required" }',
-    outcome: 'All 3 members. Full details — name, age, membership plan. You didn’t log in. You didn’t need to. In a real gym, this is personal data of 200+ people. Exposed to anyone.',
-    outcomeBlocked: 'Blocked before it reached the database. The server demanded proof of identity first — you had none.',
-    threat: 'Read <b>all member records</b> — no login required.',
+    outcome: 'All 3 members. Full details - name, age, membership plan. You didn’t log in. You didn’t need to. In a real gym, this is personal data of 200+ people. Exposed to anyone.',
+    outcomeBlocked: 'Blocked before it reached the database. The server demanded proof of identity first - you had none.',
+    threat: 'Read <b>all member records</b> - no login required.',
     dbEffect: 'expose',
   },
   {
@@ -228,9 +228,9 @@ const ATTACKS = [
     desc: 'delete Ravi’s record',
     responseTerm: 'DELETE /gym/members/1\n→ 200 OK\n\n"Deleted: 1"',
     responseTermBlocked: 'DELETE /gym/members/1\n→ 401 Unauthorized\n\n{ "error": "Full authentication is required" }',
-    outcome: 'Ravi is deleted. Gone from the database. No warning, no confirmation. You were never asked for a password. The gym owner doesn’t know. Real member data — gone.',
+    outcome: 'Ravi is deleted. Gone from the database. No warning, no confirmation. You were never asked for a password. The gym owner doesn’t know. Real member data - gone.',
     outcomeBlocked: 'The DELETE never touched the database. Ravi’s record is untouched.',
-    threat: '<b>Deleted Ravi’s record</b> — permanently, with zero confirmation.',
+    threat: '<b>Deleted Ravi’s record</b> - permanently, with zero confirmation.',
     dbEffect: 'delete',
   },
   {
@@ -250,9 +250,9 @@ const ATTACKS = [
     desc: 'change Priya’s plan for free',
     responseTerm: 'PUT /gym/members/2\nBody: { "name":"Priya", "age":22, "plan":"Annual", "isActive":true }\n→ 200 OK',
     responseTermBlocked: 'PUT /gym/members/2\n→ 401 Unauthorized\n\n{ "error": "Full authentication is required" }',
-    outcome: 'Priya just got upgraded to the Annual plan — for free. The gym owner loses money. Priya doesn’t know. Business data tampered. No one was stopped.',
+    outcome: 'Priya just got upgraded to the Annual plan - for free. The gym owner loses money. Priya doesn’t know. Business data tampered. No one was stopped.',
     outcomeBlocked: 'Priya’s plan stays exactly as it was. The tamper attempt never reached the row.',
-    threat: '<b>Tampered with Priya’s plan</b> — upgraded her for free, silently.',
+    threat: '<b>Tampered with Priya’s plan</b> - upgraded her for free, silently.',
     dbEffect: 'tamper',
   },
 ];
@@ -315,7 +315,7 @@ export default function APISecurityIntro() {
       setTimeout(() => {
         play('correct');
         setBubble401({ key: Date.now() });
-        setThreatLog(log => [...log, { text: `${attack.method} ${attack.url} — blocked by Spring Security.`, blocked: true }]);
+        setThreatLog(log => [...log, { text: `${attack.method} ${attack.url} - blocked by Spring Security.`, blocked: true }]);
         setTimeout(() => setBubble401(null), 2000);
       }, 500);
       setReplayDone(s => new Set([...s, attack.id]));
@@ -462,7 +462,7 @@ export default function APISecurityIntro() {
 
               <div className="scenario-card">
                 <div className="scenario-title">The setup</div>
-                Imagine you’re not Ravi — you’re a stranger in Ravi’s college. You overheard the gym API URL.
+                Imagine you’re not Ravi - you’re a stranger in Ravi’s college. You overheard the gym API URL.
                 You have Postman open. You’ve never registered. You have no credentials.
                 <br /><br />
                 <strong>Let’s see what you can do.</strong>
@@ -541,7 +541,7 @@ export default function APISecurityIntro() {
               {pointIndex === 0 && (
                 <>
                   <div className="point-icon">🔒</div>
-                  <div className="point-title">Spring Security — lock on every door</div>
+                  <div className="point-title">Spring Security - lock on every door</div>
                   <div className="point-body">
                     <b>Before Spring Security:</b> Your API door is open. Anyone walks in.<br /><br />
                     <b>After Spring Security:</b> Every door is locked by default.<br /><br />
@@ -586,7 +586,7 @@ export default function APISecurityIntro() {
               <div className="attack-left">
                 <div className="card">
                   <h2 style={{ margin: '0 0 4px', fontSize: '1.2rem', fontWeight: 800 }}>Same attacks. Spring Security active.</h2>
-                  <p style={{ color: '#64748B', fontSize: '0.88rem', margin: '0 0 16px' }}>Try each request again — watch what happens now.</p>
+                  <p style={{ color: '#64748B', fontSize: '0.88rem', margin: '0 0 16px' }}>Try each request again - watch what happens now.</p>
 
                   {ATTACKS.map((a) => {
                     const done = replayDone.has(a.id);
@@ -634,16 +634,16 @@ export default function APISecurityIntro() {
           {revealCount > 0 && (
             <div className="reveal-card">
               <h3 style={{ margin: '0 0 16px', color: '#92400E' }}>What you just learned</h3>
-              {revealCount >= 1 && <div className="reveal-line">✅ <span><b>Authentication</b> → proving who you are — "I am Ravi, gym owner"</span></div>}
-              {revealCount >= 2 && <div className="reveal-line">✅ <span><b>Authorization</b> → what you’re allowed to do — "Ravi can access everything, members only their own"</span></div>}
-              {revealCount >= 3 && <div className="reveal-line">✅ <span><b>Endpoint</b> → each URL on your API — currently all unprotected</span></div>}
-              {revealCount >= 4 && <div className="reveal-line">✅ <span><b>Spring Security</b> → one dependency — locks every endpoint</span></div>}
+              {revealCount >= 1 && <div className="reveal-line">✅ <span><b>Authentication</b> → proving who you are - "I am Ravi, gym owner"</span></div>}
+              {revealCount >= 2 && <div className="reveal-line">✅ <span><b>Authorization</b> → what you’re allowed to do - "Ravi can access everything, members only their own"</span></div>}
+              {revealCount >= 3 && <div className="reveal-line">✅ <span><b>Endpoint</b> → each URL on your API - currently all unprotected</span></div>}
+              {revealCount >= 4 && <div className="reveal-line">✅ <span><b>Spring Security</b> → one dependency - locks every endpoint</span></div>}
               {revealCount >= 5 && <div className="reveal-line">✅ <span><b>401 Unauthorized</b> → "prove who you are first"</span></div>}
               {revealCount >= 6 && <div className="reveal-line">✅ <span><b>403 Forbidden</b> → "I know who you are, but you can’t access this"</span></div>}
               {revealCount >= 6 && (
                 <p style={{ textAlign: 'center', fontWeight: 700, marginTop: 16, color: '#1E293B', lineHeight: 1.8 }}>
                   Your API is open right now. Any stranger with your URL can read, delete, and corrupt your data.<br />
-                  Next subtopic — one dependency. Every door locks.
+                  Next subtopic - one dependency. Every door locks.
                 </p>
               )}
             </div>
@@ -657,21 +657,21 @@ export default function APISecurityIntro() {
                 <div className="q-card">
                   <p className="q-title">Q1: What can a stranger do to your API RIGHT NOW without logging in?</p>
                   {[
-                    ['A', 'Nothing — APIs are protected by default'],
-                    ['B', 'Only read data — not change it'],
-                    ['C', 'Read, delete, add, and change any data — with no restriction'],
-                    ['D', 'Only add data — not delete'],
+                    ['A', 'Nothing - APIs are protected by default'],
+                    ['B', 'Only read data - not change it'],
+                    ['C', 'Read, delete, add, and change any data - with no restriction'],
+                    ['D', 'Only add data - not delete'],
                   ].map(([k, label]) => (
                     <button key={k} className={`opt-btn${q1 === k ? (k === 'C' ? ' correct' : ' wrong') : ''}`} onClick={() => answerQ(1, k, 'C', setQ1, q1)}>{k}) {label}</button>
                   ))}
-                  {q1 && q1 !== 'C' && <div style={{ color: '#B45309', fontSize: '0.82rem', marginTop: 6 }}>Try again — remember what you just did as the attacker.</div>}
+                  {q1 && q1 !== 'C' && <div style={{ color: '#B45309', fontSize: '0.82rem', marginTop: 6 }}>Try again - remember what you just did as the attacker.</div>}
                 </div>
 
                 <div className="q-card">
                   <p className="q-title">Q2: What does Spring Security do when you first add it?</p>
                   {[
                     ['A', 'Locks only the DELETE endpoints'],
-                    ['B', 'Locks every endpoint automatically — nothing gets through without proving who you are'],
+                    ['B', 'Locks every endpoint automatically - nothing gets through without proving who you are'],
                     ['C', 'Locks only endpoints you configure'],
                     ['D', 'Creates a login page automatically'],
                   ].map(([k, label]) => (
@@ -695,11 +695,11 @@ export default function APISecurityIntro() {
                   <>
                     <h4 style={{ margin: '20px 0 8px' }}>Reflection</h4>
                     <p style={{ color: '#64748B', fontSize: '0.9rem', margin: '0 0 8px' }}>
-                      In one sentence — using the open shop analogy, explain why your API needs Spring Security.
+                      In one sentence - using the open shop analogy, explain why your API needs Spring Security.
                     </p>
                     <textarea
                       className="reflection-box"
-                      placeholder="My API is like a shop with the door unlocked at night — anyone who knows the URL can walk in and read, delete, or corrupt my data. Spring Security is the lock because..."
+                      placeholder="My API is like a shop with the door unlocked at night - anyone who knows the URL can walk in and read, delete, or corrupt my data. Spring Security is the lock because..."
                       value={reflection}
                       onChange={e => setReflection(e.target.value)}
                       onPaste={e => e.preventDefault()}
@@ -707,14 +707,14 @@ export default function APISecurityIntro() {
                     <div className={`word-count${sentences >= 1 ? ' ok' : ''}`}>{sentences} / 1 sentence minimum</div>
 
                     <button className="btn green" style={{ width: '100%', marginTop: 16, opacity: canSubmit ? 1 : 0.5 }} disabled={!canSubmit || submitted} onClick={handleSubmit}>
-                      {submitted ? 'Submitted ✅' : 'I understand the risk — let’s add the lock →'}
+                      {submitted ? 'Submitted ✅' : 'I understand the risk - let’s add the lock →'}
                     </button>
 
                     {submitted && (
                       <div style={{ marginTop: 16, padding: 16, background: '#F0FDF4', borderRadius: 8, color: '#065F46' }}>
                         <b>The problem is clear. 🔒</b><br /><br />
-                        Next — one dependency. You add <code>spring-boot-starter-security</code> to pom.xml.<br />
-                        Every endpoint locks automatically. Then you configure who gets in — and how.
+                        Next - one dependency. You add <code>spring-boot-starter-security</code> to pom.xml.<br />
+                        Every endpoint locks automatically. Then you configure who gets in - and how.
                       </div>
                     )}
                   </>
@@ -745,7 +745,7 @@ function DashboardPanel({ gateOpen, currentAttack, termShown, termDone, isReplay
           </div>
           <div className="gate-label">
             <b>Your API gateway</b><br />
-            {gateOpen ? 'no security check — every request passes straight through' : 'Spring Security active — identity required'}
+            {gateOpen ? 'no security check - every request passes straight through' : 'Spring Security active - identity required'}
           </div>
           <div className={`gate-badge ${gateOpen ? 'danger' : 'safe'}`}>{gateOpen ? '❌ open' : '✅ locked'}</div>
         </div>
@@ -800,7 +800,7 @@ function DashboardPanel({ gateOpen, currentAttack, termShown, termDone, isReplay
               </tbody>
             </table>
           </div>
-          {protectedBadge && <div className="db-protected-badge">✅ Data protected — no changes got through</div>}
+          {protectedBadge && <div className="db-protected-badge">✅ Data protected - no changes got through</div>}
         </div>
       </div>
     </div>

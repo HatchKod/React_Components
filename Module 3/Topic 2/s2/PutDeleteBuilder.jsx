@@ -288,7 +288,7 @@ function CatalogScene({ items, event, targetName, updatedName, wasRestarted }) {
       <div className={`cat-drawer${isDelete ? ' cat-drawer-shake' : ''}`} key={isDelete ? `dr-${event.key}` : 'dr'} style={{ minHeight: 120 }}>
         <div className="cat-drawer-title-row">
           <span style={{ fontSize: 13 }}>🗂️</span>
-          <span className="cat-drawer-title">Members — A to Z</span>
+          <span className="cat-drawer-title">Members - A to Z</span>
         </div>
 
         {isDelete && (
@@ -301,7 +301,7 @@ function CatalogScene({ items, event, targetName, updatedName, wasRestarted }) {
 
         {items.length === 0 ? (
           <div className="cat-empty-state">
-            {wasRestarted ? '🔄 memory cleared — server restarted' : 'No member cards filed yet'}
+            {wasRestarted ? '🔄 memory cleared - server restarted' : 'No member cards filed yet'}
           </div>
         ) : (
           items.map((name, i) => {
@@ -404,7 +404,7 @@ export default function PutDeleteBuilder() {
     setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 350);
   }, [phase]);
 
-  // Register starting state — carried over from 2.2.1
+  // Register starting state - carried over from 2.2.1
   const [register, setRegister] = useState(['Ravi', 'Suresh', 'Priya']);
 
   // one-shot scene animation: { type: 'put'|'delete', key: number }
@@ -412,7 +412,7 @@ export default function PutDeleteBuilder() {
   const sceneEventKeyRef = useRef(0);
   const fireSceneEvent = (type) => { sceneEventKeyRef.current += 1; setSceneEvent({ type, key: sceneEventKeyRef.current }); };
 
-  // Slot 1 — path variable concept
+  // Slot 1 - path variable concept
   const [pathDemoRevealed, setPathDemoRevealed] = useState(false);
   const [typedName, setTypedName] = useState('');
   const [spotlightName, setSpotlightName] = useState('');
@@ -429,7 +429,7 @@ export default function PutDeleteBuilder() {
     setSpotlightName(match || '');
   }
 
-  // Slot 2 — PUT blanks
+  // Slot 2 - PUT blanks
   const [putB1, setPutB1] = useState(''); // @PutMapping
   const [putB2, setPutB2] = useState(''); // @PathVariable
   const [putB3, setPutB3] = useState(''); // -1
@@ -450,7 +450,7 @@ export default function PutDeleteBuilder() {
     if (putAllCorrect && !putFiredRef.current) { putFiredRef.current = true; play('correct'); }
   }, [putAllCorrect]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Slot 3 — DELETE blanks
+  // Slot 3 - DELETE blanks
   const [delB1, setDelB1] = useState('');
   const [delB2, setDelB2] = useState('');
   const [delB1Status, setDelB1Status] = useState(null);
@@ -525,7 +525,7 @@ export default function PutDeleteBuilder() {
     }
   }, [allTestsConfirmed]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Phase 2 — free project
+  // Phase 2 - free project
   const [domain, setDomain] = useState(null);
   const [freeCode, setFreeCode] = useState('');
   const [templateCode, setTemplateCode] = useState('');
@@ -547,7 +547,7 @@ export default function PutDeleteBuilder() {
     const Item = item.charAt(0).toUpperCase() + item.slice(1);
     const Items = items.charAt(0).toUpperCase() + items.slice(1);
     const generated =
-`// existing — from 2.2.1
+`// existing - from 2.2.1
 @GetMapping("/${path}/${items}")
 public List<String> get${Items}() {
     return ${items};
@@ -559,7 +559,7 @@ public String add${Item}(@RequestBody String name) {
     return "${Item} added: " + name;
 }
 
-// ADD THESE — PUT and DELETE:
+// ADD THESE - PUT and DELETE:
 
 @PutMapping("/${path}/${items}/{oldName}")
 public String update${Item}(
@@ -697,7 +697,7 @@ public String delete${Item}(@PathVariable String name) {
         <div>
           {phase === 1 && (
             <>
-              {/* SLOT 1 — path variable concept */}
+              {/* SLOT 1 - path variable concept */}
               <div ref={el => slotRefs.current[1] = el} className={`card ${slot === 1 ? 'active' : 'complete'}`}>
                 <div className="step-counter">Step 1 of 4</div>
                 <h2 className="card-header">How does the server know WHICH one?</h2>
@@ -718,7 +718,7 @@ public String delete${Item}(@PathVariable String name) {
                     </div>
                     <div className="info-note">
                       That <code>/Ravi</code> at the end of the URL? The server reads it and knows exactly which member you mean.<br/><br/>
-                      In Spring Boot — you mark that variable part with curly braces: <code>/gym/members/{'{name}'}</code><br/>
+                      In Spring Boot - you mark that variable part with curly braces: <code>/gym/members/{'{name}'}</code><br/>
                       fixed path stays the same, <span style={{ color: '#8B5CF6', fontWeight: 700 }}>{'{name}'}</span> changes per request.<br/><br/>
                       Then <b>@PathVariable</b> captures it.
                     </div>
@@ -743,7 +743,7 @@ public String delete${Item}(@PathVariable String name) {
                 )}
               </div>
 
-              {/* SLOT 2 — PUT */}
+              {/* SLOT 2 - PUT */}
               {slot >= 2 && (
                 <div ref={el => slotRefs.current[2] = el} className={`card ${slot === 2 ? 'active' : 'complete'}`} style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 2 of 4</div>
@@ -753,12 +753,12 @@ public String delete${Item}(@PathVariable String name) {
                     <div className="blank-wrap">
                       <input className={`blank-input ${putB1Status === true ? 'blank-correct' : putB1Status === false ? 'blank-wrong' : ''}`}
                         placeholder="@PutMapping" value={putB1} onChange={e => handlePutB1(e.target.value)} onBlur={checkPutB1} />
-                    </div> <span className="cc">// blank 1 — annotation for PUT</span><br/>
+                    </div> <span className="cc">// blank 1 - annotation for PUT</span><br/>
                     <span className="ck">public</span> String updateMember(<br/>
                     &nbsp;&nbsp;<div className="blank-wrap">
                       <input className={`blank-input ${putB2Status === true ? 'blank-correct' : putB2Status === false ? 'blank-wrong' : ''}`}
                         placeholder="@PathVariable" value={putB2} onChange={e => handlePutB2(e.target.value)} onBlur={checkPutB2} />
-                    </div> String oldName, <span className="cc">// blank 2 — from URL</span><br/>
+                    </div> String oldName, <span className="cc">// blank 2 - from URL</span><br/>
                     &nbsp;&nbsp;<span className="ca">@RequestBody</span> String newName <span className="cc">// from request body</span><br/>
                     ) {"{"}<br/>
                     &nbsp;&nbsp;<span className="ck">int</span> index = members.<span className="cy">indexOf</span>(oldName);<br/>
@@ -773,8 +773,8 @@ public String delete${Item}(@PathVariable String name) {
                     {"}"}
                   </div>
 
-                  {putB1Status === false && <div className="warn-msg">Try @PutMapping — maps PUT requests to this method.</div>}
-                  {putB2Status === false && <div className="warn-msg">Try @PathVariable — it reads the {'{oldName}'} from the URL.</div>}
+                  {putB1Status === false && <div className="warn-msg">Try @PutMapping - maps PUT requests to this method.</div>}
+                  {putB2Status === false && <div className="warn-msg">Try @PathVariable - it reads the {'{oldName}'} from the URL.</div>}
                   {putB3Status === false && <div className="warn-msg">List.indexOf() returns -1 when the item is not in the list. You learned indexOf in 1.3.1!</div>}
 
                   {putAllCorrect && (
@@ -801,7 +801,7 @@ public String delete${Item}(@PathVariable String name) {
                 </div>
               )}
 
-              {/* SLOT 3 — DELETE */}
+              {/* SLOT 3 - DELETE */}
               {slot >= 3 && (
                 <div ref={el => slotRefs.current[3] = el} className={`card ${slot === 3 ? 'active' : 'complete'}`} style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 3 of 4</div>
@@ -816,7 +816,7 @@ public String delete${Item}(@PathVariable String name) {
                     &nbsp;&nbsp;<div className="blank-wrap">
                       <input className={`blank-input ${delB2Status === true ? 'blank-correct' : delB2Status === false ? 'blank-wrong' : ''}`}
                         placeholder="@PathVariable" value={delB2} onChange={e => handleDelB2(e.target.value)} onBlur={checkDelB2} />
-                    </div> String name <span className="cc">// blank 2 — from URL</span><br/>
+                    </div> String name <span className="cc">// blank 2 - from URL</span><br/>
                     ) {"{"}<br/>
                     &nbsp;&nbsp;<span className="ck">boolean</span> removed = members.<span className="cy">remove</span>(name);<br/>
                     &nbsp;&nbsp;<span className="ck">if</span> (removed) {"{"}<br/>
@@ -826,8 +826,8 @@ public String delete${Item}(@PathVariable String name) {
                     {"}"}
                   </div>
 
-                  {delB1Status === false && <div className="warn-msg">Try @DeleteMapping — maps DELETE requests to this method.</div>}
-                  {delB2Status === false && <div className="warn-msg">Same as in PUT — reads the {'{variable}'} from the URL.</div>}
+                  {delB1Status === false && <div className="warn-msg">Try @DeleteMapping - maps DELETE requests to this method.</div>}
+                  {delB2Status === false && <div className="warn-msg">Same as in PUT - reads the {'{variable}'} from the URL.</div>}
 
                   {delAllCorrect && (
                     <div style={{ marginTop: 16, animation: 'slideIn 0.3s' }}>
@@ -862,15 +862,15 @@ public String delete${Item}(@PathVariable String name) {
                 </div>
               )}
 
-              {/* SLOT 4 — Postman testing all 4 */}
+              {/* SLOT 4 - Postman testing all 4 */}
               {slot >= 4 && (
                 <div ref={el => slotRefs.current[4] = el} className="card active" style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 4 of 4</div>
                   <h2 className="card-header">Test your complete CRUD with Postman</h2>
-                  <p style={{ color: '#475569', margin: '0 0 16px' }}>Run each test in order — the register on the right updates live as you confirm.</p>
+                  <p style={{ color: '#475569', margin: '0 0 16px' }}>Run each test in order - the register on the right updates live as you confirm.</p>
 
                   <div className={`test-card${test1 ? ' confirmed' : ''}`}>
-                    <div className="test-row"><span className="method-badge badge-post">POST</span> localhost:8080/gym/members — body: "Ravi"</div>
+                    <div className="test-row"><span className="method-badge badge-post">POST</span> localhost:8080/gym/members - body: "Ravi"</div>
                     <div className="test-row"><span className="method-badge badge-get">GET</span> localhost:8080/gym/members</div>
                     <div className="test-expected">Expected: ["Ravi", "Suresh", "Priya"]</div>
                     <label className="checkbox-label" style={{ marginTop: 10, marginBottom: 0 }}>
@@ -880,7 +880,7 @@ public String delete${Item}(@PathVariable String name) {
                   </div>
 
                   <div className={`test-card${test2 ? ' confirmed' : ''}`} style={{ opacity: test1 ? 1 : 0.5 }}>
-                    <div className="test-row"><span className="method-badge badge-put">PUT</span> localhost:8080/gym/members/Ravi — body: "Ravi Kumar"</div>
+                    <div className="test-row"><span className="method-badge badge-put">PUT</span> localhost:8080/gym/members/Ravi - body: "Ravi Kumar"</div>
                     <div className="test-expected">Expected: "Updated: Ravi -&gt; Ravi Kumar"</div>
                     <label className="checkbox-label" style={{ marginTop: 10, marginBottom: 0 }}>
                       <input type="checkbox" checked={test2} disabled={!test1} onChange={checkTest2} />
@@ -909,13 +909,13 @@ public String delete${Item}(@PathVariable String name) {
                   {allTestsConfirmed && revealLines > 0 && (
                     <div className="reveal-card" style={{ marginTop: 24, animation: 'slideIn 0.3s' }}>
                       <h3 style={{ margin: '0 0 16px 0', color: '#92400E' }}>You now have all four CRUD operations 🎉</h3>
-                      {revealLines >= 1 && <div className="reveal-line">✅ <b>@PutMapping</b> → maps PUT request — update something existing</div>}
-                      {revealLines >= 2 && <div className="reveal-line">✅ <b>@DeleteMapping</b> → maps DELETE request — remove something</div>}
+                      {revealLines >= 1 && <div className="reveal-line">✅ <b>@PutMapping</b> → maps PUT request - update something existing</div>}
+                      {revealLines >= 2 && <div className="reveal-line">✅ <b>@DeleteMapping</b> → maps DELETE request - remove something</div>}
                       {revealLines >= 3 && <div className="reveal-line">✅ <b>@PathVariable</b> → captures {'{variable}'} from the URL path</div>}
-                      {revealLines >= 4 && <div className="reveal-line">✅ <b>{'{name}'} in path</b> → path parameter — variable part of URL</div>}
+                      {revealLines >= 4 && <div className="reveal-line">✅ <b>{'{name}'} in path</b> → path parameter - variable part of URL</div>}
                       {revealLines >= 5 && <div className="reveal-line">✅ <b>-1 from indexOf</b> → item not found in the List</div>}
                       {revealLines >= 6 && <div className="reveal-line">✅ <b>boolean remove</b> → true if removed, false if not found</div>}
-                      {revealLines >= 7 && <div className="reveal-line">✅ <b>CRUD</b> → Create (POST), Read (GET), Update (PUT), Delete (DELETE) — all four complete</div>}
+                      {revealLines >= 7 && <div className="reveal-line">✅ <b>CRUD</b> → Create (POST), Read (GET), Update (PUT), Delete (DELETE) - all four complete</div>}
                       {revealLines >= 7 && (
                         <div style={{ marginTop: 24, textAlign: 'center', animation: 'slideIn 0.3s' }}>
                           <h3 style={{ color: '#1E293B' }}>
@@ -957,7 +957,7 @@ public String delete${Item}(@PathVariable String name) {
                   <textarea className="free-editor" value={freeCode} onChange={e => setFreeCode(e.target.value)} onPaste={e => e.preventDefault()} onContextMenu={e => e.preventDefault()} spellCheck="false" />
                   {!codeWasEdited && (
                     <div className="warn-msg" style={{ marginTop: 10 }}>
-                      ✏️ This is the auto-filled starting point — before continuing, make a real change (a few characters isn't enough): rename a variable, adjust a path, or add a comment in your own words.
+                      ✏️ This is the auto-filled starting point - before continuing, make a real change (a few characters isn't enough): rename a variable, adjust a path, or add a comment in your own words.
                     </div>
                   )}
                 </>
@@ -975,7 +975,7 @@ public String delete${Item}(@PathVariable String name) {
                   <div style={{ marginTop: 24 }}>
                     <h4 style={{ margin: '0 0 8px 0' }}>Reflection:</h4>
                     <p style={{ color: '#475569', fontSize: '0.95rem', margin: '0 0 8px 0' }}>
-                      In one sentence — what does @PathVariable do and why do PUT and DELETE need it but POST and GET don't?
+                      In one sentence - what does @PathVariable do and why do PUT and DELETE need it but POST and GET don't?
                     </p>
                     <textarea className="reflection-box" placeholder="@PathVariable reads the variable part from the URL path. PUT and DELETE need it because..." value={reflection} onChange={e => setReflection(e.target.value)} onPaste={e => e.preventDefault()} />
                     <div className={`word-count ${sentences >= 1 ? 'ok' : ''}`}>{sentences} / 1 sentence minimum</div>
@@ -988,10 +988,10 @@ public String delete${Item}(@PathVariable String name) {
                   {submitted && (
                     <div style={{ marginTop: 20, padding: 16, background: '#F0FDF4', borderRadius: 8, color: '#065F46', animation: 'popIn 0.3s' }}>
                       <b>Your CRUD API is complete. 🎉</b><br/><br/>
-                      ✅ POST — create<br/>✅ GET — read<br/>✅ PUT — update<br/>✅ DELETE — delete<br/><br/>
+                      ✅ POST - create<br/>✅ GET - read<br/>✅ PUT - update<br/>✅ DELETE - delete<br/><br/>
                       Four operations. One controller.<br/><br/>
-                      But your data still lives in memory. Restart your server — everything gone.<br/><br/>
-                      <b>Next — the most important subtopic of Module 2. Connect your server to MySQL. Data that never disappears. Your first real database.</b>
+                      But your data still lives in memory. Restart your server - everything gone.<br/><br/>
+                      <b>Next - the most important subtopic of Module 2. Connect your server to MySQL. Data that never disappears. Your first real database.</b>
                     </div>
                   )}
                 </div>
@@ -1004,7 +1004,7 @@ public String delete${Item}(@PathVariable String name) {
         <div className="split-right-col">
           <div className="sticky-panel">
 
-            {/* Card catalog — illustrated, event-driven */}
+            {/* Card catalog - illustrated, event-driven */}
             <div style={{ opacity: phase === 2 ? 0.3 : 1, transition: 'opacity 0.3s' }}>
               <CatalogScene
                 items={register}
@@ -1050,9 +1050,9 @@ public String delete${Item}(@PathVariable String name) {
             {phase === 2 && (
               <div className="stat-box">
                 <div className="stat-row"><span>Endpoints:</span><b>{[parsedGet, parsedPost, parsedPut, parsedDelete].filter(Boolean).length}</b></div>
-                <div className="stat-row"><span>Complete CRUD:</span><b style={{ color: parsedGet && parsedPost && parsedPut && parsedDelete ? '#16A34A' : '#94A3B8' }}>{parsedGet && parsedPost && parsedPut && parsedDelete ? '✅' : '—'}</b></div>
-                <div className="stat-row"><span>Path variables:</span><b style={{ color: parsedPut?.pathVar && parsedDelete?.pathVar ? '#16A34A' : '#94A3B8' }}>{parsedPut?.pathVar && parsedDelete?.pathVar ? '✅' : '—'}</b></div>
-                <div className="stat-row"><span>Ready for database:</span><b style={{ color: allP2Checks ? '#16A34A' : '#94A3B8' }}>{allP2Checks ? '✅' : '—'}</b></div>
+                <div className="stat-row"><span>Complete CRUD:</span><b style={{ color: parsedGet && parsedPost && parsedPut && parsedDelete ? '#16A34A' : '#94A3B8' }}>{parsedGet && parsedPost && parsedPut && parsedDelete ? '✅' : '-'}</b></div>
+                <div className="stat-row"><span>Path variables:</span><b style={{ color: parsedPut?.pathVar && parsedDelete?.pathVar ? '#16A34A' : '#94A3B8' }}>{parsedPut?.pathVar && parsedDelete?.pathVar ? '✅' : '-'}</b></div>
+                <div className="stat-row"><span>Ready for database:</span><b style={{ color: allP2Checks ? '#16A34A' : '#94A3B8' }}>{allP2Checks ? '✅' : '-'}</b></div>
               </div>
             )}
           </div>

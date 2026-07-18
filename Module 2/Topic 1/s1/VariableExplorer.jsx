@@ -85,9 +85,9 @@ const STYLE = `
 `;
 
 const TOOLTIPS = {
-  "System.out.println": "Java's mouth — prints anything to the screen",
-  "public static void main": "Front door — every Java program starts here",
-  "public class": "The program's container — everything lives inside here",
+  "System.out.println": "Java's mouth - prints anything to the screen",
+  "public static void main": "Front door - every Java program starts here",
+  "public class": "The program's container - everything lives inside here",
 };
 
 function Tooltip({ label, children }) {
@@ -154,10 +154,10 @@ function LiveDabba({ type, name, value, complete, dim }) {
 }
 
 const TYPE_OPTS = [
-  { value: "String", label: "String — for words (names, plans, cities)" },
-  { value: "int", label: "int — for whole numbers (age, count, room no)" },
-  { value: "double", label: "double — for decimal numbers (price, fees)" },
-  { value: "boolean", label: "boolean — for true/false (isBooked, isActive)" },
+  { value: "String", label: "String - for words (names, plans, cities)" },
+  { value: "int", label: "int - for whole numbers (age, count, room no)" },
+  { value: "double", label: "double - for decimal numbers (price, fees)" },
+  { value: "boolean", label: "boolean - for true/false (isBooked, isActive)" },
 ];
 
 const TYPE_EXAMPLES = {
@@ -342,13 +342,13 @@ function FullProgram({ vars }) {
   const code = `// the program's name ↓
 public class MyFirstProgram {
 
-    // front door — Java starts here ↓
+    // front door - Java starts here ↓
     public static void main(String[] args) {
 
         // your dabbas ↓
 ${vars.map((v) => `        ${v.type} ${v.name} = ${fmtVal(v)};`).join("\n")}
 
-        // Java's mouth — speaks to terminal ↓
+        // Java's mouth - speaks to terminal ↓
 ${vars.map((v) => `        System.out.println("${v.name} = " + ${v.name});`).join("\n")}
 
     } // close front door
@@ -376,7 +376,7 @@ ${vars.map((v) => `        System.out.println("${v.name} = " + ${v.name});`).joi
       <L><span className="cm">{"// the program's name ↓"}</span></L>
       <L><Tooltip label="public class"><span className="kw">public class</span></Tooltip>{" MyFirstProgram {"}</L>
       <L>&nbsp;</L>
-      <L i={1}><span className="cm">{"// front door — Java starts here ↓"}</span></L>
+      <L i={1}><span className="cm">{"// front door - Java starts here ↓"}</span></L>
       <L i={1}><Tooltip label="public static void main"><span className="kw">public static void main</span></Tooltip>{"("}<span className="kw">String</span>{"[] args) {"}</L>
       <L>&nbsp;</L>
       <L i={2}><span className="cm">{"// your dabbas ↓"}</span></L>
@@ -384,7 +384,7 @@ ${vars.map((v) => `        System.out.println("${v.name} = " + ${v.name});`).joi
         <L key={i} i={2}><span className="kw">{v.type}</span>{` ${v.name} = `}{valJSX(v)}{";"}</L>
       ))}
       <L>&nbsp;</L>
-      <L i={2}><span className="cm">{"// Java's mouth — speaks to terminal ↓"}</span></L>
+      <L i={2}><span className="cm">{"// Java's mouth - speaks to terminal ↓"}</span></L>
       {vars.map((v, i) => (
         <L key={i} i={2}><Tooltip label="System.out.println"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{`"${v.name} = " + ${v.name}`}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
       ))}
@@ -399,8 +399,8 @@ ${vars.map((v) => `        System.out.println("${v.name} = " + ${v.name});`).joi
 const REVEAL_LINES = [
   ["Variable", "a dabba with a name"],
   ["Data Type", "the label saying what fits inside"],
-  ["System.out.println", "Java's mouth — speaks to screen"],
-  ["public static void main", "the front door — starts here"],
+  ["System.out.println", "Java's mouth - speaks to screen"],
+  ["public static void main", "the front door - starts here"],
 ];
 
 function parseProjectVars(code) {
@@ -428,7 +428,7 @@ export default function VariableExplorer() {
   const { play, setMuted } = useSounds();
   const [isMuted, setIsMuted] = useState(false);
 
-  // Phase 1 — guided slots
+  // Phase 1 - guided slots
   const [slots, setSlots] = useState([emptySlot(), emptySlot(), emptySlot()]);
   const [completed, setCompleted] = useState([false, false, false]);
   const [visibleCount, setVisibleCount] = useState(1);
@@ -438,7 +438,7 @@ export default function VariableExplorer() {
   const [revealLines, setRevealLines] = useState(0);
   const [showReveal, setShowReveal] = useState(false);
 
-  // Section 2 — free project
+  // Section 2 - free project
   const [editorCode, setEditorCode] = useState("");
   const [plainText, setPlainText] = useState("");
   const [editorHint, setEditorHint] = useState(null);
@@ -535,7 +535,7 @@ export default function VariableExplorer() {
       <button className="mute-btn" onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
       <div className="ve-root">
 
-        {/* ===== PHASE 1 — GUIDED ===== */}
+        {/* ===== PHASE 1 - GUIDED ===== */}
         <div className="card">
           <h1>Every variable is a dabba with a name 🫙</h1>
           <p>Fill in each variable slot on the left. Watch your dabba come to life on the right.</p>
@@ -601,7 +601,7 @@ export default function VariableExplorer() {
 
                 <div className="card" style={{ marginTop: 20, background: "#FEF3C7", border: "1px solid #F59E0B" }}>
                   <h3>Try this in VS Code:</h3>
-                  <p>Copy this into VS Code. Change the values to YOUR details — your name, age, city, and your variable.</p>
+                  <p>Copy this into VS Code. Change the values to YOUR details - your name, age, city, and your variable.</p>
                   <p>Save the file as <strong>MyFirstProgram.java</strong></p>
                   <p>In the VS Code terminal, type:</p>
                   <div className="full-code" style={{ marginTop: 8, padding: "10px 16px" }}>
@@ -641,7 +641,7 @@ export default function VariableExplorer() {
           </div>
         )}
 
-        {/* ===== PHASE 2 — FREE PROJECT ===== */}
+        {/* ===== PHASE 2 - FREE PROJECT ===== */}
         {showSection2 && (
           <>
             <hr className="section-divider" />
@@ -661,7 +661,7 @@ export default function VariableExplorer() {
                 <p style={{ margin: "4px 0" }}>→ <code>int memberAge = 21;</code></p>
                 <p style={{ margin: "4px 0" }}>→ <code>String memberPlan = "Basic";</code></p>
               </div>
-              <p>Write <strong>3 variables</strong> for YOUR project's main thing — in correct Java syntax.</p>
+              <p>Write <strong>3 variables</strong> for YOUR project's main thing - in correct Java syntax.</p>
               <div style={{ background: "#FEF3C7", borderRadius: 8, padding: "10px 14px", marginTop: 10 }}>
                 <p style={{ margin: 0, fontSize: "0.85rem" }}>
                   Words → <code>String</code> &nbsp;|&nbsp; Whole numbers → <code>int</code> &nbsp;|&nbsp;
@@ -691,7 +691,7 @@ export default function VariableExplorer() {
 
                   <div className="plain-area" style={{ marginTop: 16 }}>
                     <h3>In plain words:</h3>
-                    <p style={{ fontSize: "0.9rem" }}>In one sentence — what does each variable store about your project's main thing? Write it like you are explaining to a friend.</p>
+                    <p style={{ fontSize: "0.9rem" }}>In one sentence - what does each variable store about your project's main thing? Write it like you are explaining to a friend.</p>
                     <textarea
                       value={plainText}
                       onChange={(e) => setPlainText(e.target.value)}
@@ -717,9 +717,9 @@ export default function VariableExplorer() {
                     <div className="success-card" style={{ marginTop: 20 }}>
                       <h2 style={{ marginBottom: 12 }}>Your first project code is written. 🎯</h2>
                       <p>Those 3 variables?</p>
-                      <p>In <strong>subtopic 1.2.1</strong> — they become the fields inside your Java class.</p>
-                      <p>In <strong>Module 2</strong> — Spring Boot reads that class and creates your database table.</p>
-                      <p>In <strong>Module 4</strong> — React displays those values on your app's screen.</p>
+                      <p>In <strong>subtopic 1.2.1</strong> - they become the fields inside your Java class.</p>
+                      <p>In <strong>Module 2</strong> - Spring Boot reads that class and creates your database table.</p>
+                      <p>In <strong>Module 4</strong> - React displays those values on your app's screen.</p>
                       <p style={{ marginTop: 14, fontWeight: 700, fontSize: "1.05rem" }}>
                         Every line you write from here builds directly on what you just wrote.<br /><br />
                         This is not a tutorial exercise.<br />

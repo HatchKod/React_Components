@@ -374,20 +374,20 @@ export default function SpringSecuritySetup() {
 
           {/* STEP 1 */}
           <div ref={el => stepRefs.current[1] = el} className={`step-card${step1Done ? ' complete' : activeStep === 1 ? ' active' : ''}`}>
-            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 1 — Add Spring Security</h2>
+            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 1 - Add Spring Security</h2>
             <div className="analogy-card">
               A security company is about to install your building's system.<br /><br />
-              One flip of the switch — every door locks.<br /><br />
+              One flip of the switch - every door locks.<br /><br />
               This dependency is that switch.
             </div>
             <p style={{ fontSize: '0.88rem', margin: '0 0 6px' }}>Open <code>pom.xml</code>. Find your <code>&lt;dependencies&gt;</code> section. Add this block inside it:</p>
             <CopyableCode code={`<dependency>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-security</artifactId>\n</dependency>`}>
-              <span className="code-comment">{'<!-- Spring Security — locks every endpoint -->'}</span>{'\n'}
+              <span className="code-comment">{'<!-- Spring Security - locks every endpoint -->'}</span>{'\n'}
               <span className="code-tag">{'<dependency>'}</span>{'\n'}
               {'    '}<span className="code-tag">{'<groupId>'}</span>org.springframework.boot<span className="code-tag">{'</groupId>'}</span>{'\n'}
               {'    '}<span className="code-tag">{'<artifactId>'}</span>
               <span className="tooltip-term">spring-boot-starter-security
-                <span className="tooltip-box">spring-boot-starter-security — the Spring Security package. Maven downloads it and Spring Boot activates it automatically.</span>
+                <span className="tooltip-box">spring-boot-starter-security - the Spring Security package. Maven downloads it and Spring Boot activates it automatically.</span>
               </span>
               <span className="code-tag">{'</artifactId>'}</span>{'\n'}
               <span className="code-tag">{'</dependency>'}</span>
@@ -409,30 +409,30 @@ export default function SpringSecuritySetup() {
           {/* STEP 2 */}
           {step1Done && (
           <div ref={el => stepRefs.current[2] = el} className={`step-card${step2Done ? ' complete' : activeStep === 2 ? ' active' : ''}`}>
-            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 2 — Restart and read the console carefully</h2>
+            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 2 - Restart and read the console carefully</h2>
             <div className="prep-card">
-              Before you restart — something NEW will appear in your console.<br /><br />
+              Before you restart - something NEW will appear in your console.<br /><br />
               Do not panic when you see it. It is expected. It is Spring Boot giving you a temporary access card.
             </div>
             <p style={{ fontSize: '0.88rem' }}>Stop your server (Ctrl+C). Restart:</p>
             <CopyableCode code="./mvnw spring-boot:run">./mvnw spring-boot:run</CopyableCode>
 
-            <p style={{ fontSize: '0.85rem', fontWeight: 700, margin: '14px 0 4px' }}>In the console output — find this line:</p>
+            <p style={{ fontSize: '0.85rem', fontWeight: 700, margin: '14px 0 4px' }}>In the console output - find this line:</p>
             <div className="console-block">
               Using generated security password:<br />
               <span className="console-pw-line">{GENERATED_PASSWORD}</span>
               <div className="console-pw-label">↑ THIS IS YOUR TEMPORARY PASSWORD</div>
             </div>
             <p style={{ fontSize: '0.85rem', color: '#64748B' }}>
-              Your password will be different — it is randomly generated.<br />
+              Your password will be different - it is randomly generated.<br />
               <b>COPY IT NOW. Write it down.</b><br />
               It changes every restart. You need it for Step 4.
             </p>
 
             <div className="pw-input-wrap">
-              <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: 6 }}>Paste your generated password here (just for this subtopic — so we can help you test):</label>
+              <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: 6 }}>Paste your generated password here (just for this subtopic - so we can help you test):</label>
               <input className="pw-input" type="text" placeholder="paste your password here" value={pwInput} onChange={e => setPwInput(e.target.value)} />
-              <div className="pw-hint">from the console — the long string after "Using generated security password:"</div>
+              <div className="pw-hint">from the console - the long string after "Using generated security password:"</div>
             </div>
 
             <div className="important-amber">
@@ -443,7 +443,7 @@ export default function SpringSecuritySetup() {
 
             <label className={`checkbox-row${step2Done ? ' checked' : ''}`}>
               <input type="checkbox" checked={step2Done} onChange={toggleStep2} />
-              ✅ Server restarted — I found the generated password
+              ✅ Server restarted - I found the generated password
             </label>
           </div>
           )}
@@ -451,7 +451,7 @@ export default function SpringSecuritySetup() {
           {/* STEP 3 */}
           {step2Done && (
           <div ref={el => stepRefs.current[3] = el} className={`step-card${step3Done ? ' complete' : activeStep === 3 ? ' active' : ''}`}>
-            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 3 — Your endpoints are now locked</h2>
+            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 3 - Your endpoints are now locked</h2>
             <p style={{ fontSize: '0.88rem' }}>Open Postman. Try the same request as before:</p>
             <CopyableCode code="GET http://localhost:8080/gym/members">GET http://localhost:8080/gym/members</CopyableCode>
 
@@ -505,8 +505,8 @@ export default function SpringSecuritySetup() {
           {/* STEP 4 */}
           {step3Done && (
           <div ref={el => stepRefs.current[4] = el} className={`step-card${step4Done ? ' complete' : activeStep === 4 ? ' active' : ''}`}>
-            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 4 — Prove who you are</h2>
-            <p style={{ fontSize: '0.88rem' }}>Same GET request in Postman. But this time — add credentials. In Postman:</p>
+            <h2 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 800 }}>Step 4 - Prove who you are</h2>
+            <p style={{ fontSize: '0.88rem' }}>Same GET request in Postman. But this time - add credentials. In Postman:</p>
 
             <div className="postman-mock">
               <div className="pm-url-row"><span className="pm-method">GET</span> http://localhost:8080/gym/members</div>
@@ -541,16 +541,16 @@ export default function SpringSecuritySetup() {
             <p style={{ fontSize: '0.85rem', fontWeight: 700 }}>What you will see:</p>
             <div className="response-preview status-200">
               Status: 200 OK<br />
-              [Ravi, Priya, Kiran — full members list]
+              [Ravi, Priya, Kiran - full members list]
             </div>
             <p style={{ fontSize: '0.85rem', color: '#64748B' }}>
               You proved who you are. Spring Security let you through.<br />
-              Your data is back — but only for people with valid credentials.
+              Your data is back - but only for people with valid credentials.
             </p>
 
             <label className={`checkbox-row${step4Done ? ' checked' : ''}`}>
               <input type="checkbox" checked={step4Done} onChange={toggleStep4} />
-              ✅ 200 OK with Basic Auth — my login works
+              ✅ 200 OK with Basic Auth - my login works
             </label>
 
             <div className="important-amber">
@@ -560,7 +560,7 @@ export default function SpringSecuritySetup() {
               → Only one user (user)<br />
               → Real gym owners need their own accounts<br />
               → Real members need their own logins<br /><br />
-              3.1.3 fixes all of this — Register and Login endpoints. Permanent accounts. Real passwords stored safely.
+              3.1.3 fixes all of this - Register and Login endpoints. Permanent accounts. Real passwords stored safely.
             </div>
           </div>
           )}
@@ -582,18 +582,18 @@ export default function SpringSecuritySetup() {
           {revealCount > 0 && (
             <div className="reveal-card">
               <h3 style={{ margin: '0 0 16px', color: '#92400E' }}>What you just learned</h3>
-              {revealCount >= 1 && <div className="reveal-line">✅ <span><b>spring-boot-starter-security</b> → adds security to every endpoint — one dependency, automatic</span></div>}
+              {revealCount >= 1 && <div className="reveal-line">✅ <span><b>spring-boot-starter-security</b> → adds security to every endpoint - one dependency, automatic</span></div>}
               {revealCount >= 2 && <div className="reveal-line">✅ <span><b>Security filter</b> → checks every request before it reaches your controller</span></div>}
               {revealCount >= 3 && <div className="reveal-line">✅ <span><b>401 Unauthorized</b> → "prove who you are first"</span></div>}
-              {revealCount >= 4 && <div className="reveal-line">✅ <span><b>Basic Auth</b> → username + password sent with the request — temporary, replaced by JWT</span></div>}
-              {revealCount >= 5 && <div className="reveal-line">✅ <span><b>Generated password</b> → Spring Boot's temporary card — changes every restart</span></div>}
-              {revealCount >= 6 && <div className="reveal-line">✅ <span><b>Default user</b> → username: user — temporary, replaced by real users in 3.1.3</span></div>}
+              {revealCount >= 4 && <div className="reveal-line">✅ <span><b>Basic Auth</b> → username + password sent with the request - temporary, replaced by JWT</span></div>}
+              {revealCount >= 5 && <div className="reveal-line">✅ <span><b>Generated password</b> → Spring Boot's temporary card - changes every restart</span></div>}
+              {revealCount >= 6 && <div className="reveal-line">✅ <span><b>Default user</b> → username: user - temporary, replaced by real users in 3.1.3</span></div>}
               {revealCount >= 6 && (
                 <p style={{ textAlign: 'center', fontWeight: 700, marginTop: 16, color: '#1E293B', lineHeight: 1.8 }}>
                   Your API is locked. 🔒<br /><br />
                   No request gets through without valid credentials.<br />
                   The attacker from 3.1.1 is blocked.<br /><br />
-                  Next — Register and Login. Real users. Permanent accounts.<br />
+                  Next - Register and Login. Real users. Permanent accounts.<br />
                   Your gym owner gets a real key.
                 </p>
               )}
@@ -603,16 +603,16 @@ export default function SpringSecuritySetup() {
           {revealCount >= 6 && (
             <>
               <div className="q-card">
-                <p className="q-title">Q1: After adding Spring Security — what happens to ALL your endpoints?</p>
+                <p className="q-title">Q1: After adding Spring Security - what happens to ALL your endpoints?</p>
                 {[
                   ['A', 'Only POST and DELETE are locked'],
-                  ['B', 'Nothing changes automatically — you configure each endpoint manually'],
-                  ['C', 'Every endpoint locks automatically — all require authentication'],
+                  ['B', 'Nothing changes automatically - you configure each endpoint manually'],
+                  ['C', 'Every endpoint locks automatically - all require authentication'],
                   ['D', 'Only endpoints you mark with @Secured are locked'],
                 ].map(([k, label]) => (
                   <button key={k} className={`opt-btn${q1 === k ? (k === 'C' ? ' correct' : ' wrong') : ''}`} onClick={() => answerQ(1, k, 'C', setQ1, q1)}>{k}) {label}</button>
                 ))}
-                {q1 && q1 !== 'C' && <div style={{ color: '#B45309', fontSize: '0.82rem', marginTop: 6 }}>Spring Security locks EVERY endpoint automatically — not just some.</div>}
+                {q1 && q1 !== 'C' && <div style={{ color: '#B45309', fontSize: '0.82rem', marginTop: 6 }}>Spring Security locks EVERY endpoint automatically - not just some.</div>}
               </div>
 
               <div className="q-card">
@@ -629,7 +629,7 @@ export default function SpringSecuritySetup() {
               </div>
 
               <div className="q-card">
-                <p className="q-title">Q3: The generated password in the console — when does it change?</p>
+                <p className="q-title">Q3: The generated password in the console - when does it change?</p>
                 {[
                   ['A', 'Every 24 hours'],
                   ['B', 'Every time the server restarts'],
@@ -644,7 +644,7 @@ export default function SpringSecuritySetup() {
                 <div className="q-card">
                   <h4 style={{ margin: '0 0 8px' }}>Reflection</h4>
                   <p style={{ color: '#64748B', fontSize: '0.9rem', margin: '0 0 8px' }}>
-                    In one sentence — why is the generated password not suitable for a real application?
+                    In one sentence - why is the generated password not suitable for a real application?
                   </p>
                   <textarea
                     className="reflection-box"
@@ -656,14 +656,14 @@ export default function SpringSecuritySetup() {
                   <div className={`word-count${sentences >= 1 ? ' ok' : ''}`}>{sentences} / 1 sentence minimum</div>
 
                   <button className="btn green" style={{ width: '100%', marginTop: 16, opacity: canSubmit ? 1 : 0.5 }} disabled={!canSubmit || submitted} onClick={handleSubmit}>
-                    {submitted ? 'Submitted ✅' : 'Spring Security is active — create real users now →'}
+                    {submitted ? 'Submitted ✅' : 'Spring Security is active - create real users now →'}
                   </button>
 
                   {submitted && (
                     <div style={{ marginTop: 16, padding: 16, background: '#F0FDF4', borderRadius: 8, color: '#065F46' }}>
                       <b>Security is on. 🔒</b><br /><br />
                       Your API requires authentication. Every endpoint is protected.<br /><br />
-                      Next — 3.1.3.<br />
+                      Next - 3.1.3.<br />
                       You build Register and Login endpoints. Real users. Their own passwords. Stored safely in MySQL.<br /><br />
                       Your gym owner gets a real account. Your gym members get real accounts.<br />
                       The temporary card gets replaced with permanent ones.
@@ -777,14 +777,14 @@ function BuildingPanel({ step1Done, step2Done, step3Done, step4Done, actorEvent,
           )}
           {!visibleActor && !installing && step1Done && (
             <div className="tech-wrap" style={{ padding: '10px 12px' }}>
-              <span>✅</span> Security system installed — switch flipped.
+              <span>✅</span> Security system installed - switch flipped.
             </div>
           )}
         </div>
       </div>
 
       <div className={`bld-status-badge ${allSecure ? 'secure' : 'open'}`}>
-        {installing ? 'Locking doors…' : allSecure ? 'Security system installed ✅' : 'Unprotected — doors unlocked'}
+        {installing ? 'Locking doors…' : allSecure ? 'Security system installed ✅' : 'Unprotected - doors unlocked'}
       </div>
 
       {step2Done && (
@@ -803,9 +803,9 @@ function BuildingPanel({ step1Done, step2Done, step3Done, step4Done, actorEvent,
 
       {(q1 || q2 || q3) && (
         <div className="q-highlight-note">
-          {q1 === 'C' && <div>Q1 ✓ — all 4 doors confirmed locked.</div>}
-          {q2 === 'C' && <div>Q2 ✓ — key labeled "user".</div>}
-          {q3 === 'B' && <div>Q3 ✓ — password resets every restart ⏱️.</div>}
+          {q1 === 'C' && <div>Q1 ✓ - all 4 doors confirmed locked.</div>}
+          {q2 === 'C' && <div>Q2 ✓ - key labeled "user".</div>}
+          {q3 === 'B' && <div>Q3 ✓ - password resets every restart ⏱️.</div>}
         </div>
       )}
     </div>

@@ -8,21 +8,21 @@ const SCENES = [
     options: [
       {
         id: "A",
-        text: "He remembers orders in his head — no system to track them",
+        text: "He remembers orders in his head - no system to track them",
         isBest: true,
         feedback: "Exactly. Order tracking in his head = lost orders, wrong orders, wasted money. An app that takes and tracks orders would fix this permanently. Great catch. 🎯"
       },
       {
         id: "B",
-        text: "He makes chai by hand — could be automated",
+        text: "He makes chai by hand - could be automated",
         isBest: false,
-        feedback: "Ha — fair thinking! But automating chai-making is hard. The bigger problem is tracking orders. Look again. 😄"
+        feedback: "Ha - fair thinking! But automating chai-making is hard. The bigger problem is tracking orders. Look again. 😄"
       },
       {
         id: "C",
-        text: "He collects cash — no digital payment option",
+        text: "He collects cash - no digital payment option",
         isBest: false,
-        feedback: "Good eye — digital payments would help. But there is a bigger daily pain here. Think about what he forgets most often."
+        feedback: "Good eye - digital payments would help. But there is a bigger daily pain here. Think about what he forgets most often."
       }
     ]
   },
@@ -33,21 +33,21 @@ const SCENES = [
     options: [
       {
         id: "A",
-        text: "Students sign in by hand — no digital attendance",
+        text: "Students sign in by hand - no digital attendance",
         isBest: false,
-        feedback: "Digital attendance would help — but the deeper problem is before they even arrive. Think about what the instructor cannot predict."
+        feedback: "Digital attendance would help - but the deeper problem is before they even arrive. Think about what the instructor cannot predict."
       },
       {
         id: "B",
-        text: "No way to book slots in advance — everyone just shows up",
+        text: "No way to book slots in advance - everyone just shows up",
         isBest: true,
         feedback: "Perfect. No slot booking = random crowds = poor experience for everyone. A simple booking app fixes this entirely. 🎯"
       },
       {
         id: "C",
-        text: "Equipment condition not tracked — things break without warning",
+        text: "Equipment condition not tracked - things break without warning",
         isBest: false,
-        feedback: "Smart thinking — maintenance tracking is a real need. But there is a more daily pain here affecting every single student every single day."
+        feedback: "Smart thinking - maintenance tracking is a real need. But there is a more daily pain here affecting every single student every single day."
       }
     ]
   },
@@ -58,21 +58,21 @@ const SCENES = [
     options: [
       {
         id: "A",
-        text: "Menu is decided randomly — no planning system",
+        text: "Menu is decided randomly - no planning system",
         isBest: false,
         feedback: "Menu planning is a real problem in many messes. But the more urgent daily pain here is something the contractor and warden argue about every month."
       },
       {
         id: "B",
-        text: "Meal count tracked in head — no reliable attendance record",
+        text: "Meal count tracked in head - no reliable attendance record",
         isBest: true,
         feedback: "Spot on. No reliable attendance = monthly fights about numbers = someone always loses money. A simple check-in app solves this and everyone is happy. 🎯"
       },
       {
         id: "C",
-        text: "Food wastage not measured — no data on what gets thrown",
+        text: "Food wastage not measured - no data on what gets thrown",
         isBest: false,
-        feedback: "Food wastage data would be incredibly valuable — you are thinking like a product manager. The more immediate daily problem though is even simpler."
+        feedback: "Food wastage data would be incredibly valuable - you are thinking like a product manager. The more immediate daily problem though is even simpler."
       }
     ]
   },
@@ -91,13 +91,13 @@ const SCENES = [
         id: "B",
         text: "No home delivery option for students",
         isBest: false,
-        feedback: "Delivery would be a great feature — but that requires logistics. The most immediate daily pain uncle faces is much simpler and fixable with a basic app."
+        feedback: "Delivery would be a great feature - but that requires logistics. The most immediate daily pain uncle faces is much simpler and fixable with a basic app."
       },
       {
         id: "C",
-        text: "No digital billing — everything handwritten",
+        text: "No digital billing - everything handwritten",
         isBest: false,
-        feedback: "Digital billing would help — but the problem that wastes his time and loses him customers every single day is something else."
+        feedback: "Digital billing would help - but the problem that wastes his time and loses him customers every single day is something else."
       }
     ]
   },
@@ -108,21 +108,21 @@ const SCENES = [
     options: [
       {
         id: "A",
-        text: "Room booking tracked on whiteboard — data gets erased and lost",
+        text: "Room booking tracked on whiteboard - data gets erased and lost",
         isBest: true,
         feedback: "Perfect. Whiteboard = no history, no reports, no revenue data, mistakes every week. A simple room management app gives him everything he needs. 🎯"
       },
       {
         id: "B",
-        text: "No online booking — customers must come in person",
+        text: "No online booking - customers must come in person",
         isBest: false,
-        feedback: "Online booking would grow his business — but that is a big step. The problem he faces every single day, right now, with his current 10 customers is much more basic and urgent."
+        feedback: "Online booking would grow his business - but that is a big step. The problem he faces every single day, right now, with his current 10 customers is much more basic and urgent."
       },
       {
         id: "C",
         text: "No customer feedback collection system",
         isBest: false,
-        feedback: "Feedback systems are valuable — but the owner's most painful daily problem is one he has been dealing with every single morning for years."
+        feedback: "Feedback systems are valuable - but the owner's most painful daily problem is one he has been dealing with every single morning for years."
       }
     ]
   }
@@ -503,9 +503,9 @@ export default function ProblemSpotter() {
       {!showSummary ? (
         <>
           <div className="header-section">
-            <h1 className="main-heading">Train your eye — spot what could be an app 🔍</h1>
+            <h1 className="main-heading">Train your eye - spot what could be an app 🔍</h1>
             <p className="subtext">
-              Look at these 5 places you already know. For each one — what is being done manually that could be digital?
+              Look at these 5 places you already know. For each one - what is being done manually that could be digital?
             </p>
           </div>
 
@@ -566,7 +566,7 @@ export default function ProblemSpotter() {
               <p>You just spotted 5 real problems in 5 places you already know.</p>
               <p>None of these businesses are waiting for you with a list of requirements.</p>
               <p>But every single one of them has a problem that a simple app could solve.</p>
-              <p>Tomorrow — you are going to walk into one of these places and have a real conversation. We will prepare you for exactly what to say in the next subtopic.</p>
+              <p>Tomorrow - you are going to walk into one of these places and have a real conversation. We will prepare you for exactly what to say in the next subtopic.</p>
             </div>
 
             <div className="problems-list-card">
@@ -593,7 +593,7 @@ export default function ProblemSpotter() {
                 <p><strong>One question:</strong></p>
                 <p>Which ONE place near your college do you think has the biggest problem worth solving? And what exactly is being done manually there?</p>
                 <p>Describe it like you are telling a friend. Which place. What you noticed. Why it bothers you.</p>
-                <p>Your own words only. No copying. No ChatGPT. The more specific and real your answer — the better your project will be.</p>
+                <p>Your own words only. No copying. No ChatGPT. The more specific and real your answer - the better your project will be.</p>
               </div>
 
               <textarea
@@ -617,7 +617,7 @@ export default function ProblemSpotter() {
                     disabled={!isReflectionValid}
                     onClick={() => setIsSubmitted(true)}
                   >
-                    I found a real problem — submit →
+                    I found a real problem - submit →
                   </button>
                 </>
               )}
@@ -626,7 +626,7 @@ export default function ProblemSpotter() {
                 <div className="success-message">
                   <h3 className="success-heading">You just found your first real requirement. 🎯</h3>
                   <p className="success-text">
-                    In the next subtopic — we will teach you exactly what to say when you walk through that door and talk to the owner.<br/><br/>
+                    In the next subtopic - we will teach you exactly what to say when you walk through that door and talk to the owner.<br/><br/>
                     Keep going.
                   </p>
                 </div>

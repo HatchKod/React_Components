@@ -101,7 +101,7 @@ function TemplateCard() {
         </div>
       ))}
       <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px dashed #D1D5DB", fontSize: 9, color: "#9CA3AF", textAlign: "center" }}>
-        TEMPLATE — no data yet
+        TEMPLATE - no data yet
       </div>
     </div>
   );
@@ -177,7 +177,7 @@ function CardForm({ onSubmit, index }) {
 // ─── CODE BLOCK ──────────────────────────────────────────────────────────────
 const B = "#60A5FA", Y = "#FACC15", O = "#FB923C", G = "#4ADE80", P = "#E879F9", GR = "#6B7280";
 function kw(t) { return <span style={{ color: B }}>{t}</span>; }
-function cn(t) { return <Tip text="Blueprint name — always starts with capital"><span style={{ color: Y }}>{t}</span></Tip>; }
+function cn(t) { return <Tip text="Blueprint name - always starts with capital"><span style={{ color: Y }}>{t}</span></Tip>; }
 function fn(t) { return <span style={{ color: O }}>{t}</span>; }
 function sv(t) { return <span style={{ color: G }}>"{t}"</span>; }
 function num(t) { return <span style={{ color: O }}>{t}</span>; }
@@ -186,15 +186,15 @@ function cm(t) { return <span style={{ color: GR }}>{t}</span>; }
 function CollegeClassCode({ s1, s2 }) {
   return (
     <div style={{ background: "#1E293B", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
-      <div>{cm("// the blueprint — defined once")}</div>
+      <div>{cm("// the blueprint - defined once")}</div>
       <div>
         <Tip text="The keyword that starts a blueprint">{kw("class")}</Tip>{" "}
-        <Tip text="Blueprint name — always starts with capital">{cn("CollegeStudent")}</Tip>{" {"}
+        <Tip text="Blueprint name - always starts with capital">{cn("CollegeStudent")}</Tip>{" {"}
       </div>
       <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"//    ↑"}</div>
-      <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"//    capital first letter — always for class names"}</div>
+      <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"//    capital first letter - always for class names"}</div>
       <div style={{ marginTop: 8, paddingLeft: 24 }}>
-        <Tip text="A space for data — like a blank on a form">{kw("String")}{" "}{fn("name")}</Tip>;{" "}{cm("// space for name")}
+        <Tip text="A space for data - like a blank on a form">{kw("String")}{" "}{fn("name")}</Tip>;{" "}{cm("// space for name")}
       </div>
       <div style={{ paddingLeft: 24 }}>{kw("String")}{" "}{fn("rollNo")}; {cm("// space for roll number")}</div>
       <div style={{ paddingLeft: 24 }}>{kw("String")}{" "}{fn("department")}; {cm("// space for department")}</div>
@@ -205,7 +205,7 @@ function CollegeClassCode({ s1, s2 }) {
         <>
           <div style={{ marginTop: 16, color: GR }}>{"// create real student 1 from blueprint"}</div>
           <div>
-            <Tip text="ravi is of type GymMember — like saying 'this is a GymMember'">{cn("CollegeStudent")}</Tip>{" "}
+            <Tip text="ravi is of type GymMember - like saying 'this is a GymMember'">{cn("CollegeStudent")}</Tip>{" "}
             {fn("student1")}{" = "}
             <Tip text="Create a new real object from the blueprint">{kw("new")}</Tip>{" "}
             {cn("CollegeStudent")}{"();"}
@@ -370,10 +370,10 @@ function OutputPreview({ domain }) {
 // ─── REVEAL CARD ─────────────────────────────────────────────────────────────
 function RevealCard({ onDone, playSound }) {
   const items = [
-    ["Class", "the blueprint — defined once, used unlimited times"],
+    ["Class", "the blueprint - defined once, used unlimited times"],
     ["Object", "one real thing made from the blueprint"],
     ["Field", "a space for data inside the class"],
-    ["Dot notation (.)", "connects object to its field — 'belonging to'"],
+    ["Dot notation (.)", "connects object to its field - 'belonging to'"],
     ["Instantiation (new)", "creating a new real object from the blueprint"],
   ];
   const [ticked, setTicked] = useState([]);
@@ -399,11 +399,11 @@ function RevealCard({ onDone, playSound }) {
           opacity: ticked.includes(i) ? 1 : 0.2, transition: "opacity 0.4s"
         }}>
           <span style={{ color: "#10B981", fontWeight: 700, fontSize: 18, marginTop: 1 }}>{ticked.includes(i) ? "✓" : "○"}</span>
-          <div><span style={{ fontWeight: 700, color: "#1E293B" }}>{term}</span>{" — "}<span style={{ color: "#374151" }}>{def}</span></div>
+          <div><span style={{ fontWeight: 700, color: "#1E293B" }}>{term}</span>{" - "}<span style={{ color: "#374151" }}>{def}</span></div>
         </div>
       ))}
       <div style={{ marginTop: 20, textAlign: "center", color: "#78350F", fontSize: 14, lineHeight: 1.7 }}>
-        <strong>In Module 2 — every database table in your Spring Boot app will be a class exactly like this.</strong><br />
+        <strong>In Module 2 - every database table in your Spring Boot app will be a class exactly like this.</strong><br />
         Spring Boot reads your GymMember class and creates the GymMembers table in MySQL automatically.<br /><br />
         You just wrote the foundation of your database.
       </div>
@@ -413,7 +413,7 @@ function RevealCard({ onDone, playSound }) {
 
 // ─── CODE EDITOR (syntax highlight via spans) ─────────────────────────────────
 const PLACEHOLDER = `// Step 1: your blueprint
-class __________ {        // blueprint name — capital first
+class __________ {        // blueprint name - capital first
 //    ↑ your class name
 
     String __________;    // space for ___
@@ -503,7 +503,7 @@ export default function BlueprintBuilder() {
     setShowForm(null);
     playSound("add");
     if (idx === 1) {
-      // both done — handled by useEffect
+      // both done - handled by useEffect
     }
   };
 
@@ -558,18 +558,18 @@ export default function BlueprintBuilder() {
 
         {/* ── PART A ── */}
         <div style={{ marginBottom: 40 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 20 }}>PART A — THE ID CARD ANALOGY</div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 20 }}>PART A - THE ID CARD ANALOGY</div>
 
           <div style={{
             display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start"
           }}>
-            {/* Left — Template */}
+            {/* Left - Template */}
             <div style={{ flex: "1 1 240px" }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: "#374151", marginBottom: 4 }}>The Template (Blueprint)</div>
               <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 16 }}>Designed once</div>
               <TemplateCard />
               <div style={{ marginTop: 12, fontSize: 12, color: "#6B7280", maxWidth: 220 }}>
-                This is the <strong>TEMPLATE</strong> — the <strong>BLUEPRINT</strong><br />
+                This is the <strong>TEMPLATE</strong> - the <strong>BLUEPRINT</strong><br />
                 No real data yet. Just the spaces.
               </div>
               <div style={{ marginTop: 10 }}>
@@ -580,7 +580,7 @@ export default function BlueprintBuilder() {
               </div>
             </div>
 
-            {/* Right — Real cards */}
+            {/* Right - Real cards */}
             <div style={{ flex: "1 1 300px" }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: "#374151", marginBottom: 4 }}>Real ID Cards (Objects)</div>
               <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 16 }}>Made from the template</div>
@@ -603,7 +603,7 @@ export default function BlueprintBuilder() {
                   )}
                 </div>
 
-                {/* Card 1 — only show after card 0 exists */}
+                {/* Card 1 - only show after card 0 exists */}
                 {cards[0] && (
                   <div>
                     {cards[1]
@@ -642,16 +642,16 @@ export default function BlueprintBuilder() {
         {/* ── PART B ── */}
         {showJava && (
           <div style={{ marginBottom: 40, animation: "slideIn 0.6s ease" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 16 }}>PART B — THE SAME IDEA IN JAVA</div>
-            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Now — the same idea in Java</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 16 }}>PART B - THE SAME IDEA IN JAVA</div>
+            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Now - the same idea in Java</div>
 
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ flex: "1 1 340px" }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 10 }}>Step 1 — The Blueprint (Class):</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 10 }}>Step 1 - The Blueprint (Class):</div>
                 <CollegeClassCode s1={null} s2={null} />
               </div>
               <div style={{ flex: "1 1 340px" }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 10 }}>Step 2 — Real Objects:</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 10 }}>Step 2 - Real Objects:</div>
                 <CollegeClassCode s1={cards[0]} s2={cards[1]} />
               </div>
             </div>
@@ -667,7 +667,7 @@ export default function BlueprintBuilder() {
         {/* ── PART C ── */}
         {showDomain && (
           <div style={{ marginBottom: 40, animation: "slideIn 0.5s ease" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 16 }}>PART C — YOUR PROJECT'S CLASS</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 16 }}>PART C - YOUR PROJECT'S CLASS</div>
             <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Now for YOUR project 🏗️</div>
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 24 }}>
@@ -709,19 +709,19 @@ export default function BlueprintBuilder() {
               <div style={{ background: "#FFFBEB", border: "2px solid #F59E0B", borderRadius: 14, padding: 28, marginTop: 32 }}>
                 <div style={{ fontSize: 20, fontWeight: 700, color: "#92400E", marginBottom: 16, textAlign: "center" }}>5 new Java concepts 🎉</div>
                 {[
-                  ["Class", "the blueprint — defined once, used unlimited times"],
+                  ["Class", "the blueprint - defined once, used unlimited times"],
                   ["Object", "one real thing made from the blueprint"],
                   ["Field", "a space for data inside the class"],
-                  ["Dot notation (.)", "connects object to its field — 'belonging to'"],
+                  ["Dot notation (.)", "connects object to its field - 'belonging to'"],
                   ["Instantiation (new)", "creating a new real object from the blueprint"],
                 ].map(([t, d]) => (
                   <div key={t} style={{ display: "flex", gap: 10, marginBottom: 10 }}>
                     <span style={{ color: "#10B981", fontWeight: 700 }}>✓</span>
-                    <div><strong>{t}</strong> — {d}</div>
+                    <div><strong>{t}</strong> - {d}</div>
                   </div>
                 ))}
                 <div style={{ marginTop: 20, textAlign: "center", color: "#78350F", fontSize: 14, lineHeight: 1.7 }}>
-                  <strong>In Module 2 — every database table in your Spring Boot app will be a class exactly like this.</strong><br />
+                  <strong>In Module 2 - every database table in your Spring Boot app will be a class exactly like this.</strong><br />
                   Spring Boot reads your GymMember class and creates the GymMembers table in MySQL automatically.<br /><br />
                   You just wrote the foundation of your database.
                 </div>
@@ -738,14 +738,14 @@ export default function BlueprintBuilder() {
 
             <div style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 14, padding: 24, marginBottom: 24, lineHeight: 1.8 }}>
               <p style={{ margin: "0 0 12px" }}>You just saw the GymMember class.</p>
-              <p style={{ margin: "0 0 12px" }}>Now write <strong>YOUR</strong> project's class — for YOUR neighbourhood business.</p>
+              <p style={{ margin: "0 0 12px" }}>Now write <strong>YOUR</strong> project's class - for YOUR neighbourhood business.</p>
               <div style={{ margin: "16px 0" }}>
                 <div style={{ fontWeight: 600, marginBottom: 8 }}>Write:</div>
                 <ol style={{ margin: 0, paddingLeft: 20 }}>
                   <li style={{ marginBottom: 8 }}>The class with at least 4 fields<br />
                     <span style={{ color: "#6B7280", fontSize: 13 }}>Words → <code>String</code> &nbsp; Whole numbers → <code>int</code> &nbsp; True/False → <code>boolean</code></span>
                   </li>
-                  <li style={{ marginBottom: 8 }}>TWO objects from that class — use real names</li>
+                  <li style={{ marginBottom: 8 }}>TWO objects from that class - use real names</li>
                   <li>Print at least 2 fields from each object using dot notation</li>
                 </ol>
               </div>
@@ -760,7 +760,7 @@ export default function BlueprintBuilder() {
 
                 <div style={{ marginTop: 24 }}>
                   <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-                    In one sentence — what does your class represent in your neighbourhood business?
+                    In one sentence - what does your class represent in your neighbourhood business?
                   </div>
                   <textarea
                     value={reflection}
@@ -796,12 +796,12 @@ export default function BlueprintBuilder() {
                 </div>
                 <div style={{ fontSize: 15, color: "#065F46", lineHeight: 2 }}>
                   That class you just wrote?<br /><br />
-                  In Module 2 — you will add <code style={{ background: "#D1FAE5", padding: "2px 6px", borderRadius: 4 }}>@Entity</code> above it.<br />
+                  In Module 2 - you will add <code style={{ background: "#D1FAE5", padding: "2px 6px", borderRadius: 4 }}>@Entity</code> above it.<br />
                   Spring Boot will read it and <strong>create your MySQL database table automatically.</strong><br /><br />
                   Your field names become your <strong>table columns</strong>.<br />
                   Your objects become your <strong>table rows</strong>.<br /><br />
                   One class. Your entire database structure defined.<br /><br />
-                  <strong>Next — make your class smarter.<br />
+                  <strong>Next - make your class smarter.<br />
                   Private fields. Public getters.<br />
                   The pattern Spring Boot needs.</strong>
                 </div>

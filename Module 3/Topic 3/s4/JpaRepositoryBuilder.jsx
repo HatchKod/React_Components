@@ -317,7 +317,7 @@ function hexToRgb(hex) {
 }
 
 /* ═══════════════════════════════════════════
-   SLOT 1 — FEEL THE PAIN
+   SLOT 1 - FEEL THE PAIN
 ═══════════════════════════════════════════ */
 function Slot1({ onAdvance, play }) {
   const [restartCount, setRestartCount] = useState(0);
@@ -348,13 +348,13 @@ function Slot1({ onAdvance, play }) {
 
   return (
     <SlotShell
-      subtitle="Slot 1 of 6 — Feel the Pain"
-      title="One last time — then never again."
+      subtitle="Slot 1 of 6 - Feel the Pain"
+      title="One last time - then never again."
       left={
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <p style={{ color: "#64748B", lineHeight: 1.8, margin: 0 }}>
             Your controller is still using a <code style={{ color: "#A855F7" }}>List</code> to store members.
-            Every time the server restarts — data is lost. Watch what happens.
+            Every time the server restarts - data is lost. Watch what happens.
           </p>
 
           <CodeBlock
@@ -376,7 +376,7 @@ function Slot1({ onAdvance, play }) {
               <br /><br />
               <strong style={{ color: "#1E293B" }}>One step fixes this forever.</strong>
               <br />
-              But first — a two-minute concept you need to understand.
+              But first - a two-minute concept you need to understand.
             </div>
           )}
 
@@ -409,7 +409,7 @@ function Slot1({ onAdvance, play }) {
               transition: "all 0.4s",
             }}>
               {dataLost ? (
-                <div style={{ color: "#F87171" }}>[] — empty</div>
+                <div style={{ color: "#F87171" }}>[] - empty</div>
               ) : (
                 <>
                   <div style={{ color: "#82aaff" }}>📄 Alice (id: 1)</div>
@@ -453,7 +453,7 @@ function Slot1({ onAdvance, play }) {
               textAlign: "center",
             }}>
               <div style={{ fontSize: "28px", fontWeight: 900, color: "#DC2626" }}>{restartCount}</div>
-              <div style={{ fontSize: "12px", color: "#64748B" }}>restart{restartCount > 1 ? "s" : ""} — data gone each time</div>
+              <div style={{ fontSize: "12px", color: "#64748B" }}>restart{restartCount > 1 ? "s" : ""} - data gone each time</div>
             </div>
           )}
         </div>
@@ -463,7 +463,7 @@ function Slot1({ onAdvance, play }) {
 }
 
 /* ═══════════════════════════════════════════
-   SLOT 2 — INTERFACE
+   SLOT 2 - INTERFACE
 ═══════════════════════════════════════════ */
 function Slot2({ onAdvance, play }) {
   const [animated, setAnimated] = useState(false);
@@ -481,7 +481,7 @@ function Slot2({ onAdvance, play }) {
     ? [
         "public interface GymMemberRepository {",
         "//       ↑",
-        "//       order slip — no code inside",
+        "//       order slip - no code inside",
         "}",
       ]
     : [
@@ -493,8 +493,8 @@ function Slot2({ onAdvance, play }) {
 
   return (
     <SlotShell
-      subtitle="Slot 2 of 6 — Interface"
-      title="Interface — the order slip"
+      subtitle="Slot 2 of 6 - Interface"
+      title="Interface - the order slip"
       left={
         <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
           {/* Analogy scene */}
@@ -613,7 +613,7 @@ function Slot2({ onAdvance, play }) {
                     <TrueFalse
                       correct={false}
                       play={play}
-                      trueMsg="False — interface has NO code. It is just a list of method names. Spring Boot writes the code."
+                      trueMsg="False - interface has NO code. It is just a list of method names. Spring Boot writes the code."
                       falseMsg="✓ Correct. No code inside. Spring Boot reads the list and fills in all the logic."
                     />
                   </div>
@@ -667,7 +667,7 @@ function Slot2({ onAdvance, play }) {
 }
 
 /* ═══════════════════════════════════════════
-   SLOT 3 — JpaRepository
+   SLOT 3 - JpaRepository
 ═══════════════════════════════════════════ */
 function Slot3({ onAdvance, play }) {
   const [reveal1, setReveal1] = useState(false);
@@ -697,13 +697,13 @@ function Slot3({ onAdvance, play }) {
 
   return (
     <SlotShell
-      subtitle="Slot 3 of 6 — JpaRepository"
-      title="JpaRepository — the pre-printed slip"
+      subtitle="Slot 3 of 6 - JpaRepository"
+      title="JpaRepository - the pre-printed slip"
       left={
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <p style={{ color: "#64748B", lineHeight: 1.8, margin: 0 }}>
             Writing <code style={{ color: "#A855F7" }}>GymMemberRepository</code> from scratch would mean listing every method yourself.
-            There's a shortcut: <strong style={{ color: "#1E293B" }}>extend JpaRepository</strong>. It's a pre-printed slip — all common operations already listed.
+            There's a shortcut: <strong style={{ color: "#1E293B" }}>extend JpaRepository</strong>. It's a pre-printed slip - all common operations already listed.
           </p>
 
           <div style={{
@@ -711,7 +711,7 @@ function Slot3({ onAdvance, play }) {
           }}>
             <div style={{ fontSize: "13px", color: "#c792ea", fontWeight: 700, marginBottom: "14px" }}>The angle brackets &lt; &gt;</div>
             <div style={{ color: "#94A3B8", fontSize: "13px", lineHeight: 1.7, marginBottom: "14px" }}>
-              JpaRepository needs to know two things — tap each to reveal:
+              JpaRepository needs to know two things - tap each to reveal:
             </div>
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
               <button onClick={() => { setReveal1(true); play("tick"); }} style={{
@@ -750,7 +750,7 @@ function Slot3({ onAdvance, play }) {
               background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: "12px", padding: "16px",
             }}>
               <div style={{ color: "#64748B", fontSize: "13px", marginBottom: "10px" }}>
-                The pre-printed slip name — extends what?
+                The pre-printed slip name - extends what?
               </div>
               <BlankInput
                 placeholder="JpaRepository"
@@ -768,7 +768,7 @@ function Slot3({ onAdvance, play }) {
                 background: "#F0FDF4", border: "1px solid #86EFAC",
                 borderRadius: "10px", padding: "14px 18px", color: "#166534", fontSize: "13px", lineHeight: 1.7,
               }}>
-                ✓ That's the entire file. Zero methods written. Spring Boot gives you save, findAll, findById, deleteById — all for free.
+                ✓ That's the entire file. Zero methods written. Spring Boot gives you save, findAll, findById, deleteById - all for free.
               </div>
               <button onClick={() => { play("tick"); onAdvance(); }} style={{
                 background: "#3B82F6", border: "none", borderRadius: "10px",
@@ -819,7 +819,7 @@ function Slot3({ onAdvance, play }) {
 }
 
 /* ═══════════════════════════════════════════
-   SLOT 4 — @Autowired
+   SLOT 4 - @Autowired
 ═══════════════════════════════════════════ */
 function Slot4({ onAdvance, play }) {
   const [showDelivery, setShowDelivery] = useState(false);
@@ -850,8 +850,8 @@ function Slot4({ onAdvance, play }) {
 
   return (
     <SlotShell
-      subtitle="Slot 4 of 6 — @Autowired"
-      title="@Autowired — Zomato auto delivery"
+      subtitle="Slot 4 of 6 - @Autowired"
+      title="@Autowired - Zomato auto delivery"
       left={
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <div style={{
@@ -862,7 +862,7 @@ function Slot4({ onAdvance, play }) {
               <div style={{ textAlign: "center" }}>
                 <div style={{ fontSize: "36px" }}>🧑‍💻</div>
                 <div style={{ color: "#CBD5E1", fontSize: "12px", marginTop: "4px" }}>Your Controller</div>
-                <div style={{ color: "#94A3B8", fontSize: "11px" }}>hungry — needs repo</div>
+                <div style={{ color: "#94A3B8", fontSize: "11px" }}>hungry - needs repo</div>
               </div>
               <div style={{
                 flex: 1, textAlign: "center",
@@ -909,7 +909,7 @@ function Slot4({ onAdvance, play }) {
               </div>
               <BlankInput
                 placeholder="@Autowired"
-                hint="starts with @ — Spring Boot delivers the repo"
+                hint="starts with @ - Spring Boot delivers the repo"
                 answer="@Autowired"
                 play={play}
                 onCorrect={() => setBlankDone(true)}
@@ -963,7 +963,7 @@ private GymMemberRepository repo;
 }
 
 /* ═══════════════════════════════════════════
-   SLOT 5 — REPLACE (Path Variable + Operations)
+   SLOT 5 - REPLACE (Path Variable + Operations)
 ═══════════════════════════════════════════ */
 function Slot5({ onAdvance, play }) {
   const [pathStep, setPathStep] = useState(false);
@@ -971,14 +971,14 @@ function Slot5({ onAdvance, play }) {
   const [opsDone, setOpsDone] = useState(false);
 
   const pathLines = [
-    "// BEFORE — id was called memberId:",
+    "// BEFORE - id was called memberId:",
     "@DeleteMapping(\"/members/{memberId}\")",
     "public void deleteMember(",
     "    @PathVariable Long memberId) {",
     "    repo.deleteById(memberId);",
     "}",
     "",
-    "// AFTER — name matches variable: id",
+    "// AFTER - name matches variable: id",
     "@DeleteMapping(\"/members/{id}\")",
     "public void deleteMember(",
     "    @PathVariable Long id) {",
@@ -1014,8 +1014,8 @@ function Slot5({ onAdvance, play }) {
 
   return (
     <SlotShell
-      subtitle="Slot 5 of 6 — Replace"
-      title="Replace the List — one change at a time"
+      subtitle="Slot 5 of 6 - Replace"
+      title="Replace the List - one change at a time"
       left={
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           {/* Path variable section */}
@@ -1023,11 +1023,11 @@ function Slot5({ onAdvance, play }) {
             background: "#1E293B", border: "1px solid #334155", borderRadius: "14px", padding: "20px",
           }}>
             <div style={{ fontSize: "13px", color: "#c3e88d", fontWeight: 700, marginBottom: "12px" }}>
-              🔑 Path Variable — name must match
+              🔑 Path Variable - name must match
             </div>
             <div style={{ color: "#94A3B8", fontSize: "13px", lineHeight: 1.7, marginBottom: "14px" }}>
               The name inside <code style={{ color: "#f78c6c" }}>{"{"} {"}"}</code> in the URL <strong style={{ color: "#F1F5F9" }}>must exactly match</strong> the <code style={{ color: "#c3e88d" }}>@PathVariable</code> parameter name.
-              This slot covers just that — nothing else.
+              This slot covers just that - nothing else.
             </div>
 
             {!pathStep && (
@@ -1055,7 +1055,7 @@ function Slot5({ onAdvance, play }) {
                     <TrueFalse
                       correct={false}
                       play={play}
-                      trueMsg="Actually false — they must match exactly. {memberId} ↔ Long memberId. {id} ↔ Long id."
+                      trueMsg="Actually false - they must match exactly. {memberId} ↔ Long memberId. {id} ↔ Long id."
                       falseMsg="✓ Correct. The name in {} and the parameter name must be identical. Spring Boot maps them by name."
                     />
                   </div>
@@ -1066,7 +1066,7 @@ function Slot5({ onAdvance, play }) {
                   borderRadius: "8px", padding: "10px 16px", color: "#4ADE80",
                   cursor: "pointer", fontSize: "12px", width: "100%",
                 }}>
-                  Got it — show full controller →
+                  Got it - show full controller →
                 </button>
               </>
             )}
@@ -1076,13 +1076,13 @@ function Slot5({ onAdvance, play }) {
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div style={{
                 fontSize: "13px", color: "#3b82f6", fontWeight: 700, marginBottom: "2px",
-              }}>Complete Controller — List is gone. MySQL is in.</div>
+              }}>Complete Controller - List is gone. MySQL is in.</div>
               <CodeBlock lines={fullController} highlight={[3, 4, 8, 14, 18, 19, 20, 21]} />
 
               <button onClick={() => { setOpsDone(true); play("add"); onAdvance(); }} style={{
                 background: "#3B82F6", border: "none", borderRadius: "10px",
                 padding: "13px", color: "#fff", cursor: "pointer", fontSize: "14px", fontWeight: 700,
-              }}>I see it — show me the payoff →</button>
+              }}>I see it - show me the payoff →</button>
             </div>
           )}
         </div>
@@ -1123,7 +1123,7 @@ function Slot5({ onAdvance, play }) {
 }
 
 /* ═══════════════════════════════════════════
-   SLOT 6 — PAYOFF
+   SLOT 6 - PAYOFF
 ═══════════════════════════════════════════ */
 function Slot6({ play }) {
   const [step, setStep] = useState(0);
@@ -1141,9 +1141,9 @@ function Slot6({ play }) {
   };
 
   const steps = [
-    { label: "POST /members", body: '{"name":"Ravi"}', result: "201 Created — saved to MySQL", color: "#22c55e" },
+    { label: "POST /members", body: '{"name":"Ravi"}', result: "201 Created - saved to MySQL", color: "#22c55e" },
     { label: "Restart server", body: null, result: "Server came back up", color: "#f78c6c" },
-    { label: "GET /members", body: null, result: '[ {"id":1, "name":"Ravi"} ] — STILL THERE ✅', color: "#22c55e" },
+    { label: "GET /members", body: null, result: '[ {"id":1, "name":"Ravi"} ] - STILL THERE ✅', color: "#22c55e" },
   ];
 
   const advance = () => {
@@ -1154,8 +1154,8 @@ function Slot6({ play }) {
 
   return (
     <SlotShell
-      subtitle="Slot 6 of 6 — Payoff"
-      title="You wrote zero SQL — JPA handled it."
+      subtitle="Slot 6 of 6 - Payoff"
+      title="You wrote zero SQL - JPA handled it."
       left={
         <div style={{ display: "flex", flexDirection: "column", gap: "20px", position: "relative" }}>
           {/* Particles */}
@@ -1174,7 +1174,7 @@ function Slot6({ play }) {
             borderRadius: "14px", padding: "20px",
           }}>
             <div style={{ fontSize: "13px", color: "#16A34A", fontWeight: 700, marginBottom: "16px" }}>
-              Proof — watch data survive a restart
+              Proof - watch data survive a restart
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -1240,12 +1240,12 @@ function Slot6({ play }) {
               <div style={{ fontSize: "13px", color: "#F1F5F9", fontWeight: 700, marginBottom: "12px" }}>What you used. What it means.</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {[
-                  ["interface", "Order slip — lists methods, no code"],
-                  ["JpaRepository", "Pre-printed slip — all ops included"],
+                  ["interface", "Order slip - lists methods, no code"],
+                  ["JpaRepository", "Pre-printed slip - all ops included"],
                   ["@Autowired", "Spring Boot delivers the repo for you"],
                   ["{id} ↔ Long id", "Path variable name must match"],
-                  ["repo.save()", "INSERT/UPDATE — you wrote zero SQL"],
-                  ["repo.findAll()", "SELECT all — you wrote zero SQL"],
+                  ["repo.save()", "INSERT/UPDATE - you wrote zero SQL"],
+                  ["repo.findAll()", "SELECT all - you wrote zero SQL"],
                 ].map(([term, meaning], i) => (
                   <div key={i} style={{
                     display: "flex", gap: "12px",
@@ -1280,11 +1280,11 @@ function Slot6({ play }) {
                 </div>
               )}
               {step < 1 && (
-                <div style={{ color: "#64748B" }}>— empty —</div>
+                <div style={{ color: "#64748B" }}>- empty -</div>
               )}
             </div>
             <div style={{ marginTop: "10px", fontSize: "11px", color: "#64748B" }}>
-              gym_member table — created by JPA
+              gym_member table - created by JPA
             </div>
           </VisualCard>
 

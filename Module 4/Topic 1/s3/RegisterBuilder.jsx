@@ -95,7 +95,7 @@ const STYLE = `
   @keyframes xPop { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.3); } 100% { transform: scale(1); opacity: 1; } }
   .reverse-x { display: inline-block; animation: xPop 0.3s ease; color: #DC2626; font-weight: 900; margin-left: 6px; }
 
-  /* live MySQL table — the payoff surface, always visible, updates as user progresses */
+  /* live MySQL table - the payoff surface, always visible, updates as user progresses */
   .live-table-wrap { border-radius: 12px; overflow: hidden; border: 1px solid #1F2937; margin-top: 8px; background: #0B0F19; }
   .live-table-head { display: flex; align-items: center; padding: 10px 14px; background: #111827; border-bottom: 1px solid #1F2937; }
   .live-table-title { font-size: 0.72rem; font-weight: 800; color: #64748B; text-transform: uppercase; letter-spacing: 0.06em; }
@@ -461,7 +461,7 @@ export default function RegisterBuilder() {
     <div className="rb-root">
       <style>{STYLE}</style>
       <div className="header">
-        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800 }}>The BCrypt Lab — Register Endpoint</h1>
+        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800 }}>The BCrypt Lab - Register Endpoint</h1>
         <button className="mute-btn" onClick={toggleMute}>{isMuted ? '🔇 Unmute' : '🔊 Mute'}</button>
       </div>
 
@@ -470,7 +470,7 @@ export default function RegisterBuilder() {
           <div className="rail-track">
             {STEPS.map((label, i) => (
               <React.Fragment key={label}>
-                {i > 0 && <span style={{ color: '#334155' }}>—</span>}
+                {i > 0 && <span style={{ color: '#334155' }}>-</span>}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <div className={`rail-dot${step > i + 1 ? ' done' : step === i + 1 ? ' active' : ''}`} />
                   <span className={`rail-lbl${step > i + 1 ? ' done-lbl' : step === i + 1 ? ' active-lbl' : ''}`}>{label}</span>
@@ -497,14 +497,14 @@ export default function RegisterBuilder() {
                   {ground && (
                     <>
                       <div className="mini-green" style={{ marginTop: 14 }}>
-                        MySQL stores only the powder. If someone breaks in, they find '$2a$10$...' — not 'gym@123'. Your users are safe.
+                        MySQL stores only the powder. If someone breaks in, they find '$2a$10$...' - not 'gym@123'. Your users are safe.
                       </div>
                       <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>True or false: BCrypt can reverse a hash back to the original password.</p>
                       <div className="rail-tf-row">
                         <button className={`rail-tf-btn${tfAnswer === 'true' ? ' wrong' : ''}`} disabled={!!tfAnswer} onClick={() => answerTF('true')}>TRUE</button>
                         <button className={`rail-tf-btn${tfAnswer === 'false' ? ' correct' : ''}`} disabled={!!tfAnswer} onClick={() => answerTF('false')}>FALSE</button>
                       </div>
-                      {tfAnswer === 'true' && <div className="qcheck-note-r wrong">False — BCrypt is one-way. Once ground, cannot un-grind.</div>}
+                      {tfAnswer === 'true' && <div className="qcheck-note-r wrong">False - BCrypt is one-way. Once ground, cannot un-grind.</div>}
                       {tfAnswer === 'false' && <div className="qcheck-note-r correct">Correct. One-way only. That is what makes it safe.</div>}
                       {tfAnswer === 'false' && <button className="rail-btn" onClick={buildIt}>Build it →</button>}
                     </>
@@ -514,7 +514,7 @@ export default function RegisterBuilder() {
 
               {step === 2 && (
                 <>
-                  <h2 className="rail-step-title">Step 1 — The User class</h2>
+                  <h2 className="rail-step-title">Step 1 - The User class</h2>
                   <p className="rail-prose">Same @Entity pattern you know from GymMember.</p>
                   <CopyBlock code={`@Entity\n@Table(name = "users")\npublic class User {\n\n    @Id\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\n    private Long id;\n\n    private String username;\n    private String password;\n}`}>
                     <span className="rc-tag">@Entity</span>{'\n'}<span className="rc-tag">@Table</span>(name = "users"){'\n'}
@@ -523,7 +523,7 @@ export default function RegisterBuilder() {
                     {'    '}private Long id;{'\n\n'}
                     {'    '}private String username;{'\n'}
                     {'    '}private {passwordType === 'String' ? <span className="rc-blank-done">String</span> : '[___]'} password;{'\n'}
-                    {passwordType === 'String' && <span className="rc-comment">    {'    '}// BCrypt hash — never plain{'\n'}</span>}
+                    {passwordType === 'String' && <span className="rc-comment">    {'    '}// BCrypt hash - never plain{'\n'}</span>}
                     {'}'}
                   </CopyBlock>
 
@@ -541,7 +541,7 @@ export default function RegisterBuilder() {
 
                   {passwordType === 'String' && (
                     <>
-                      <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>UserRepository — familiar pattern:</p>
+                      <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>UserRepository - familiar pattern:</p>
                       <CopyBlock code={`public interface UserRepository extends JpaRepository<User, Long> {\n}`}>
                         public interface UserRepository{'\n'}{'    '}extends JpaRepository{'<User, Long>'} {'{'}{'\n'}{'}'}{'\n'}
                         <span className="rc-comment">// same pattern as GymMemberRepository</span>
@@ -557,7 +557,7 @@ export default function RegisterBuilder() {
 
               {step === 3 && (
                 <>
-                  <h2 className="rail-step-title">@Bean — the restaurant that creates what @Autowired delivers</h2>
+                  <h2 className="rail-step-title">@Bean - the restaurant that creates what @Autowired delivers</h2>
                   <div className="mini-blue">
                     @Autowired = Zomato delivers the object. But who prepares the food? <b>@Bean is the restaurant.</b><br /><br />
                     <b>@Bean creates. @Autowired delivers.</b>
@@ -582,7 +582,7 @@ export default function RegisterBuilder() {
 
               {step === 4 && (
                 <>
-                  <h2 className="rail-step-title">Step 2 — Open the register door</h2>
+                  <h2 className="rail-step-title">Step 2 - Open the register door</h2>
                   <div className="mini-analogy">
                     Spring Security locks everything, including /auth/register. Ravi tries to register → 401 ❌<br /><br />
                     Cannot register without logging in. Cannot log in without registering. Fix: open /auth/** to everyone.
@@ -605,13 +605,13 @@ export default function RegisterBuilder() {
                         <input className="rail-text-input" placeholder="permitAll" value={permitAllInput} onChange={e => { setPermitAllInput(e.target.value); setPermitAllWrong(false); }} />
                         <button className="rail-submit-btn" onClick={submitPermitAll}>Check</button>
                       </div>
-                      {permitAllWrong && <div className="rail-feedback wrong">The method is permitAll() — allows everyone to reach this path.</div>}
+                      {permitAllWrong && <div className="rail-feedback wrong">The method is permitAll() - allows everyone to reach this path.</div>}
                     </div>
                   )}
 
                   {configCardIdx === 1 && (
                     <div className="mini-blue">
-                      <b>csrf().disable()</b> — CSRF protection is for browser forms. Your app sends JSON via Postman — not web forms. Safe to disable here.
+                      <b>csrf().disable()</b> - CSRF protection is for browser forms. Your app sends JSON via Postman - not web forms. Safe to disable here.
                       <button className="rail-btn" onClick={nextConfigCard}>Next →</button>
                     </div>
                   )}
@@ -623,7 +623,7 @@ export default function RegisterBuilder() {
                   )}
                   {configCardIdx === 3 && (
                     <div className="mini-blue">
-                      <b>SecurityFilterChain</b> is the rulebook for the security guard: "These doors anyone can enter. All other doors — show your card."
+                      <b>SecurityFilterChain</b> is the rulebook for the security guard: "These doors anyone can enter. All other doors - show your card."
                       <button className="rail-btn" onClick={() => { play('tick'); setConfigCardIdx(4); }}>Got it →</button>
                     </div>
                   )}
@@ -638,7 +638,7 @@ export default function RegisterBuilder() {
 
               {step === 5 && (
                 <>
-                  <h2 className="rail-step-title">Step 3 — The Register endpoint</h2>
+                  <h2 className="rail-step-title">Step 3 - The Register endpoint</h2>
                   <div className="mini-blue">
                     @RequestMapping("/auth") on the class → every method gets /auth as a prefix. @PostMapping("/register") → /auth/register.
                   </div>
@@ -663,7 +663,7 @@ export default function RegisterBuilder() {
                           <button key={opt} className={`rail-opt-btn${encodeAnswer === opt && opt !== 'encode' ? ' wrong' : ''}`} onClick={() => answerEncode(opt)}>{opt}</button>
                         ))}
                       </div>
-                      {encodeAnswer && encodeAnswer !== 'encode' && <div className="rail-feedback wrong">encode() is the grinder. matches() checks — that's 3.1.4.</div>}
+                      {encodeAnswer && encodeAnswer !== 'encode' && <div className="rail-feedback wrong">encode() is the grinder. matches() checks - that's 3.1.4.</div>}
                     </div>
                   )}
 
@@ -681,12 +681,12 @@ export default function RegisterBuilder() {
 
               {step === 6 && (
                 <>
-                  <h2 className="rail-step-title">Test — see BCrypt in MySQL</h2>
-                  <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>Test 1 — Register in Postman:</p>
+                  <h2 className="rail-step-title">Test - see BCrypt in MySQL</h2>
+                  <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>Test 1 - Register in Postman:</p>
                   <CopyBlock code={`POST localhost:8080/auth/register\n\n{\n  "username": "gymowner",\n  "password": "gym@123"\n}`}>
                     POST /auth/register{'\n\n'}{'{'}{'\n'}{'  '}"username": "gymowner",{'\n'}{'  '}"password": "gym@123"{'\n'}{'}'}
                   </CopyBlock>
-                  <p className="rail-prose">Expected: "Registered: gymowner" — no 401, because /auth/** is now open.</p>
+                  <p className="rail-prose">Expected: "Registered: gymowner" - no 401, because /auth/** is now open.</p>
                   <div className={`rail-check${test1Done ? ' checked' : ''}`} onClick={toggleTest1}>
                     <input type="checkbox" checked={test1Done} onChange={toggleTest1} readOnly />
                     ✅ Register returned "Registered: gymowner"
@@ -694,13 +694,13 @@ export default function RegisterBuilder() {
 
                   {test1Done && (
                     <>
-                      <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1', marginTop: 16 }}>Test 2 — THE PAYOFF (check MySQL):</p>
+                      <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1', marginTop: 16 }}>Test 2 - THE PAYOFF (check MySQL):</p>
                       <CopyBlock code={`mysql -u root -p\nUSE gymapp;\nSELECT * FROM users;`}>
                         mysql -u root -p{'\n'}USE gymapp;{'\n'}SELECT * FROM users;
                       </CopyBlock>
                       <div className={`rail-check${test2Done ? ' checked' : ''}`} onClick={toggleTest2}>
                         <input type="checkbox" checked={test2Done} onChange={toggleTest2} readOnly />
-                        ✅ MySQL shows hash — not plain password
+                        ✅ MySQL shows hash - not plain password
                       </div>
                     </>
                   )}
@@ -715,7 +715,7 @@ export default function RegisterBuilder() {
             {/* ── RIGHT: the machine, always big, always live ── */}
             <div className="machine-col">
               <div className="machine-stage-label">
-                {step === 1 && 'The Grinder — plain password in, hash out'}
+                {step === 1 && 'The Grinder - plain password in, hash out'}
                 {step === 2 && 'users table structure'}
                 {step === 3 && '@Bean creates → @Autowired delivers'}
                 {step === 4 && 'Security doors'}
@@ -808,7 +808,7 @@ export default function RegisterBuilder() {
                   />
                   {payoffLines > 0 && (
                     <div className="payoff-banner">
-                      {['See the password column?', "'$2a$10$...'", "Not 'gym@123'.", 'The BCrypt powder.', 'Irreversible.', 'If someone breaks into MySQL — they find only powder.', "They cannot get back to 'gym@123'.", 'Your users are protected. 🔒'].map((line, i) => (
+                      {['See the password column?', "'$2a$10$...'", "Not 'gym@123'.", 'The BCrypt powder.', 'Irreversible.', 'If someone breaks into MySQL - they find only powder.', "They cannot get back to 'gym@123'.", 'Your users are protected. 🔒'].map((line, i) => (
                         payoffLines >= i + 1 && <div key={line} className="payoff-line" style={{ animationDelay: `${i * 0.05}s`, fontWeight: i === 7 ? 700 : 400 }}>{line}</div>
                       ))}
                     </div>
@@ -821,19 +821,19 @@ export default function RegisterBuilder() {
           {revealCount > 0 && (
             <div className="reveal-strip">
               <h3 style={{ margin: '0 0 16px', color: '#FCD34D' }}>What you just learned</h3>
-              {revealCount >= 1 && <div className="reveal-line-item">✅ <span><b>BCrypt</b> → one-way grinder — plain password in, hash out, cannot reverse</span></div>}
+              {revealCount >= 1 && <div className="reveal-line-item">✅ <span><b>BCrypt</b> → one-way grinder - plain password in, hash out, cannot reverse</span></div>}
               {revealCount >= 2 && <div className="reveal-line-item">✅ <span><b>encode()</b> → grinds plain password → BCrypt hash</span></div>}
               {revealCount >= 3 && <div className="reveal-line-item">✅ <span><b>@Bean</b> → creates an object and registers it with Spring Boot</span></div>}
               {revealCount >= 4 && <div className="reveal-line-item">✅ <span><b>@Autowired</b> → delivers what @Bean created</span></div>}
               {revealCount >= 5 && <div className="reveal-line-item">✅ <span><b>@Configuration</b> → this class has Spring Boot settings</span></div>}
-              {revealCount >= 6 && <div className="reveal-line-item">✅ <span><b>permitAll()</b> → this path open to all — no authentication needed</span></div>}
-              {revealCount >= 7 && <div className="reveal-line-item">✅ <span><b>@RequestMapping("/auth")</b> → class-level URL prefix — all endpoints start with /auth</span></div>}
+              {revealCount >= 6 && <div className="reveal-line-item">✅ <span><b>permitAll()</b> → this path open to all - no authentication needed</span></div>}
+              {revealCount >= 7 && <div className="reveal-line-item">✅ <span><b>@RequestMapping("/auth")</b> → class-level URL prefix - all endpoints start with /auth</span></div>}
               {revealCount >= 7 && (
                 <>
                   <p style={{ textAlign: 'center', fontWeight: 700, marginTop: 16, color: '#F1F5F9', lineHeight: 1.8 }}>
                     Register is working. Passwords are BCrypt protected.<br /><br />
                     @Bean creates the grinder. @Autowired delivers it. SecurityConfig opens the door.<br /><br />
-                    Next — Login. matches() checks the password. Users prove who they are.
+                    Next - Login. matches() checks the password. Users prove who they are.
                   </p>
                   <button className="rail-btn" onClick={goToPhase2}>Build for YOUR project →</button>
                 </>
@@ -857,7 +857,7 @@ export default function RegisterBuilder() {
 
           {domain && (
             <>
-              <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Task 1 — Files created</h3>
+              <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Task 1 - Files created</h3>
               {[
                 ['user', 'User.java (@Entity, username, password fields, no-arg constructor, getters/setters)'],
                 ['repo', 'UserRepository.java (extends JpaRepository<User, Long>)'],
@@ -870,17 +870,17 @@ export default function RegisterBuilder() {
                 </label>
               ))}
 
-              <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Task 2 — Tested</h3>
+              <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Task 2 - Tested</h3>
               <label className={`task-item${tested.registerWorks ? ' checked' : ''}`}>
                 <input type="checkbox" checked={tested.registerWorks} onChange={() => toggleTested('registerWorks')} />
-                POST /auth/register works — got "Registered: [username]"
+                POST /auth/register works - got "Registered: [username]"
               </label>
               <label className={`task-item${tested.hashConfirmed ? ' checked' : ''}`}>
                 <input type="checkbox" checked={tested.hashConfirmed} onChange={() => toggleTested('hashConfirmed')} />
-                MySQL shows $2a$10$ hash — not plain password
+                MySQL shows $2a$10$ hash - not plain password
               </label>
 
-              <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Task 3 — Commit</h3>
+              <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Task 3 - Commit</h3>
               <CopyBlock code={`git add .\ngit commit -m "add User entity, SecurityConfig, and Register endpoint with BCrypt"\ngit push origin main`} cls="p2-code" btnCls="p2-copy">
                 git add .{'\n'}git commit -m "add User entity, SecurityConfig,{'\n'}{'  '}and Register endpoint with BCrypt"{'\n'}git push origin main
               </CopyBlock>
@@ -893,7 +893,7 @@ export default function RegisterBuilder() {
                 <>
                   <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Reflection</h3>
                   <p style={{ color: '#64748B', fontSize: '0.9rem', margin: '0 0 8px' }}>
-                    In one sentence — explain the difference between @Bean and @Autowired.
+                    In one sentence - explain the difference between @Bean and @Autowired.
                   </p>
                   <textarea
                     className="reflection-box"
@@ -905,19 +905,19 @@ export default function RegisterBuilder() {
                   <div className={`word-count${sentences >= 1 ? ' ok' : ''}`}>{sentences} / 1 sentence minimum</div>
 
                   <button className="btn green" style={{ width: '100%', marginTop: 16, opacity: canSubmit ? 1 : 0.5 }} disabled={!canSubmit || submitted} onClick={handleSubmit}>
-                    {submitted ? 'Submitted ✅' : 'Register working — build Login next →'}
+                    {submitted ? 'Submitted ✅' : 'Register working - build Login next →'}
                   </button>
 
                   {submitted && (
                     <div style={{ marginTop: 16, padding: 16, background: '#F0FDF4', borderRadius: 8, color: '#065F46' }}>
                       <b>Register complete. 🔒</b><br /><br />
-                      {['User entity — users table in MySQL', 'BCrypt — passwords hashed', '@Bean created the grinder', '@Autowired delivered it', 'SecurityConfig — /auth/** open', 'Register endpoint working'].map((line, i) => (
+                      {['User entity - users table in MySQL', 'BCrypt - passwords hashed', '@Bean created the grinder', '@Autowired delivered it', 'SecurityConfig - /auth/** open', 'Register endpoint working'].map((line, i) => (
                         <div key={line} style={{ animation: 'fadeInUp 0.4s ease backwards', animationDelay: `${i * 0.15}s` }}>
                           <span className="check-pop" style={{ animationDelay: `${i * 0.15}s` }}>✅</span> {line}
                         </div>
                       ))}
                       <br />
-                      Next — 3.1.4.<br />
+                      Next - 3.1.4.<br />
                       The Login endpoint. matches() checks the password. User proves who they are.
                     </div>
                   )}
@@ -942,7 +942,7 @@ function LiveUsersTable({ rows, showEmpty, structureOnly, pulse }) {
         <thead><tr><th>id</th><th>username</th><th>password</th></tr></thead>
         <tbody>
           {structureOnly && (
-            <tr><td>—</td><td>—</td><td style={{ color: '#475569', fontStyle: 'italic' }}>(BCrypt hash)</td></tr>
+            <tr><td>-</td><td>-</td><td style={{ color: '#475569', fontStyle: 'italic' }}>(BCrypt hash)</td></tr>
           )}
           {showEmpty && !structureOnly && (
             <tr className="live-empty-row"><td colSpan="3">(waiting for data)</td></tr>

@@ -23,15 +23,15 @@
 
     // step 0 = idle
     // steps 1-9 = animation (each ~700ms)
-    //   1: FE lit — user hit button
-    //   2: arrow1 forward — data leaving FE
-    //   3: BE lit — backend processing
-    //   4: arrow2 forward — data going to DB
-    //   5: DB lit — saving
-    //   6: arrow2 backward — DB responds
-    //   7: BE lit — backend sending response
-    //   8: arrow1 backward — response going to FE
-    //   9: FE lit — result shown
+    //   1: FE lit - user hit button
+    //   2: arrow1 forward - data leaving FE
+    //   3: BE lit - backend processing
+    //   4: arrow2 forward - data going to DB
+    //   5: DB lit - saving
+    //   6: arrow2 backward - DB responds
+    //   7: BE lit - backend sending response
+    //   8: arrow1 backward - response going to FE
+    //   9: FE lit - result shown
     const TIMINGS = [0, 700, 1400, 2100, 2900, 3700, 4400, 5100, 5800];
 
     function FullStackSimulator() {
@@ -188,7 +188,7 @@
 
           {/* Header */}
           <div className="hdr">
-            <h1>See how an app works — live</h1>
+            <h1>See how an app works - live</h1>
             <p>Type your name, tap the button, and watch your data travel through all 3 layers.</p>
           </div>
 
@@ -279,7 +279,7 @@
 
             {/* App explorer */}
             <div className="explorer">
-              <h3>Tap any app you use — see the same 3 layers</h3>
+              <h3>Tap any app you use - see the same 3 layers</h3>
               <div className="hint">Every app in the world is built exactly like what you just watched.</div>
               <div className="app-btns">
                 {Object.entries(APPS).map(([key, app]) => (
@@ -316,7 +316,7 @@
             <div className="task">
               <h3>Your turn 🙏</h3>
               <p>
-                Write <strong>3 sentences</strong> — one for each layer:<br />
+                Write <strong>3 sentences</strong> - one for each layer:<br />
                 What is a <strong>Frontend</strong>? What is a <strong>Backend</strong>? What is a <strong>Database</strong>?<br />
                 Your own words. No copying. Simple and honest beats perfect and copied.
               </p>

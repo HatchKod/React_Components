@@ -1,4 +1,4 @@
-// AppFlowBuilder.jsx — HatchKod Subtopic 0.3.2
+// AppFlowBuilder.jsx - HatchKod Subtopic 0.3.2
 // Drag-and-connect app flow diagram builder
 
 const { useState, useEffect, useRef, useCallback } = React;
@@ -382,7 +382,7 @@ function Canvas({ nodes, arrows, onAddNode, onRemoveNode, onAddArrow, onRemoveAr
   // ── Node dragging on canvas
   const handleNodeMouseDown = (e, nodeId) => {
     if (e.target.classList.contains('afb-screen-node-remove')) return;
-    if (connectSource !== null) return; // in connect mode — treat as click
+    if (connectSource !== null) return; // in connect mode - treat as click
     e.stopPropagation();
     const startX = e.clientX;
     const startY = e.clientY;
@@ -396,7 +396,7 @@ function Canvas({ nodes, arrows, onAddNode, onRemoveNode, onAddArrow, onRemoveAr
       const rect = canvasRef.current.getBoundingClientRect();
       const nx = Math.max(0, Math.min(startNX + dx, rect.width - 120));
       const ny = Math.max(0, Math.min(startNY + dy, rect.height - 150));
-      // directly mutate for perf — re-render via state update
+      // directly mutate for perf - re-render via state update
       onMoveNode(nodeId, nx, ny);
     };
     const onUp = () => {
@@ -663,7 +663,7 @@ function AppFlowBuilder() {
 
       {/* ════ SECTION 1 ════ */}
       <div className="afb-header">
-        <h1>Draw how your app flows — screen by screen 📱</h1>
+        <h1>Draw how your app flows - screen by screen 📱</h1>
         <p>Drag the screens your app needs onto the canvas.<br/>Then connect them with arrows to show how a user moves through your app.</p>
       </div>
 
@@ -684,7 +684,7 @@ function AppFlowBuilder() {
         ))}
       </div>
 
-      {/* Builder — shown after domain selected */}
+      {/* Builder - shown after domain selected */}
       {domain && !submitted && (
         <>
           {/* Screen Library */}
@@ -752,7 +752,7 @@ function AppFlowBuilder() {
             {/* Warnings */}
             {warning === 'screens' && (
               <div className="afb-warn">
-                ⚠️ <strong>Your app needs at least 3 screens</strong> — one for each of your MVP features. Add a few more!
+                ⚠️ <strong>Your app needs at least 3 screens</strong> - one for each of your MVP features. Add a few more!
               </div>
             )}
             {warning === 'arrows' && (
@@ -778,7 +778,7 @@ function AppFlowBuilder() {
                 This is the journey a real user will take through your app.
               </p>
               <p>
-                Before any code — you already know exactly what you are building.
+                Before any code - you already know exactly what you are building.
               </p>
             </div>
           )}
@@ -822,7 +822,7 @@ function AppFlowBuilder() {
 
           <div className="afb-paper-card">
             <p>
-              The screen you just built digitally — now draw it in your notebook.
+              The screen you just built digitally - now draw it in your notebook.
             </p>
             <p>
               Rough is perfect. Boxes for screens. Arrows between them. Labels on each box.
@@ -846,7 +846,7 @@ function AppFlowBuilder() {
 
           <div style={{ marginBottom: '2rem' }}>
             <label style={{ display: 'block', fontWeight: 600, fontSize: '1.05rem', color: '#0f172a', marginBottom: '.6rem' }}>
-              Your own words only — what does your sketch show?
+              Your own words only - what does your sketch show?
             </label>
             <p style={{ color: '#64748b', fontSize: '.9rem', marginBottom: '.75rem', lineHeight: 1.6 }}>
               How does a user go from opening your app to completing their main task?
@@ -861,7 +861,7 @@ function AppFlowBuilder() {
             />
             <div className={`afb-counter${sentenceCount >= 2 ? ' done' : ''}`}>
               {sentenceCount >= 2
-                ? `✓ ${sentenceCount} sentences written — ready to submit`
+                ? `✓ ${sentenceCount} sentences written - ready to submit`
                 : `${sentenceCount} of 2 sentences written`}
             </div>
             <div className="afb-mentor-note" style={{ marginTop: '.75rem' }}>
@@ -875,7 +875,7 @@ function AppFlowBuilder() {
             disabled={!canSubmit}
             onClick={handleSubmit}
           >
-            My sketch is done — I'm ready to set up →
+            My sketch is done - I'm ready to set up →
           </button>
         </div>
       )}
@@ -891,7 +891,7 @@ function AppFlowBuilder() {
             <li><span>✓</span> Your app's screens and flow</li>
           </ul>
           <p style={{ marginTop: '1rem' }}>
-            One more thing before the coding starts —<br/>
+            One more thing before the coding starts -<br/>
             let's make sure your laptop is ready.
           </p>
           <p style={{ fontWeight: 600, color: '#7c3aed', fontSize: '1.1rem', marginTop: '1rem' }}>
@@ -904,7 +904,7 @@ function AppFlowBuilder() {
 }
 
 // ─────────────────────────────────────────────
-// CANVAS WITH MOVE — wraps Canvas and handles
+// CANVAS WITH MOVE - wraps Canvas and handles
 // node movement state at this level so we keep
 // Canvas re-renders minimal
 // ─────────────────────────────────────────────

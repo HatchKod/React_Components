@@ -40,7 +40,7 @@ function str(t) { return <span style={{ color: G }}>{t}</span>; }
 function cm(t) { return <span style={{ color: GR }}>{t}</span>; }
 function ang(t) { return <span style={{ color: P }}>{t}</span>; }
 
-// ─── CONCEPT PILL — tap target beside a code line ────────────────────────────
+// ─── CONCEPT PILL - tap target beside a code line ────────────────────────────
 function Pill({ label, done, onClick }) {
   return (
     <button onClick={onClick} style={{
@@ -66,7 +66,7 @@ function StatusStamp({ id, text, color }) {
   );
 }
 
-// ─── PHASE 1 — CONCEPT CHECKLIST ─────────────────────────────────────────────
+// ─── PHASE 1 - CONCEPT CHECKLIST ─────────────────────────────────────────────
 const CONCEPT_ORDER = [
   ["vars", "Variables + Data Types (1.1.1)"],
   ["ifelse", "if/else (1.1.2)"],
@@ -93,7 +93,7 @@ function ConceptChecklist({ tapped }) {
   );
 }
 
-// ─── PHASE 1 — THE COMPLETE EXAMPLE CLASS ────────────────────────────────────
+// ─── PHASE 1 - THE COMPLETE EXAMPLE CLASS ────────────────────────────────────
 function Phase1Code({ tapped, tap, playSound }) {
   const mark = (k, e) => { tap(k); if (e) e.currentTarget.blur(); };
   return (
@@ -245,7 +245,7 @@ function Phase1Visual({ tapped, pulse }) {
   );
 }
 
-// ─── PHASE 2 — DOMAIN STARTERS ────────────────────────────────────────────────
+// ─── PHASE 2 - DOMAIN STARTERS ────────────────────────────────────────────────
 const DOMAINS = {
   "🏋️ Gym": `import java.util.List;
 import java.util.ArrayList;
@@ -424,7 +424,7 @@ function CelebrationCard({ playSound }) {
       <div style={{ marginTop: 22, fontSize: 14, color: "#065F46", lineHeight: 1.9, fontWeight: 700 }}>
         This is not a certificate. This is real Java. Written by you. For a real project.<br /><br />
         <span style={{ fontWeight: 400 }}>
-          In Module 2 — your class gets connected to a database. Every field you wrote becomes a column in a database table.
+          In Module 2 - your class gets connected to a database. Every field you wrote becomes a column in a database table.
           Every object you create becomes a row in that table.
         </span><br /><br />
         You are ready.
@@ -588,7 +588,7 @@ export default function DomainClassBuilder() {
       <div style={{ background: "linear-gradient(135deg,#1E293B,#334155)", color: "#fff", padding: "32px 24px 28px", textAlign: "center" }}>
         <div style={{ fontSize: 12, color: "#94A3B8", letterSpacing: 2, marginBottom: 6 }}>SUBTOPIC 1.3.4 · HATCHKOD</div>
         <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>Domain Class Builder</div>
-        <div style={{ fontSize: 15, color: "#CBD5E1" }}>Everything from Module 1, in one class — yours</div>
+        <div style={{ fontSize: 15, color: "#CBD5E1" }}>Everything from Module 1, in one class - yours</div>
       </div>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 16px" }}>
@@ -625,9 +625,9 @@ export default function DomainClassBuilder() {
           <div>
             <div style={{ background: "#EAF3DE", border: "1px solid #C0DD97", borderRadius: 14, padding: 22, marginBottom: 24, fontSize: 14, color: "#374151", lineHeight: 1.8 }}>
               <strong style={{ color: "#1E293B", fontSize: 16 }}>Now it is your turn.</strong><br /><br />
-              Everything you see in GymMember — write it for YOUR neighbourhood project.<br />
+              Everything you see in GymMember - write it for YOUR neighbourhood project.<br />
               Your class. Your fields. Your methods. Your domain. Your first real code.<br /><br />
-              Take your time. Every line should make sense to you. If a line doesn't make sense — delete it and rewrite it in a way that does.
+              Take your time. Every line should make sense to you. If a line doesn't make sense - delete it and rewrite it in a way that does.
             </div>
 
             <div style={{ display: "flex", gap: 28, flexWrap: "wrap", alignItems: "flex-start" }}>
@@ -671,7 +671,7 @@ export default function DomainClassBuilder() {
 
                     <div style={{ marginTop: 16 }}>
                       <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-                        In 2-3 sentences — explain your class as if you are telling the business owner what you built for their business.
+                        In 2-3 sentences - explain your class as if you are telling the business owner what you built for their business.
                       </div>
                       <textarea
                         value={reflection}
@@ -694,7 +694,7 @@ export default function DomainClassBuilder() {
                         marginTop: 16, padding: "14px 32px", background: canSubmit ? "#1E293B" : "#CBD5E1",
                         color: "#fff", border: "none", borderRadius: 12, fontSize: 16, fontWeight: 700,
                         cursor: canSubmit ? "pointer" : "not-allowed", display: "block", width: "100%"
-                      }}>My domain class is written — Module 1 complete →</button>
+                      }}>My domain class is written - Module 1 complete →</button>
                   </>
                 )}
               </div>

@@ -53,7 +53,7 @@ function Tip({ text, children }) {
 // ─── CODE COLOR HELPERS ──────────────────────────────────────────────────────
 const B = "#60A5FA", Y = "#FACC15", O = "#FB923C", G = "#4ADE80", P = "#E879F9", GR = "#94A3B8";
 function kw(t) { return <span style={{ color: B }}>{t}</span>; }
-function cn(t) { return <Tip text="Same as the class name — always. How Java knows it's a constructor."><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
+function cn(t) { return <Tip text="Same as the class name - always. How Java knows it's a constructor."><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
 function th(t) { return <Tip text="The object being created right now."><span style={{ color: P, fontWeight: 700 }}>{t}</span></Tip>; }
 function pm(t) { return <span style={{ color: O }}>{t}</span>; }
 function nw(t) { return <Tip text="Calls the constructor. Creates a fresh object from the blueprint."><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
@@ -140,7 +140,7 @@ function ThisExplainer() {
       marginTop: 16, background: "#FDF4FF", border: "1px solid #F0ABFC", borderRadius: 12,
       padding: 16, animation: "slideIn 0.4s ease"
     }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color: "#86198F", marginBottom: 10 }}>THE this KEYWORD — SIDE BY SIDE</div>
+      <div style={{ fontSize: 12, fontWeight: 700, color: "#86198F", marginBottom: 10 }}>THE this KEYWORD - SIDE BY SIDE</div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
         <div style={{ textAlign: "center" }}>
           <div style={{ fontFamily: "monospace", fontSize: 14, color: P, fontWeight: 700 }}>this.name</div>
@@ -155,7 +155,7 @@ function ThisExplainer() {
       <div style={{ marginTop: 12, fontSize: 12, color: "#701A75", lineHeight: 1.7, textAlign: "center" }}>
         When <code>new GymMember("Ravi", 21)</code> is called:<br />
         the <span style={{ color: O, fontWeight: 700 }}>name</span> parameter = "Ravi" &nbsp;→&nbsp; <span style={{ color: P, fontWeight: 700 }}>this.name</span> field gets "Ravi"<br />
-        If both were just called <code>name</code>, Java couldn't tell them apart —
+        If both were just called <code>name</code>, Java couldn't tell them apart -
         <span style={{ color: P, fontWeight: 700 }}> this.</span> removes the confusion.
       </div>
     </div>
@@ -165,10 +165,10 @@ function ThisExplainer() {
 // ─── ANALOGY INTRO ───────────────────────────────────────────────────────────
 function AnalogyIntro() {
   const rows = [
-    ["🔧 Cutter shape", "class GymMember", "The metal shape — designed once, reused forever"],
+    ["🔧 Cutter shape", "class GymMember", "The metal shape - designed once, reused forever"],
     ["👋 Pressing it down", "new GymMember(...)", "The action that triggers the stamp"],
-    ["⚙️ The press mechanism", "the constructor", "Runs the instant you press — fills the dough with details"],
-    ["🍪 The cookie that pops out", "the object (ravi)", "One real, filled-in thing — never the same as the cutter"],
+    ["⚙️ The press mechanism", "the constructor", "Runs the instant you press - fills the dough with details"],
+    ["🍪 The cookie that pops out", "the object (ravi)", "One real, filled-in thing - never the same as the cutter"],
   ];
   return (
     <div style={{
@@ -176,7 +176,7 @@ function AnalogyIntro() {
       padding: 18, marginBottom: 20
     }}>
       <div style={{ fontSize: 13, fontWeight: 700, color: "#0C4A6E", marginBottom: 10 }}>
-        THE ANALOGY — a cookie cutter has three parts
+        THE ANALOGY - a cookie cutter has three parts
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {rows.map(([label, code, desc]) => (
@@ -194,18 +194,18 @@ function AnalogyIntro() {
   );
 }
 
-// ─── PHASE 1 — SLOT 1 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 1 ────────────────────────────────────────────────────────
 function Slot1({ onNext, playSound }) {
   return (
     <div style={{ marginBottom: 32 }}>
       <AnalogyIntro />
       <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>What happens when you write new?</div>
-      <div style={{ color: "#64748B", marginBottom: 10, fontSize: 13 }}>Read this code first — don't run it in your head yet, just notice what's missing.</div>
+      <div style={{ color: "#64748B", marginBottom: 10, fontSize: 13 }}>Read this code first - don't run it in your head yet, just notice what's missing.</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
         <div>{cn("GymMember")}{" "}{pm("ravi")}{" = "}{nw("new")}{" "}{cn("GymMember")}{"();"}</div>
         <div style={{ color: GR, fontSize: 11 }}>{"// ↑ but what are ravi's values?"}</div>
         <div style={{ color: GR, fontSize: 11 }}>{"// name? age? plan?"}</div>
-        <div style={{ color: GR, fontSize: 11 }}>{"// all null/zero — nobody set them up"}</div>
+        <div style={{ color: GR, fontSize: 11 }}>{"// all null/zero - nobody set them up"}</div>
         <div style={{ marginTop: 10 }}>{kw("System")}<span style={{ color: GR }}>.</span>{pm("out")}<span style={{ color: GR }}>.</span>{pm("println")}({pm("ravi")}<span style={{ color: GR }}>.</span>{pm("getName")}());</div>
         <div style={{ color: "#F87171" }}>{"// → null"}</div>
         <div style={{ marginTop: 10 }}>{cn("GymMember")}{" "}{pm("suresh")}{" = "}{nw("new")}{" "}{cn("GymMember")}{"();"}</div>
@@ -227,7 +227,7 @@ function Slot1({ onNext, playSound }) {
   );
 }
 
-// ─── PHASE 1 — SLOT 2 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 2 ────────────────────────────────────────────────────────
 function Slot2({ onNext, playSound, onB1, onAllOk }) {
   const [b1, setB1] = useState("");
   const [b1Wrong, setB1Wrong] = useState(false);
@@ -270,7 +270,7 @@ function Slot2({ onNext, playSound, onB1, onAllOk }) {
 
   return (
     <div style={{ marginBottom: 32, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>The constructor — runs every time new is called</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>The constructor - runs every time new is called</div>
       <div style={{ color: "#64748B", marginBottom: 14, fontSize: 13 }}>Fill in the three blanks.</div>
 
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
@@ -299,7 +299,7 @@ function Slot2({ onNext, playSound, onB1, onAllOk }) {
           <div style={{ paddingLeft: 48, color: "#F87171", fontSize: 11, maxWidth: 480 }}>
             {b1Void
               ? "Constructors NEVER have a return type. Not void. Not String. Nothing. Just the class name directly. Try public."
-              : "Constructors are usually public — so any code can create objects. Try public."}
+              : "Constructors are usually public - so any code can create objects. Try public."}
           </div>
         )}
 
@@ -313,7 +313,7 @@ function Slot2({ onNext, playSound, onB1, onAllOk }) {
           <span>.{pm("name")}{" = "}{pm("name")};</span>
         </div>
         <div style={{ paddingLeft: 48, color: GR, fontSize: 11 }}>{"// ↑ blank 2: what refers to the object?"}</div>
-        {b2Wrong && <div style={{ paddingLeft: 48, color: "#F87171", fontSize: 11 }}>The keyword is: this — it refers to the object being created right now.</div>}
+        {b2Wrong && <div style={{ paddingLeft: 48, color: "#F87171", fontSize: 11 }}>The keyword is: this - it refers to the object being created right now.</div>}
 
         <div style={{ paddingLeft: 24, marginTop: 6, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           <input value={b3} onChange={checkB3} placeholder="this"
@@ -325,7 +325,7 @@ function Slot2({ onNext, playSound, onB1, onAllOk }) {
           <span>.{pm("age")}{" = "}{pm("age")};</span>
         </div>
         <div style={{ paddingLeft: 48, color: GR, fontSize: 11 }}>{"// ↑ blank 3: same answer"}</div>
-        {b3Wrong && <div style={{ paddingLeft: 48, color: "#F87171", fontSize: 11 }}>Same keyword — this.</div>}
+        {b3Wrong && <div style={{ paddingLeft: 48, color: "#F87171", fontSize: 11 }}>Same keyword - this.</div>}
 
         <div>{"}"}</div>
         <div>{"}"}</div>
@@ -335,9 +335,9 @@ function Slot2({ onNext, playSound, onB1, onAllOk }) {
         <div style={{ animation: "slideIn 0.4s ease" }}>
           <div style={{ marginTop: 16, fontSize: 13, fontWeight: 600, color: "#374151" }}>Full constructor:</div>
           <div style={{ marginTop: 8, background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
-            <Tip text="Same as the class name — always. No return type — never."><div>{kw("public")}{" "}{cn("GymMember")}(String name, int age) {"{"}</div></Tip>
-            <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// ↑ same name as class — always"}</div>
-            <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// ↑ no return type — never"}</div>
+            <Tip text="Same as the class name - always. No return type - never."><div>{kw("public")}{" "}{cn("GymMember")}(String name, int age) {"{"}</div></Tip>
+            <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// ↑ same name as class - always"}</div>
+            <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// ↑ no return type - never"}</div>
             <div style={{ paddingLeft: 24 }}>{dotTh("name")}{" = "}{pm("name")};</div>
             <div style={{ paddingLeft: 48, color: GR, fontSize: 11 }}>{"//   ↑           ↑"}</div>
             <div style={{ paddingLeft: 48, color: GR, fontSize: 11 }}>{"//   field       parameter"}</div>
@@ -358,7 +358,7 @@ function Slot2({ onNext, playSound, onB1, onAllOk }) {
   );
 }
 
-// ─── PHASE 1 — SLOT 3 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 3 ────────────────────────────────────────────────────────
 function Slot3({ onDone, playSound, onTaskA, onChecked }) {
   const [taskA, setTaskA] = useState("");
   const [taskAOk, setTaskAOk] = useState(false);
@@ -388,7 +388,7 @@ function Slot3({ onDone, playSound, onTaskA, onChecked }) {
     <div style={{ marginBottom: 32, animation: "slideIn 0.4s ease" }}>
       <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 14 }}>Create real objects + the blank constructor</div>
 
-      <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>TASK A — USE THE CONSTRUCTOR</div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>TASK A - USE THE CONSTRUCTOR</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           <span>{cn("GymMember")}{" "}{pm("ravi")}{" = "}</span>
@@ -399,7 +399,7 @@ function Slot3({ onDone, playSound, onTaskA, onChecked }) {
               fontFamily: "monospace", fontSize: 13, padding: "2px 6px"
             }} /><span>(</span>
         </div>
-        <div style={{ paddingLeft: 48, color: GR, fontSize: 11 }}>{"// ↑ blank: how to create — new keyword + class name"}</div>
+        <div style={{ paddingLeft: 48, color: GR, fontSize: 11 }}>{"// ↑ blank: how to create - new keyword + class name"}</div>
         <div style={{ paddingLeft: 24 }}>{cm('"Ravi",')}{"  "}{cm("// name parameter")}</div>
         <div style={{ paddingLeft: 24 }}>{cm("21,")}{"     "}{cm("// age parameter")}</div>
         <div style={{ paddingLeft: 24 }}>{cm('"Basic"')}{" "}{cm("// plan parameter")}</div>
@@ -417,11 +417,11 @@ function Slot3({ onDone, playSound, onTaskA, onChecked }) {
 
       {taskAOk && (
         <div style={{ marginTop: 28, animation: "slideIn 0.4s ease" }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>TASK B — NO-ARG CONSTRUCTOR</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>TASK B - NO-ARG CONSTRUCTOR</div>
           <div style={{ background: "#FEFCE8", border: "1px solid #FDE68A", borderRadius: 10, padding: 16, fontSize: 14, color: "#713F12", lineHeight: 1.8, marginBottom: 12 }}>
-            Some tools that connect your class to external systems need to create a blank object first — then fill the fields one by one.<br /><br />
-            For this to work — you need a <strong>no-argument constructor</strong>.<br /><br />
-            Add this alongside your existing constructor — both in the same class.
+            Some tools that connect your class to external systems need to create a blank object first - then fill the fields one by one.<br /><br />
+            For this to work - you need a <strong>no-argument constructor</strong>.<br /><br />
+            Add this alongside your existing constructor - both in the same class.
           </div>
 
           <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
@@ -430,10 +430,10 @@ function Slot3({ onDone, playSound, onTaskA, onChecked }) {
             <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("int")}{" "}{pm("age")};</div>
             <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{pm("plan")};</div>
             <div style={{ height: 8 }} />
-            <div style={{ paddingLeft: 24, color: GR }}>{"// no-arg — creates blank object"}</div>
+            <div style={{ paddingLeft: 24, color: GR }}>{"// no-arg - creates blank object"}</div>
             <div style={{ paddingLeft: 24 }}>{kw("public")}{" "}{cn("GymMember")}() {"{ }"}</div>
             <div style={{ height: 8 }} />
-            <div style={{ paddingLeft: 24, color: GR }}>{"// with parameters — creates real object"}</div>
+            <div style={{ paddingLeft: 24, color: GR }}>{"// with parameters - creates real object"}</div>
             <div style={{ paddingLeft: 24 }}>{kw("public")}{" "}{cn("GymMember")}(</div>
             <div style={{ paddingLeft: 48 }}>{kw("String")}{" "}{pm("name")}, {kw("int")}{" "}{pm("age")}, {kw("String")}{" "}{pm("plan")}</div>
             <div style={{ paddingLeft: 24 }}>{") {"}</div>
@@ -463,12 +463,12 @@ function Slot3({ onDone, playSound, onTaskA, onChecked }) {
 // ─── PHASE 1 REVEAL ──────────────────────────────────────────────────────────
 function RevealCard({ onDone, playSound }) {
   const items = [
-    ["Constructor", "setup method that runs when new is called — same name as class, no return type"],
+    ["Constructor", "setup method that runs when new is called - same name as class, no return type"],
     ["this", "refers to the object being created right now"],
     ["this.name", "the field on the object"],
-    ["no-arg constructor", "no parameters — creates blank object"],
+    ["no-arg constructor", "no parameters - creates blank object"],
     ["Constructor overloading", "two constructors, different parameters, Java picks the right one"],
-    ["new", "calls the constructor — creates a fresh object from the blueprint"],
+    ["new", "calls the constructor - creates a fresh object from the blueprint"],
   ];
   const [ticked, setTicked] = useState([]);
   useEffect(() => {
@@ -484,13 +484,13 @@ function RevealCard({ onDone, playSound }) {
       {items.map(([term, def], i) => (
         <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 12, opacity: ticked.includes(i) ? 1 : 0.2, transition: "opacity 0.4s" }}>
           <span style={{ color: "#10B981", fontWeight: 700, fontSize: 18, marginTop: 1 }}>{ticked.includes(i) ? "✓" : "○"}</span>
-          <div><span style={{ fontWeight: 700, color: "#1E293B" }}>{term}</span>{" — "}<span style={{ color: "#374151" }}>{def}</span></div>
+          <div><span style={{ fontWeight: 700, color: "#1E293B" }}>{term}</span>{" - "}<span style={{ color: "#374151" }}>{def}</span></div>
         </div>
       ))}
       <div style={{ marginTop: 20, textAlign: "center", color: "#78350F", fontSize: 14, lineHeight: 1.8, fontWeight: 700 }}>
         Every object is created by a constructor. Every new call runs it.<br /><br />
         <span style={{ fontWeight: 400 }}>
-          Your GymMember class now has both — a constructor with parameters for creating real members,
+          Your GymMember class now has both - a constructor with parameters for creating real members,
           and a no-arg constructor for tools that need a blank object first.
         </span>
       </div>
@@ -549,7 +549,7 @@ function Phase1Visual({ slot, b1ok, b2b3ok, taskAOk, checked }) {
       {slot === 3 && (
         <Tray
           cookies={cookies}
-          emptyLabel="Press the cutter — objects will appear here"
+          emptyLabel="Press the cutter - objects will appear here"
         />
       )}
 
@@ -675,7 +675,7 @@ function Phase2Left({ domain, setDomain, code, setCode, reflection, setReflectio
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              In one sentence — what is the difference between this.name and name inside a constructor?
+              In one sentence - what is the difference between this.name and name inside a constructor?
             </div>
             <textarea
               value={reflection}
@@ -756,10 +756,10 @@ function Phase2Visual({ domain, parsed, code }) {
           <div style={{ textAlign: "center", marginBottom: 10 }}>
             <Cutter label={`${d.cls} class (blueprint)`} active={true} stamping={parsed.objectCreated} color={d.color} />
           </div>
-          <Tray cookies={cookies} emptyLabel="Finish the constructors — objects will stamp out here" />
+          <Tray cookies={cookies} emptyLabel="Finish the constructors - objects will stamp out here" />
           <div style={{ marginTop: 14, background: "#0F172A", borderRadius: 10, padding: 14, fontFamily: "monospace", fontSize: 12, color: "#94A3B8" }}>
             <div>Objects created: <span style={{ color: "#4ADE80" }}>{parsed.objectsCreatedCount}</span></div>
-            <div>Fields set: <span style={{ color: "#4ADE80" }}>{parsed.paramConstructorFields.join(", ") || "—"}</span></div>
+            <div>Fields set: <span style={{ color: "#4ADE80" }}>{parsed.paramConstructorFields.join(", ") || "-"}</span></div>
             <div>No-arg: <span style={{ color: parsed.hasNoArgConstructor ? "#4ADE80" : "#F87171" }}>{parsed.hasNoArgConstructor ? "✅" : "❌"}</span></div>
           </div>
         </>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>App Flow Builder — HatchKod 0.3.2</title>
+  <title>App Flow Builder - HatchKod 0.3.2</title>
   <meta name="description" content="Draw your app's screen flow before writing a single line of code. A visual wireframing exercise for HatchKod students." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
 <body>
   <div id="root"></div>
 
-  <!-- JSX source stored as inert template — browser won't execute it -->
+  <!-- JSX source stored as inert template - browser won't execute it -->
   <script id="jsx-source" type="text/jsx-source">
 const { useState, useEffect, useRef, useCallback } = React;
 
@@ -527,7 +527,7 @@ function AppFlowBuilder() {
 
       {/* ══ SECTION 1 ══ */}
       <div className="afb-header">
-        <h1>Draw how your app flows — screen by screen 📱</h1>
+        <h1>Draw how your app flows - screen by screen 📱</h1>
         <p>Drag the screens your app needs onto the canvas.<br/>Then connect them with arrows to show how a user moves through your app.</p>
       </div>
 
@@ -601,7 +601,7 @@ function AppFlowBuilder() {
 
             {warning === 'screens' && (
               <div className="afb-warn" id="warn-screens">
-                ⚠️ <strong>Your app needs at least 3 screens</strong> — one for each of your MVP features. Add a few more!
+                ⚠️ <strong>Your app needs at least 3 screens</strong> - one for each of your MVP features. Add a few more!
               </div>
             )}
             {warning === 'arrows' && (
@@ -623,7 +623,7 @@ function AppFlowBuilder() {
                 Your app has <strong>{canvasNodes.length} screens</strong> connected by <strong>{arrows.length} arrow{arrows.length !== 1 ? 's' : ''}</strong>.
               </p>
               <p>This is the journey a real user will take through your app.</p>
-              <p>Before any code — you already know exactly what you are building.</p>
+              <p>Before any code - you already know exactly what you are building.</p>
             </div>
           )}
 
@@ -652,7 +652,7 @@ function AppFlowBuilder() {
           </div>
 
           <div className="afb-paper-card">
-            <p>The screen you just built digitally — now draw it in your notebook.</p>
+            <p>The screen you just built digitally - now draw it in your notebook.</p>
             <p>Rough is perfect. Boxes for screens. Arrows between them. Labels on each box.</p>
             <p style={{ marginBottom:'.5rem' }}>This is not an art test. A 5-year-old's drawing is fine as long as it shows:</p>
             <ul className="afb-checklist">
@@ -668,7 +668,7 @@ function AppFlowBuilder() {
 
           <div style={{ marginBottom:'2rem' }}>
             <label style={{ display:'block', fontWeight:600, fontSize:'1.05rem', color:'#0f172a', marginBottom:'.6rem' }}>
-              Your own words only — what does your sketch show?
+              Your own words only - what does your sketch show?
             </label>
             <p style={{ color:'#64748b', fontSize:'.9rem', marginBottom:'.75rem', lineHeight:1.6 }}>
               How does a user go from opening your app to completing their main task?
@@ -684,7 +684,7 @@ function AppFlowBuilder() {
             />
             <div id="sentence-counter" className={`afb-counter${sentenceCount >= 2 ? ' done' : ''}`}>
               {sentenceCount >= 2
-                ? `✓ ${sentenceCount} sentences written — ready to submit`
+                ? `✓ ${sentenceCount} sentences written - ready to submit`
                 : `${sentenceCount} of 2 sentences written`}
             </div>
             <p style={{ fontSize:'.88rem', color:'#94a3b8', marginTop:'.75rem', fontStyle:'italic' }}>
@@ -694,7 +694,7 @@ function AppFlowBuilder() {
 
           <button id="submit-btn" className="afb-btn afb-btn-primary" style={{ maxWidth:480, margin:'0 auto' }}
             disabled={!canSubmit} onClick={handleSubmit}>
-            My sketch is done — I'm ready to set up →
+            My sketch is done - I'm ready to set up →
           </button>
         </div>
       )}
@@ -710,7 +710,7 @@ function AppFlowBuilder() {
             <li><span>✓</span> Your app's screens and flow</li>
           </ul>
           <p style={{ marginTop:'1rem' }}>
-            One more thing before the coding starts —<br/>let's make sure your laptop is ready.
+            One more thing before the coding starts -<br/>let's make sure your laptop is ready.
           </p>
           <p style={{ fontWeight:600, color:'#7c3aed', fontSize:'1.1rem', marginTop:'1rem' }}>
             Next: get your development environment set up.

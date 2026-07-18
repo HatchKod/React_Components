@@ -57,12 +57,12 @@ function cn(t) { return <span style={{ color: Y, fontWeight: 700 }}>{t}</span>; 
 function mn(t) { return <span style={{ color: Y, fontWeight: 700 }}>{t}</span>; }
 function fd(t) { return <span style={{ color: O }}>{t}</span>; }
 function cm(t) { return <span style={{ color: GR }}>{t}</span>; }
-function extendsTip(t) { return <Tip text="Gets everything from this class — fields and methods, all of it"><span style={{ color: "#3B82F6", fontWeight: 800 }}>{t}</span></Tip>; }
+function extendsTip(t) { return <Tip text="Gets everything from this class - fields and methods, all of it"><span style={{ color: "#3B82F6", fontWeight: 800 }}>{t}</span></Tip>; }
 function superTip(t) { return <Tip text="Refers to the parent class from inside the child"><span style={{ color: P, fontWeight: 700 }}>{t}</span></Tip>; }
-function parentTip(t) { return <Tip text="The general blueprint — others can extend from it"><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
-function childTip(t) { return <Tip text="Extends the parent — gets everything + adds more"><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
+function parentTip(t) { return <Tip text="The general blueprint - others can extend from it"><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
+function childTip(t) { return <Tip text="Extends the parent - gets everything + adds more"><span style={{ color: Y, fontWeight: 700 }}>{t}</span></Tip>; }
 
-// ─── FLASH + STAMP — big, unmissable feedback ────────────────────────────────
+// ─── FLASH + STAMP - big, unmissable feedback ────────────────────────────────
 function FlashOverlay({ id, color }) {
   return <div key={id} style={{ position: "absolute", inset: 0, background: color, opacity: 0, animation: "flashFade 0.7s ease-out", borderRadius: 16, pointerEvents: "none", zIndex: 3 }} />;
 }
@@ -77,8 +77,8 @@ function StatusStamp({ id, text, color }) {
   );
 }
 
-// ─── PERSON FIGURE — the hostel student / warden character ──────────────────
-// The same base body every time (that's the inheritance) — a warden just has
+// ─── PERSON FIGURE - the hostel student / warden character ──────────────────
+// The same base body every time (that's the inheritance) - a warden just has
 // extra gear layered on top: cap (gained the base identity), whistle + badge
 // (own extras only a warden has).
 function PersonFigure({ size = 66, color = "#3B6D11", cap, whistle, badge, faded, glow }) {
@@ -150,11 +150,11 @@ function InheritanceArrow({ isExtends }) {
   );
 }
 
-// ─── PHASE 1 — SLOT 1 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 1 ────────────────────────────────────────────────────────
 function Slot1({ onNext, playSound }) {
   return (
     <div style={{ marginBottom: 28 }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>See the problem — copy-paste fields</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>See the problem - copy-paste fields</div>
       <div style={{ color: "#64748B", marginBottom: 10, fontSize: 13 }}>Two classes. Read both carefully.</div>
 
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
@@ -165,7 +165,7 @@ function Slot1({ onNext, playSound }) {
         <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{fd("plan")};</div>
         <div>{"}"}</div>
         <div style={{ height: 10 }} />
-        <div style={{ color: GR }}>{"// second class — notice anything?"}</div>
+        <div style={{ color: GR }}>{"// second class - notice anything?"}</div>
         <div>{kw("class")}{" "}{cn("AdminUser")}{" {"}</div>
         <div style={{ paddingLeft: 24, background: "#450A0A", borderLeft: "3px solid #DC2626", padding: "2px 8px" }}>
           ⚠️ {kw("private")}{" "}{kw("String")}{" "}{fd("name")};{"  "}<span style={{ color: "#FCA5A5" }}>{"// ← copied from GymMember"}</span>
@@ -182,7 +182,7 @@ function Slot1({ onNext, playSound }) {
 
       <div style={{ marginTop: 16, background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: 10, padding: 16, fontSize: 13, color: "#7F1D1D", lineHeight: 1.8 }}>
         ⚠️ These 3 lines are exact copies from GymMember.<br /><br />
-        If GymMember ever changes — AdminUser must change too. Manually. Every time.<br /><br />
+        If GymMember ever changes - AdminUser must change too. Manually. Every time.<br /><br />
         <strong>This is the copy-paste problem.</strong>
       </div>
       <div style={{ marginTop: 10, display: "inline-block", background: "#7F1D1D", color: "#FECACA", borderRadius: 20, padding: "4px 14px", fontSize: 12, fontWeight: 700 }}>
@@ -199,7 +199,7 @@ function Slot1({ onNext, playSound }) {
   );
 }
 
-// ─── PHASE 1 — SLOT 2 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 2 ────────────────────────────────────────────────────────
 function Slot2({ onNext, playSound }) {
   const [input, setInput] = useState("");
   const [wrong, setWrong] = useState(false);
@@ -218,7 +218,7 @@ function Slot2({ onNext, playSound }) {
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>Step 1 — Tell Java that AdminUser IS a GymMember</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>Step 1 - Tell Java that AdminUser IS a GymMember</div>
       <div style={{ color: "#64748B", marginBottom: 14, fontSize: 13 }}>Fill in the blank.</div>
 
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
@@ -232,7 +232,7 @@ function Slot2({ onNext, playSound }) {
           <span>{cn("GymMember")}{" {"}</span>
         </div>
         <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// ↑ fill this in"}</div>
-        {wrong && <div style={{ paddingLeft: 24, color: "#F87171", fontSize: 11, maxWidth: 420 }}>The keyword is 'extends' — it means this class gets everything from GymMember</div>}
+        {wrong && <div style={{ paddingLeft: 24, color: "#F87171", fontSize: 11, maxWidth: 420 }}>The keyword is 'extends' - it means this class gets everything from GymMember</div>}
         <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// one word that means 'I have everything GymMember has'"}</div>
         <div style={{ height: 6 }} />
         <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{fd("role")};{"   "}{cm("// only admins have this")}</div>
@@ -251,7 +251,7 @@ function Slot2({ onNext, playSound }) {
             0 duplicate lines ✅
           </div>
           <div style={{ marginTop: 12, background: "#F0F9FF", border: "1px solid #BAE6FD", borderRadius: 10, padding: 14, fontSize: 13, color: "#0C4A6E", lineHeight: 1.8 }}>
-            AdminUser now has name, age, and plan from GymMember — without copying them.<br /><br />
+            AdminUser now has name, age, and plan from GymMember - without copying them.<br /><br />
             Change GymMember → AdminUser updates too. Automatically. Always.
           </div>
           <button onClick={() => { playSound("tick"); onNext(); }}
@@ -264,7 +264,7 @@ function Slot2({ onNext, playSound }) {
   );
 }
 
-// ─── PHASE 1 — SLOT 3 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 3 ────────────────────────────────────────────────────────
 function Slot3({ onDone, playSound, field, setField, methodName, setMethodName }) {
   const [fieldDinged, setFieldDinged] = useState(false);
   const [methodDinged, setMethodDinged] = useState(false);
@@ -276,7 +276,7 @@ function Slot3({ onDone, playSound, field, setField, methodName, setMethodName }
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 14 }}>Step 2 — Add what ONLY admins have</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 14 }}>Step 2 - Add what ONLY admins have</div>
 
       <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>EXTRA FIELD</div>
       <div style={{ color: "#64748B", fontSize: 13, marginBottom: 8 }}>AdminUser has one extra field that GymMember doesn't:</div>
@@ -326,7 +326,7 @@ function Slot3({ onDone, playSound, field, setField, methodName, setMethodName }
   );
 }
 
-// ─── PHASE 1 — ASSEMBLED + DEMO ───────────────────────────────────────────────
+// ─── PHASE 1 - ASSEMBLED + DEMO ───────────────────────────────────────────────
 function AssembledDemo({ field, methodName, onDone, playSound }) {
   const [ran, setRan] = useState(false);
   const run = () => {
@@ -338,9 +338,9 @@ function AssembledDemo({ field, methodName, onDone, playSound }) {
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Your full hierarchy — assembled</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Your full hierarchy - assembled</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
-        <div style={{ color: GR }}>{"// parent — common blueprint"}</div>
+        <div style={{ color: GR }}>{"// parent - common blueprint"}</div>
         <div>{kw("class")}{" "}{cn("GymMember")}{" {"}</div>
         <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{fd("name")};</div>
         <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("int")}{" "}{fd("age")};</div>
@@ -348,7 +348,7 @@ function AssembledDemo({ field, methodName, onDone, playSound }) {
         <div style={{ paddingLeft: 24, color: GR }}>{"// getters and setters..."}</div>
         <div>{"}"}</div>
         <div style={{ height: 10 }} />
-        <div style={{ color: GR }}>{"// child — gets everything above + adds more"}</div>
+        <div style={{ color: GR }}>{"// child - gets everything above + adds more"}</div>
         <div>{kw("class")}{" "}{cn("AdminUser")}{" "}{extendsTip("extends")}{" "}{cn("GymMember")}{" {"}</div>
         <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// ↑ inherits all of GymMember"}</div>
         <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw(field.type)}{" "}{fd(field.name)};</div>
@@ -359,8 +359,8 @@ function AssembledDemo({ field, methodName, onDone, playSound }) {
         <div style={{ height: 10 }} />
         <div style={{ color: GR }}>{"// create and use an admin"}</div>
         <div>{cn("AdminUser")}{" "}{fd("owner")}{" = "}{kw("new")}{" "}{cn("AdminUser")}();</div>
-        <div>{fd("owner")}.setName(<span style={{ color: "#4ADE80" }}>"Suresh"</span>);{"  "}{cm("// from GymMember — inherited")}</div>
-        <div>{fd("owner")}.setAge(<span style={{ color: "#4ADE80" }}>35</span>);{"      "}{cm("// from GymMember — inherited")}</div>
+        <div>{fd("owner")}.setName(<span style={{ color: "#4ADE80" }}>"Suresh"</span>);{"  "}{cm("// from GymMember - inherited")}</div>
+        <div>{fd("owner")}.setAge(<span style={{ color: "#4ADE80" }}>35</span>);{"      "}{cm("// from GymMember - inherited")}</div>
         <div>{fd("owner")}.set{field.name.charAt(0).toUpperCase() + field.name.slice(1)}(...);{"  "}{cm("// own field")}</div>
         <div>{fd("owner")}.{methodName}(<span style={{ color: "#4ADE80" }}>"item"</span>);{"  "}{cm("// own method")}</div>
       </div>
@@ -464,12 +464,12 @@ function ChildCard({ slot, field, methodName, revealedCount, ranDemo, glow }) {
           ))}
           {slot >= 3 && field.name && (
             <div style={{ fontSize: 12, color: "#92400E", padding: "4px 6px", marginTop: 6, marginBottom: 4, background: "#fff", borderRadius: 6, border: "1px solid #FDE68A", animation: "popIn 0.3s ease" }}>
-              ⭐ {field.name} <span style={{ fontSize: 9, color: "#B45309" }}>(own — not inherited)</span>
+              ⭐ {field.name} <span style={{ fontSize: 9, color: "#B45309" }}>(own - not inherited)</span>
             </div>
           )}
           {slot >= 3 && methodName && methodName.trim().length > 1 && (
             <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#92400E", background: "#FEF3C7", borderRadius: 20, padding: "4px 12px", marginTop: 4, animation: "popIn 0.3s ease" }}>
-              ⚡ {methodName} <span style={{ fontWeight: 400 }}>— own method</span>
+              ⚡ {methodName} <span style={{ fontWeight: 400 }}>- own method</span>
             </div>
           )}
         </>
@@ -610,7 +610,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              In one sentence — what does your child class get from the parent automatically?
+              In one sentence - what does your child class get from the parent automatically?
             </div>
             <textarea
               value={reflection}
@@ -648,10 +648,10 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
         <div style={{ background: "#ECFDF5", border: "2px solid #10B981", borderRadius: 16, padding: 28, animation: "slideIn 0.5s ease" }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: "#064E3B", marginBottom: 14, textAlign: "center" }}>Your hierarchy is built. 🌳</div>
           <div style={{ fontSize: 14, color: "#065F46", lineHeight: 1.9 }}>
-            {parsed.childName || "Your child class"} extends {parsed.parentName || "your parent class"} — every parent field and method comes along automatically.<br /><br />
+            {parsed.childName || "Your child class"} extends {parsed.parentName || "your parent class"} - every parent field and method comes along automatically.<br /><br />
             You only wrote what's unique to the child.<br /><br />
             <strong>Zero duplicate code.</strong><br /><br />
-            Next — a later module will show tools that connect your classes to a database, using exactly this hierarchy.
+            Next - a later module will show tools that connect your classes to a database, using exactly this hierarchy.
           </div>
         </div>
       )}
@@ -836,7 +836,7 @@ export default function InheritanceBuilder() {
       <div style={{ background: "linear-gradient(135deg,#1E293B,#334155)", color: "#fff", padding: "32px 24px 28px", textAlign: "center" }}>
         <div style={{ fontSize: 12, color: "#94A3B8", letterSpacing: 2, marginBottom: 6 }}>SUBTOPIC 1.2.3 · HATCHKOD</div>
         <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>Inheritance Builder</div>
-        <div style={{ fontSize: 15, color: "#CBD5E1" }}>A hostel warden is still a hostel student — just with extra powers</div>
+        <div style={{ fontSize: 15, color: "#CBD5E1" }}>A hostel warden is still a hostel student - just with extra powers</div>
       </div>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 16px" }}>

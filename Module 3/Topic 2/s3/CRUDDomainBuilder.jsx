@@ -142,7 +142,7 @@ const STYLE = `
   @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-  /* === FILING CABINET SCENE (office dossiers — full JSON objects) === */
+  /* === FILING CABINET SCENE (office dossiers - full JSON objects) === */
   .cab-scene-wrap {
     background: linear-gradient(160deg, #F1F5F9 0%, #E7ECF3 40%, #DCE3ED 100%);
     border: 2px solid #475569;
@@ -403,7 +403,7 @@ function FilingCabinetScene({ items, fields, event, targetName, updatedFields, w
       <div className={`cab-body${isDelete ? ' cab-drawer-shake' : ''}`} key={isDelete ? `dr-${event.key}` : 'dr'} style={{ minHeight: 130 }}>
         <div className="cab-body-title-row">
           <span style={{ fontSize: 13 }}>🗃️</span>
-          <span className="cab-body-title">Full Objects — not just Strings</span>
+          <span className="cab-body-title">Full Objects - not just Strings</span>
         </div>
 
         {isGet && (
@@ -421,7 +421,7 @@ function FilingCabinetScene({ items, fields, event, targetName, updatedFields, w
 
         {items.length === 0 ? (
           <div className="cab-empty-state">
-            {wasRestarted ? '🔄 memory cleared — server restarted' : 'No dossiers filed yet'}
+            {wasRestarted ? '🔄 memory cleared - server restarted' : 'No dossiers filed yet'}
           </div>
         ) : (
           items.map((obj, i) => {
@@ -489,7 +489,7 @@ export default function CRUDDomainBuilder() {
     setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 350);
   }, [phase]);
 
-  // register — gym example, object cards
+  // register - gym example, object cards
   const GYM = DOMAIN_MAP.Gym;
   const [register, setRegister] = useState([
     { name: 'Ravi', age: 21, plan: 'Basic', isActive: true },
@@ -500,7 +500,7 @@ export default function CRUDDomainBuilder() {
   const sceneEventKeyRef = useRef(0);
   const fireSceneEvent = (type) => { sceneEventKeyRef.current += 1; setSceneEvent({ type, key: sceneEventKeyRef.current }); };
 
-  // Slot 1 — before/after upgrade + no-arg constructor
+  // Slot 1 - before/after upgrade + no-arg constructor
   const [upgradeShown, setUpgradeShown] = useState(false);
   const [noArgChecked, setNoArgChecked] = useState(false);
 
@@ -514,7 +514,7 @@ export default function CRUDDomainBuilder() {
     play('add');
   }
 
-  // Slot 2 — 4 blanks
+  // Slot 2 - 4 blanks
   const [b1, setB1] = useState(''); // list type e.g. GymMember
   const [b2, setB2] = useState(''); // GET return type
   const [b3, setB3] = useState(''); // POST return type
@@ -559,7 +559,7 @@ export default function CRUDDomainBuilder() {
     setRemoveIfShown(true);
   }
 
-  // Slot 3 — Postman tests with JSON objects (5)
+  // Slot 3 - Postman tests with JSON objects (5)
   const [t1, setT1] = useState(false); // POST full JSON
   const [t2, setT2] = useState(false); // GET array
   const [t3, setT3] = useState(false); // PUT updates
@@ -653,20 +653,20 @@ public class ${d}Controller {
     // stores real ${m.domainClass} objects
     private List<${m.domainClass}> ${m.items} = new ArrayList<>();
 
-    // GET — return all ${m.items} as JSON
+    // GET - return all ${m.items} as JSON
     @GetMapping("/${m.path}/${m.items}")
     public List<${m.domainClass}> get${m.Items}() {
         return ${m.items};
     }
 
-    // POST — add a ${m.item} from JSON body
+    // POST - add a ${m.item} from JSON body
     @PostMapping("/${m.path}/${m.items}")
     public ${m.domainClass} add${m.Item}(@RequestBody ${m.domainClass} ${m.item}) {
         ${m.items}.add(${m.item});
         return ${m.item};
     }
 
-    // PUT — update by name
+    // PUT - update by name
     @PutMapping("/${m.path}/${m.items}/{name}")
     public ${m.domainClass} update${m.Item}(
         @PathVariable String name,
@@ -681,7 +681,7 @@ public class ${d}Controller {
         return null;
     }
 
-    // DELETE — remove by name
+    // DELETE - remove by name
     @DeleteMapping("/${m.path}/${m.items}/{name}")
     public String delete${m.Item}(@PathVariable String name) {
         ${m.items}.removeIf(x -> x.getName().equals(name));
@@ -785,7 +785,7 @@ public class ${d}Controller {
     } catch(e) {}
   }, [submitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const putB4Hint = b4Status === false ? 'Return the updated object type — same class as your list, e.g. GymMember (or "null" for the not-found case).' : '';
+  const putB4Hint = b4Status === false ? 'Return the updated object type - same class as your list, e.g. GymMember (or "null" for the not-found case).' : '';
 
   return (
     <div className="sim-root">
@@ -818,7 +818,7 @@ public class ${d}Controller {
         <div>
           {phase === 1 && (
             <>
-              {/* SLOT 1 — upgrade */}
+              {/* SLOT 1 - upgrade */}
               <div ref={el => slotRefs.current[1] = el} className={`card ${slot === 1 ? 'active' : 'complete'}`}>
                 <div className="step-counter">Step 1 of 3</div>
                 <h2 className="card-header">Your List&lt;String&gt; was practice. Now use your real domain class.</h2>
@@ -872,7 +872,7 @@ public class ${d}Controller {
                         &nbsp;&nbsp;<span className="jk">"isActive"</span>: <span className="jv">true</span><br/>
                         {'}'}
                       </div>
-                      Spring Boot reads it and creates <b>new GymMember()</b>, then sets <code>name</code>, <code>age</code>, <code>plan</code>, <code>isActive</code> — automatically. You write zero conversion code.
+                      Spring Boot reads it and creates <b>new GymMember()</b>, then sets <code>name</code>, <code>age</code>, <code>plan</code>, <code>isActive</code> - automatically. You write zero conversion code.
                     </div>
 
                     <div className="amber-note">
@@ -898,12 +898,12 @@ public class ${d}Controller {
                 )}
               </div>
 
-              {/* SLOT 2 — 4 blanks */}
+              {/* SLOT 2 - 4 blanks */}
               {slot >= 2 && (
                 <div ref={el => slotRefs.current[2] = el} className={`card ${slot === 2 ? 'active' : 'complete'}`} style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 2 of 3</div>
                   <h2 className="card-header">Complete CRUD with real objects</h2>
-                  <p style={{ color: '#475569', margin: '0 0 8px' }}>Using GymMember as the example — fill in the 4 return types.</p>
+                  <p style={{ color: '#475569', margin: '0 0 8px' }}>Using GymMember as the example - fill in the 4 return types.</p>
 
                   <div className="code-block">
                     <span className="ck">@RestController</span><br/>
@@ -911,7 +911,7 @@ public class ${d}Controller {
                     &nbsp;&nbsp;<span className="ck">private</span> List&lt;<div className="blank-wrap">
                       <input className={`blank-input ${b1Status === true ? 'blank-correct' : b1Status === false ? 'blank-wrong' : ''}`}
                         placeholder="GymMember" style={{ width: 110 }} value={b1} onChange={e => handleB1(e.target.value)} onBlur={checkB1} />
-                    </div>&gt; items = <span className="cc">// blank 1 — your domain class name</span><br/>
+                    </div>&gt; items = <span className="cc">// blank 1 - your domain class name</span><br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;<span className="ck">new</span> ArrayList&lt;&gt;();<br/><br/>
                     &nbsp;&nbsp;<span className="ca">@GetMapping</span>(<span className="cs">"/gym/members"</span>)<br/>
                     &nbsp;&nbsp;<span className="ck">public</span> <div className="blank-wrap">
@@ -954,9 +954,9 @@ public class ${d}Controller {
                     {"}"}
                   </div>
 
-                  {b1Status === false && <div className="warn-msg">Type your domain class name — e.g. GymMember.</div>}
-                  {b2Status === false && <div className="warn-msg">Your return type must contain "List" — e.g. List&lt;GymMember&gt;.</div>}
-                  {b3Status === false && <div className="warn-msg">POST returns the saved object — same class as blank 1.</div>}
+                  {b1Status === false && <div className="warn-msg">Type your domain class name - e.g. GymMember.</div>}
+                  {b2Status === false && <div className="warn-msg">Your return type must contain "List" - e.g. List&lt;GymMember&gt;.</div>}
+                  {b3Status === false && <div className="warn-msg">POST returns the saved object - same class as blank 1.</div>}
                   {b4Status === false && <div className="warn-msg">{putB4Hint}</div>}
 
                   {allBlanksCorrect && (
@@ -970,8 +970,8 @@ public class ${d}Controller {
                             &nbsp;&nbsp;item <span className="clam">-&gt;</span> item.getName().equals(name)<br/>
                             )
                           </div>
-                          <b>removeIf</b> — goes through every item, removes any that match the condition.<br/>
-                          <code>item -&gt; item.getName().equals(name)</code> — for each item, check if the name matches.
+                          <b>removeIf</b> - goes through every item, removes any that match the condition.<br/>
+                          <code>item -&gt; item.getName().equals(name)</code> - for each item, check if the name matches.
                         </div>
                       )}
                       <button className="btn green" style={{ marginTop: 12, width: '100%' }} onClick={() => { play('tick'); setSlot(3); }}>
@@ -982,7 +982,7 @@ public class ${d}Controller {
                 </div>
               )}
 
-              {/* SLOT 3 — Postman JSON testing */}
+              {/* SLOT 3 - Postman JSON testing */}
               {slot >= 3 && (
                 <div ref={el => slotRefs.current[3] = el} className="card active" style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 3 of 3</div>
@@ -1045,7 +1045,7 @@ public class ${d}Controller {
                   {allTestsConfirmed && revealLines > 0 && (
                     <div className="reveal-card" style={{ marginTop: 24, animation: 'slideIn 0.3s' }}>
                       <h3 style={{ margin: '0 0 16px 0', color: '#92400E' }}>What you just learned 🎉</h3>
-                      {revealLines >= 1 && <div className="reveal-line">✅ <b>List&lt;DomainClass&gt;</b> → a list of real objects — not just Strings</div>}
+                      {revealLines >= 1 && <div className="reveal-line">✅ <b>List&lt;DomainClass&gt;</b> → a list of real objects - not just Strings</div>}
                       {revealLines >= 2 && <div className="reveal-line">✅ <b>@RequestBody DomainClass</b> → Spring Boot deserialises JSON → Java object</div>}
                       {revealLines >= 3 && <div className="reveal-line">✅ <b>Serialisation</b> → Java object → JSON, happens automatically on return</div>}
                       {revealLines >= 4 && <div className="reveal-line">✅ <b>Deserialisation</b> → JSON → Java object, happens automatically with @RequestBody</div>}
@@ -1058,8 +1058,8 @@ public class ${d}Controller {
                             Postman sends JSON. Spring Boot converts to GymMember.<br/>
                             You work with real objects. Spring Boot converts back to JSON.<br/><br/>
                             This structure stays the same all the way through the project.<br/><br/>
-                            One thing left — your data still resets on restart.<br/>
-                            Next topic — MySQL. The notebook that survives everything.
+                            One thing left - your data still resets on restart.<br/>
+                            Next topic - MySQL. The notebook that survives everything.
                           </h3>
                           <button className="btn green" style={{ padding: '16px 32px', fontSize: '1.1rem', marginTop: 20 }} onClick={() => { setPhase(2); play('tick'); }}>
                             Build YOUR complete CRUD →
@@ -1090,7 +1090,7 @@ public class ${d}Controller {
                   <textarea className="free-editor" value={freeCode} onChange={e => setFreeCode(e.target.value)} onPaste={e => e.preventDefault()} onContextMenu={e => e.preventDefault()} spellCheck="false" />
                   {!codeWasEdited && (
                     <div className="warn-msg" style={{ marginTop: 10 }}>
-                      ✏️ This is the auto-filled starting point — before continuing, make a real change (a few characters isn't enough): rename a field, adjust a path, or add a comment in your own words.
+                      ✏️ This is the auto-filled starting point - before continuing, make a real change (a few characters isn't enough): rename a field, adjust a path, or add a comment in your own words.
                     </div>
                   )}
 
@@ -1122,14 +1122,14 @@ public class ${d}Controller {
                   <div style={{ marginTop: 24 }}>
                     <h4 style={{ margin: '0 0 8px 0' }}>Reflection:</h4>
                     <p style={{ color: '#475569', fontSize: '0.95rem', margin: '0 0 8px 0' }}>
-                      In 2 sentences — what is the difference between storing List&lt;String&gt; and List&lt;{parsedClass || 'YourDomainClass'}&gt;, and why does it matter?
+                      In 2 sentences - what is the difference between storing List&lt;String&gt; and List&lt;{parsedClass || 'YourDomainClass'}&gt;, and why does it matter?
                     </p>
                     <textarea className="reflection-box" placeholder="List<String> only stores names. List<GymMember> stores full member objects with all fields. It matters because..." value={reflection} onChange={e => setReflection(e.target.value)} onPaste={e => e.preventDefault()} />
                     <div className={`word-count ${sentences >= 2 ? 'ok' : ''}`}>{sentences} / 2 sentences minimum</div>
                   </div>
 
                   <button className="btn green" style={{ width: '100%', padding: 16, fontSize: '1.1rem', marginTop: 24, opacity: canSubmit ? 1 : 0.5 }} disabled={!canSubmit || submitted} onClick={handleSubmit}>
-                    {submitted ? 'Completed ✅' : 'CRUD with real objects is working — on to MySQL →'}
+                    {submitted ? 'Completed ✅' : 'CRUD with real objects is working - on to MySQL →'}
                   </button>
 
                   {submitted && (
@@ -1140,7 +1140,7 @@ public class ${d}Controller {
                       ✅ Spring Boot converts JSON ↔ Java automatically<br/>
                       ✅ Pushed to GitHub<br/><br/>
                       But every restart wipes your data.<br/><br/>
-                      <b>Topic 3 — MySQL. Connect your server to a real database. Add a member — restart — they are still there.
+                      <b>Topic 3 - MySQL. Connect your server to a real database. Add a member - restart - they are still there.
                       That is the difference between a prototype and a real application.</b>
                     </div>
                   )}
@@ -1175,7 +1175,7 @@ public class ${d}Controller {
               </div>
             </div>
 
-            {/* Filing cabinet — illustrated, event-driven */}
+            {/* Filing cabinet - illustrated, event-driven */}
             <div style={{ opacity: phase === 2 ? 0.3 : 1, transition: 'opacity 0.3s', marginBottom: 16 }}>
               <FilingCabinetScene
                 items={register}
@@ -1217,9 +1217,9 @@ public class ${d}Controller {
 
             {phase === 2 && (
               <div className="stat-box">
-                <div className="stat-row"><span>Domain class:</span><b>{parsedClass || '—'}</b></div>
+                <div className="stat-row"><span>Domain class:</span><b>{parsedClass || '-'}</b></div>
                 <div className="stat-row"><span>Endpoints:</span><b>{[parsedGet, parsedPost, parsedPut, parsedDelete].filter(Boolean).length} / 4</b></div>
-                <div className="stat-row"><span>Ready for MySQL:</span><b style={{ color: allP2Checked ? '#16A34A' : '#94A3B8' }}>{allP2Checked ? '✅' : '—'}</b></div>
+                <div className="stat-row"><span>Ready for MySQL:</span><b style={{ color: allP2Checked ? '#16A34A' : '#94A3B8' }}>{allP2Checked ? '✅' : '-'}</b></div>
               </div>
             )}
           </div>

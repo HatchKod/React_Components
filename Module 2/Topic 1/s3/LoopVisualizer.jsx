@@ -123,7 +123,7 @@ function TiffinBox({ members, activeIndex, completedIndices = [], vertical = fal
           members
           <span style={{ color: "#E879F9" }}>]</span>
         </span>
-        <span style={{ fontSize: 12, color: "#64748B" }}>— the list dabba</span>
+        <span style={{ fontSize: 12, color: "#64748B" }}>- the list dabba</span>
       </div>
 
       {/* compartments */}
@@ -207,7 +207,7 @@ function AnnotatedCode({ muted }) {
       }}
     >
       <span style={cmt}>{"// [] means this dabba holds a LIST of Strings"}</span>{"\n"}
-      <TT tip="A list dabba — holds multiple Strings">
+      <TT tip="A list dabba - holds multiple Strings">
         <span style={kw}>String</span>
         <span style={brk}>[]</span>
       </TT>
@@ -217,12 +217,12 @@ function AnnotatedCode({ muted }) {
       <span style={brk}>{"}"}</span>
       {";"}
       {"\n\n"}
-      <span style={cmt}>{"// the loop — runs once for every member"}</span>{"\n"}
+      <span style={cmt}>{"// the loop - runs once for every member"}</span>{"\n"}
       <TT tip="Runs the code inside { } for every item">
         <span style={kw}>for</span>
       </TT>
       {" ("}
-      <TT tip="Counter — starts at 0, not 1">
+      <TT tip="Counter - starts at 0, not 1">
         <span style={kw}>int</span>{" i = "}<span style={num}>0</span>
       </TT>
       {";"}{" "}
@@ -250,7 +250,7 @@ function AnnotatedCode({ muted }) {
       <span style={cmt}>{"// speak member at position i"}</span>
       {"\n\n"}<span style={brk}>{"}"}</span>
       {" "}
-      <span style={cmt}>{"// loop ends — all members processed"}</span>
+      <span style={cmt}>{"// loop ends - all members processed"}</span>
     </pre>
   );
 }
@@ -422,10 +422,10 @@ export default function LoopVisualizer() {
         {/* Heading */}
         <div style={{ textAlign: "center", marginBottom: 32 }}>
           <h1 style={{ fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 800, margin: 0, color: "#1E293B" }}>
-            Do this for every item — automatically ♾️
+            Do this for every item - automatically ♾️
           </h1>
           <p style={{ color: "#64748B", marginTop: 8, fontSize: 16 }}>
-            See exactly how a loop works — step by step, one item at a time.
+            See exactly how a loop works - step by step, one item at a time.
           </p>
           <div
             style={{
@@ -440,7 +440,7 @@ export default function LoopVisualizer() {
               fontWeight: 600,
             }}
           >
-            Subtopic 1.1.3 — Loops
+            Subtopic 1.1.3 - Loops
           </div>
         </div>
 
@@ -603,7 +603,7 @@ export default function LoopVisualizer() {
             }}
           >
             <h2 style={{ margin: "0 0 4px", fontSize: 20, fontWeight: 700 }}>
-              Step 1 — Create your list
+              Step 1 - Create your list
             </h2>
             <p style={{ color: "#64748B", marginTop: 4, marginBottom: 20, fontSize: 15 }}>
               Before the loop, you need a list.
@@ -622,7 +622,7 @@ export default function LoopVisualizer() {
                 borderLeft: "3px solid #3B82F6",
               }}
             >
-              Position starts at <strong>0 — not 1</strong>. This is how Java counts. Always.
+              Position starts at <strong>0 - not 1</strong>. This is how Java counts. Always.
             </p>
 
             {/* The Java code for this list */}
@@ -641,7 +641,7 @@ export default function LoopVisualizer() {
                 }}
               >
                 <span style={cmt}>{"// [] means this dabba holds a LIST of Strings"}</span>{"\n"}
-                <Tooltip text="A list dabba — holds multiple Strings">
+                <Tooltip text="A list dabba - holds multiple Strings">
                   <span
                     style={{
                       borderBottom: "1px dashed #94A3B8",
@@ -664,7 +664,7 @@ export default function LoopVisualizer() {
             {!showPartC && (
               <div style={{ textAlign: "center", marginTop: 24 }}>
                 <p style={{ fontSize: 18, fontWeight: 700, margin: "0 0 12px" }}>
-                  Now — the loop 👇
+                  Now - the loop 👇
                 </p>
                 <button
                   onClick={() => {
@@ -703,7 +703,7 @@ export default function LoopVisualizer() {
             }}
           >
             <h2 style={{ margin: "0 0 6px", fontSize: 20, fontWeight: 700 }}>
-              Step 2 — The loop runs for each item
+              Step 2 - The loop runs for each item
             </h2>
             <p style={{ color: "#64748B", margin: "0 0 20px", fontSize: 15 }}>
               Every line of the loop is explained below. Hover any keyword for more.
@@ -712,7 +712,7 @@ export default function LoopVisualizer() {
             <AnnotatedCode muted={muted} />
 
             <p style={{ textAlign: "center", fontWeight: 700, fontSize: 17, marginTop: 24, marginBottom: 16 }}>
-              ▶ Run the loop — watch it step by step
+              ▶ Run the loop - watch it step by step
             </p>
 
             {/* controls */}
@@ -938,7 +938,7 @@ export default function LoopVisualizer() {
                   Loop ran <strong>4 times</strong>.<br />
                   Printed <strong>4 names</strong>.<br />
                   From <strong>ONE instruction</strong> inside the loop.<br /><br />
-                  Change members to have 100 names —<br />
+                  Change members to have 100 names -<br />
                   same loop runs <strong>100 times automatically</strong>.
                 </div>
 
@@ -1033,7 +1033,7 @@ export default function LoopVisualizer() {
                     }}
                   >
                     <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 14 }}>
-                      3 new concepts — all connected 🎉
+                      3 new concepts - all connected 🎉
                     </div>
                     {revealLines.map((line, i) => (
                       <div
@@ -1145,7 +1145,7 @@ export default function LoopVisualizer() {
                 <li style={{ marginBottom: 10 }}>
                   An <strong>array with 3 real items</strong> from YOUR neighbourhood project.<br />
                   <span style={{ color: "#64748B", fontSize: 14 }}>
-                    Use actual names — real members, real room numbers, real meal names.
+                    Use actual names - real members, real room numbers, real meal names.
                     Not 'item1', 'item2'. Real values.
                   </span>
                 </li>
@@ -1250,7 +1250,7 @@ export default function LoopVisualizer() {
                       marginBottom: 8,
                     }}
                   >
-                    In one sentence — what does your loop go through and what does it do for each item?
+                    In one sentence - what does your loop go through and what does it do for each item?
                   </label>
                   <textarea
                     value={reflection}
@@ -1334,9 +1334,9 @@ export default function LoopVisualizer() {
                   }}
                 >
                   That array and loop you just wrote?<br /><br />
-                  In <strong>Module 2</strong> — Spring Boot will use a loop exactly like this to go through
+                  In <strong>Module 2</strong> - Spring Boot will use a loop exactly like this to go through
                   every record in your MySQL database and send them all back to React.<br /><br />
-                  In <strong>Module 4</strong> — React will loop through that list and show each item on screen.<br /><br />
+                  In <strong>Module 4</strong> - React will loop through that list and show each item on screen.<br /><br />
                   <span
                     style={{
                       display: "inline-block",
@@ -1349,7 +1349,7 @@ export default function LoopVisualizer() {
                       fontSize: 15,
                     }}
                   >
-                    Next — methods.<br />Write code once. Use it anywhere.
+                    Next - methods.<br />Write code once. Use it anywhere.
                   </span>
                 </div>
               </div>

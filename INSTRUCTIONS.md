@@ -1,12 +1,12 @@
 # React Component Authoring Contract
 
-Every component in this repository is embedded as an iframe inside the HatchKod LMS. The LMS cannot see inside the iframe — the **only** way to report a student's result is via `window.parent.postMessage`. If you skip this, the LMS never knows the student finished and the subtopic stays locked.
+Every component in this repository is embedded as an iframe inside the HatchKod LMS. The LMS cannot see inside the iframe - the **only** way to report a student's result is via `window.parent.postMessage`. If you skip this, the LMS never knows the student finished and the subtopic stays locked.
 
 ---
 
 ## Mandatory steps for every new component
 
-### Step 1 — Read context params injected by the LMS
+### Step 1 - Read context params injected by the LMS
 
 The LMS appends `subtopicId` and `taskId` to the iframe URL automatically. Read them at the top of your component:
 
@@ -20,9 +20,9 @@ These do not need to be displayed to the student. Echo them back in `metadata` (
 
 ---
 
-### Step 2 — Choose a stable `exerciseId`
+### Step 2 - Choose a stable `exerciseId`
 
-Pick a human-readable, kebab-case string that uniquely identifies this component. **Never change it after the component is deployed** — it is stored in the database and used for analytics.
+Pick a human-readable, kebab-case string that uniquely identifies this component. **Never change it after the component is deployed** - it is stored in the database and used for analytics.
 
 Convention: `m{module}-t{topic}-s{subtopic}-{short-description}`
 
@@ -36,9 +36,9 @@ m2-t1-s1-variable-explorer
 
 ---
 
-### Step 3 — Fire `HK_RESULT` via postMessage on completion
+### Step 3 - Fire `HK_RESULT` via postMessage on completion
 
-Call this **exactly once** when the student has genuinely finished the activity. Do not fire it on every state change — only when `status: 'completed'`.
+Call this **exactly once** when the student has genuinely finished the activity. Do not fire it on every state change - only when `status: 'completed'`.
 
 ```js
 window.parent.postMessage({
@@ -48,11 +48,11 @@ window.parent.postMessage({
   exerciseType:      'interactive', // see allowed values below
   status:            'completed',
 
-  // Scoring — include if your exercise has a score, omit if not applicable
+  // Scoring - include if your exercise has a score, omit if not applicable
   score:             3,
   maxScore:          3,
 
-  // Student answers — any shape you want, will be stored as-is
+  // Student answers - any shape you want, will be stored as-is
   answers: {
     // put whatever is meaningful for your exercise type here
   },
@@ -72,7 +72,7 @@ The LMS relays this to the backend, saves it to the database, marks the subtopic
 
 ---
 
-### Step 4 — Handle the `useEffect` pattern correctly
+### Step 4 - Handle the `useEffect` pattern correctly
 
 Tie the postMessage call to a state variable that only flips once, not to every render. Wrong pattern causes duplicate DB writes and double XP awards.
 
@@ -112,7 +112,7 @@ Your component (Netlify/Vercel iframe)
   │  window.parent.postMessage({ type: 'HK_RESULT', ... }, '*')
   │
   ▼
-InteractiveTask.jsx — postMessage listener in the LMS frontend
+InteractiveTask.jsx - postMessage listener in the LMS frontend
   │  • Receives the message event
   │  • Checks msg.type === 'HK_RESULT' (ignores anything else)
   │  • If msg.status === 'in_progress' → silent save only, returns early
@@ -123,7 +123,7 @@ InteractiveTask.jsx — postMessage listener in the LMS frontend
   │  Content-Type: application/json
   │
   ▼
-FastAPI backend — /subtopics/{subtopic_id}/interactive-result
+FastAPI backend - /subtopics/{subtopic_id}/interactive-result
   │  • Validates all fields (see validation rules below)
   │  • Verifies the subtopic exists
   │  • Verifies the task is of type 'interactive'
@@ -140,7 +140,7 @@ Supabase PostgreSQL
   • leaderboard_weekly updated
 ```
 
-The student's `student_id` and `subtopic_id` are **never taken from your component** — they come from the authenticated session and the route URL. Your component cannot forge or influence them. Only the fields you send in the postMessage payload flow into the database.
+The student's `student_id` and `subtopic_id` are **never taken from your component** - they come from the authenticated session and the route URL. Your component cannot forge or influence them. Only the fields you send in the postMessage payload flow into the database.
 
 ---
 
@@ -163,7 +163,7 @@ When the LMS receives your postMessage, it constructs this request body and POST
 }
 ```
 
-Field names change from camelCase (postMessage) to snake_case (API body) automatically — you write `maxScore` in the component, the LMS sends `max_score` to the backend. You do not need to handle this yourself.
+Field names change from camelCase (postMessage) to snake_case (API body) automatically - you write `maxScore` in the component, the LMS sends `max_score` to the backend. You do not need to handle this yourself.
 
 ---
 
@@ -173,9 +173,9 @@ Every field in your postMessage maps to a specific column in the `interactive_re
 
 | postMessage field | API body field | DB column | Type | Required |
 |---|---|---|---|---|
-| *(from auth session)* | — | `student_id` | `uuid` | auto |
-| *(from route URL)* | — | `subtopic_id` | `uuid` | auto |
-| *(from DB task lookup)* | — | `task_id` | `uuid` | auto |
+| *(from auth session)* | - | `student_id` | `uuid` | auto |
+| *(from route URL)* | - | `subtopic_id` | `uuid` | auto |
+| *(from DB task lookup)* | - | `task_id` | `uuid` | auto |
 | `exerciseId` | `exercise_id` | `exercise_id` | `text` | **yes** |
 | `exerciseType` | `exercise_type` | `exercise_type` | `text` | **yes** |
 | `status` | `status` | `status` | `text` | **yes** |
@@ -185,33 +185,33 @@ Every field in your postMessage maps to a specific column in the `interactive_re
 | `metadata` | `metadata` | `metadata` | `jsonb` | no |
 | `timeSpentSeconds` | `time_spent_seconds` | `time_spent_sec` | `integer` | no |
 | `completedAt` | `completed_at` | `completed_at` | `timestamptz` | no |
-| *(always now())* | — | `submitted_at` | `timestamptz` | auto |
+| *(always now())* | - | `submitted_at` | `timestamptz` | auto |
 
-**`answers` and `metadata` are stored as native JSONB** — not as a serialized string. Postgres stores and indexes them as real JSON so they can be queried later. Whatever object shape you put inside `answers`, it is saved exactly as-is.
+**`answers` and `metadata` are stored as native JSONB** - not as a serialized string. Postgres stores and indexes them as real JSON so they can be queried later. Whatever object shape you put inside `answers`, it is saved exactly as-is.
 
-**The table has a unique constraint on `(student_id, subtopic_id)`** — re-submitting overwrites the existing row rather than creating a new one. The last submission wins.
+**The table has a unique constraint on `(student_id, subtopic_id)`** - re-submitting overwrites the existing row rather than creating a new one. The last submission wins.
 
 ---
 
-## Backend validation rules — what will get rejected
+## Backend validation rules - what will get rejected
 
 The backend validates your payload before writing anything. If any rule fails, the API returns HTTP 400 and nothing is saved. Make sure your component sends valid data.
 
 | Field | Rule | What happens if violated |
 |---|---|---|
-| `exercise_id` | Must be a non-empty string | 400 — "exercise_id is required" |
-| `exercise_type` | Must be one of the 7 allowed values | 400 — "Invalid exercise_type" |
-| `status` | Must be `in_progress` or `completed` | 400 — "Invalid status" |
-| `score` and `max_score` | If both provided, `score` must be ≤ `max_score` | 400 — "score cannot exceed max_score" |
-| subtopic | Must exist in the database | 400 — "Subtopic not found" |
-| task | Must have `task_type = 'interactive'` | 400 — "Only for interactive task types" |
-| student access | Must have paid or free module access | 403 — "Module access required" |
+| `exercise_id` | Must be a non-empty string | 400 - "exercise_id is required" |
+| `exercise_type` | Must be one of the 7 allowed values | 400 - "Invalid exercise_type" |
+| `status` | Must be `in_progress` or `completed` | 400 - "Invalid status" |
+| `score` and `max_score` | If both provided, `score` must be ≤ `max_score` | 400 - "score cannot exceed max_score" |
+| subtopic | Must exist in the database | 400 - "Subtopic not found" |
+| task | Must have `task_type = 'interactive'` | 400 - "Only for interactive task types" |
+| student access | Must have paid or free module access | 403 - "Module access required" |
 
 ---
 
 ## What triggers XP and subtopic unlock
 
-Sending `status: 'completed'` is not enough on its own — the backend only awards XP and unlocks the Next button on the **first** completion. Subsequent submissions update the `interactive_results` row but do not re-award XP.
+Sending `status: 'completed'` is not enough on its own - the backend only awards XP and unlocks the Next button on the **first** completion. Subsequent submissions update the `interactive_results` row but do not re-award XP.
 
 | Condition | What happens |
 |---|---|
@@ -222,10 +222,10 @@ Sending `status: 'completed'` is not enough on its own — the backend only awar
 The response body from the backend tells you which case occurred:
 
 ```json
-// First completion — gamification data present
+// First completion - gamification data present
 { "ok": true, "gamification": { "xp_earned": 20, "new_total_xp": 340, "streak": 5 } }
 
-// Repeat completion — gamification is null
+// Repeat completion - gamification is null
 { "ok": true, "gamification": null }
 
 // In-progress save
@@ -253,7 +253,7 @@ The LMS frontend uses the `gamification` value to decide whether to show the cel
 | Value | When to send |
 |---|---|
 | `in_progress` | Optional intermediate save (no XP, no unlock) |
-| `completed` | Student fully finished — triggers unlock and XP |
+| `completed` | Student fully finished - triggers unlock and XP |
 
 ---
 
@@ -267,7 +267,7 @@ window.parent.postMessage({
   version:      '1',
   exerciseId:   'your-stable-id',
   exerciseType: 'interactive',
-  status:       'in_progress',   // partial — no completion triggered
+  status:       'in_progress',   // partial - no completion triggered
   answers:      { stepsCompleted: 2 },
 }, '*');
 ```
@@ -276,7 +276,7 @@ window.parent.postMessage({
 
 ## `answers` field shapes by type
 
-You decide the shape. These are recommended conventions — not enforced.
+You decide the shape. These are recommended conventions - not enforced.
 
 **`mcq`**
 ```js

@@ -10,7 +10,7 @@ const stories = [
     before: "Used to copy code from seniors the night before submissions. Thought Java was that language nobody uses in real life.",
     problem: "A gym near his college was managing 200 members through a WhatsApp group. Slots booked by typing names in chat. Fights every week over double bookings.",
     built: "A slot booking app for the gym. Live on a wall-mounted TV at the gym entrance by Week 8.",
-    outcome: "Placed at ₹6.5 LPA — talked about his project for 11 minutes straight in the interview. Interviewer stopped him and said — when can you join?",
+    outcome: "Placed at ₹6.5 LPA - talked about his project for 11 minutes straight in the interview. Interviewer stopped him and said - when can you join?",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const stories = [
     before: "Joined in the last week before the deadline because a friend forwarded the link. Almost did not join.",
     problem: "Her college mess was tracking attendance of 300 students in a hand-written register. Students were claiming meals they never took.",
     built: "A mess attendance and menu management app. The mess contractor started using it in Week 9.",
-    outcome: "Placed at ₹5.8 LPA — her GitHub had one project. That one project got her the job.",
+    outcome: "Placed at ₹5.8 LPA - her GitHub had one project. That one project got her the job.",
   },
   {
     id: 3,
@@ -29,10 +29,10 @@ const stories = [
     color: "#F59E0B",
     city: "Gorakhpur",
     percentage: "52%",
-    before: "Failed one subject in second year. Used to sit in the last bench — not out of carelessness, but because he felt invisible.",
+    before: "Failed one subject in second year. Used to sit in the last bench - not out of carelessness, but because he felt invisible.",
     problem: "A small hotel near his college had no way of tracking room occupancy without physically walking to each room.",
     built: "A room management dashboard for the hotel owner.",
-    outcome: "Placed at ₹5.2 LPA — resubmitted Mini Project 1 twice, never gave up. First in his family to get a software job. His mother cried.",
+    outcome: "Placed at ₹5.2 LPA - resubmitted Mini Project 1 twice, never gave up. First in his family to get a software job. His mother cried.",
   }
 ];
 
@@ -495,11 +495,11 @@ export default function StudentStories() {
             
             <div className="reflection-intro">
               <p>You just read about three students who were exactly where you are right now.</p>
-              <p>One question — and we want your honest answer:</p>
-              <p><strong>By the time you finish this internship — what do you want someone to say about YOU?</strong></p>
+              <p>One question - and we want your honest answer:</p>
+              <p><strong>By the time you finish this internship - what do you want someone to say about YOU?</strong></p>
               <p>Write your own story. The version that happens if you show up every week and build every task.</p>
               <p>Your city. Your problem. Your app. Your outcome.</p>
-              <p>Write it in present tense — as if it already happened. As if someone is reading YOUR story card to the next batch of students.</p>
+              <p>Write it in present tense - as if it already happened. As if someone is reading YOUR story card to the next batch of students.</p>
               <p style={{ fontSize: '13px', color: '#6B7280', fontStyle: 'italic' }}>
                 Your own words only. No copying. No ChatGPT. This is your promise to yourself. 
                 No one grades this. But you will remember writing it.
@@ -525,7 +525,7 @@ export default function StudentStories() {
               onClick={handleSubmit}
               disabled={!isTextValid}
             >
-              This is my story — I am committing to it →
+              This is my story - I am committing to it →
             </button>
           </div>
         </>

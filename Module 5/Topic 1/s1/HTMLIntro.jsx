@@ -29,7 +29,7 @@ function createSound(muted) {
   };
 }
 
-// ─── LIVE RENDER — srcdoc iframe, no styling beyond a base font ─────────────
+// ─── LIVE RENDER - srcdoc iframe, no styling beyond a base font ─────────────
 function renderHTML(html) {
   return `<html><body style="font-family: system-ui; padding: 16px; margin: 0;">${html}</body></html>`;
 }
@@ -38,7 +38,7 @@ function LiveRender({ html, label }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 800, color: "#7C3AED", letterSpacing: 1, marginBottom: 8 }}>
-        <span style={{ fontSize: 14 }}>🌐</span> LIVE RENDER — ACTUAL HTML
+        <span style={{ fontSize: 14 }}>🌐</span> LIVE RENDER - ACTUAL HTML
       </div>
       <div style={{
         border: "1px solid #E2E8F0", borderRadius: 12, background: "#fff",
@@ -86,7 +86,7 @@ function LiveRender({ html, label }) {
   );
 }
 
-// ─── CALLOUT — colored icon card used for tips / analogies / feedback ───────
+// ─── CALLOUT - colored icon card used for tips / analogies / feedback ───────
 const CALLOUT_VARIANTS = {
   info: { bg: "#EFF6FF", border: "#BFDBFE", accent: "#2563EB", color: "#1E3A8A" },
   tip: { bg: "#FFFBEB", border: "#FDE68A", accent: "#D97706", color: "#92400E" },
@@ -169,7 +169,7 @@ function ProgressBar({ slot }) {
   );
 }
 
-// ─── BLANK INPUT — one blank per slot ───────────────────────────────────────
+// ─── BLANK INPUT - one blank per slot ───────────────────────────────────────
 function BlankTag({ before, blank, value, onChange, correct, placeholder, after, comment, wrong }) {
   return (
     <div className={`hk-card${correct ? " hk-pop" : wrong ? " hk-shake" : ""}`} style={{
@@ -226,7 +226,7 @@ function TiffinBox({ highlight }) {
   );
 }
 
-// ─── SLOT 1 — FIRST TAG ──────────────────────────────────────────────────────
+// ─── SLOT 1 - FIRST TAG ──────────────────────────────────────────────────────
 function Slot1({ onNext, playSound, done, setDone }) {
   const [value, setValue] = useState("");
   const [wrong, setWrong] = useState(false);
@@ -275,14 +275,14 @@ function Slot1({ onNext, playSound, done, setDone }) {
         correct={correct}
         wrong={wrong && !correct}
         placeholder="h1"
-        comment="opening tag ... closing tag — what makes a big heading?"
+        comment="opening tag ... closing tag - what makes a big heading?"
       />
       <div style={{ fontSize: 13, color: "#374151", marginTop: 10, marginBottom: 4 }}>
         💡 The tag for the biggest heading is <strong>h1</strong>. Heading Level 1. Type it:
       </div>
       {wrong && !correct && (
         <Callout icon="🚫" variant="danger" shake style={{ marginTop: 8 }}>
-          The tag is h1 — Heading Level 1. Try: &lt;h1&gt;Welcome to SaiFit Gym&lt;/h1&gt;
+          The tag is h1 - Heading Level 1. Try: &lt;h1&gt;Welcome to SaiFit Gym&lt;/h1&gt;
         </Callout>
       )}
 
@@ -295,7 +295,7 @@ function Slot1({ onNext, playSound, done, setDone }) {
             <span>↑ opens</span><span>content</span><span>closes (note the /) ↑</span>
           </div>
           <Callout icon="⚠️" variant="tip" style={{ marginTop: 10 }}>
-            The / in the closing tag is important. Without it — HTML does not know where the heading ends.
+            The / in the closing tag is important. Without it - HTML does not know where the heading ends.
           </Callout>
           <button onClick={() => { playSound("tick"); onNext(); }} className="hk-btn"
             style={{ marginTop: 4, padding: "12px 24px", background: "linear-gradient(135deg,#1E293B,#334155)", color: "#fff", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700 }}>
@@ -307,7 +307,7 @@ function Slot1({ onNext, playSound, done, setDone }) {
   );
 }
 
-// ─── SLOT 2 — HEADINGS ───────────────────────────────────────────────────────
+// ─── SLOT 2 - HEADINGS ───────────────────────────────────────────────────────
 function Slot2({ onNext, playSound, done, setDone }) {
   const [value, setValue] = useState("");
   const [wrong, setWrong] = useState(false);
@@ -321,7 +321,7 @@ function Slot2({ onNext, playSound, done, setDone }) {
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 14 }}>📏 Headings — three sizes</div>
+      <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 14 }}>📏 Headings - three sizes</div>
 
       <div className="hk-card" style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 14, marginBottom: 12 }}>
         <div><span style={{ color: "#60A5FA" }}>&lt;h1&gt;</span>Welcome to SaiFit Gym<span style={{ color: "#60A5FA" }}>&lt;/h1&gt;</span></div>
@@ -334,7 +334,7 @@ function Slot2({ onNext, playSound, done, setDone }) {
         correct={correct}
         wrong={wrong && !correct}
         placeholder="h2"
-        comment="smaller than h1 — heading level 2"
+        comment="smaller than h1 - heading level 2"
       />
       <div style={{ fontSize: 13, color: "#374151", marginTop: 10, marginBottom: 4 }}>
         💡 h1 is the biggest. The next size down is <strong>h2</strong>. Heading Level 2. Type it:
@@ -368,7 +368,7 @@ function Slot2({ onNext, playSound, done, setDone }) {
   );
 }
 
-// ─── SLOT 3 — p AND button ───────────────────────────────────────────────────
+// ─── SLOT 3 - p AND button ───────────────────────────────────────────────────
 function Slot3({ onNext, playSound, pDone, setPDone, buttonDone, setButtonDone }) {
   const [pValue, setPValue] = useState("");
   const [pWrong, setPWrong] = useState(false);
@@ -406,21 +406,21 @@ function Slot3({ onNext, playSound, pDone, setPDone, buttonDone, setButtonDone }
         correct={pCorrect}
         wrong={pWrong && !pCorrect}
         placeholder="p"
-        comment="paragraph — a block of text"
+        comment="paragraph - a block of text"
       />
       <div style={{ fontSize: 13, color: "#374151", marginTop: 10, marginBottom: 4 }}>
         💡 <strong>p</strong> stands for paragraph. It wraps a block of text. Type it:
       </div>
       {pWrong && !pCorrect && (
         <Callout icon="🚫" variant="danger" shake style={{ marginTop: 8 }}>
-          The tag is p — paragraph.
+          The tag is p - paragraph.
         </Callout>
       )}
 
       {pCorrect && (
         <Callout icon="📄" variant="neutral" style={{ marginTop: 14, animation: "slideIn 0.4s ease" }}>
           p is a block of text. It sits on its own line. A new paragraph below the heading.<br /><br />
-          You will use p everywhere — member details, plan info, any text on your app.
+          You will use p everywhere - member details, plan info, any text on your app.
         </Callout>
       )}
 
@@ -445,7 +445,7 @@ function Slot3({ onNext, playSound, pDone, setPDone, buttonDone, setButtonDone }
           )}
           {bCorrect && (
             <Callout icon="👀" variant="tip" style={{ marginTop: 10 }}>
-              Notice — the button looks plain. No colour. No style. That is the skeleton. 4.0.2 gives it colour and shape.
+              Notice - the button looks plain. No colour. No style. That is the skeleton. 4.0.2 gives it colour and shape.
             </Callout>
           )}
         </div>
@@ -461,7 +461,7 @@ function Slot3({ onNext, playSound, pDone, setPDone, buttonDone, setButtonDone }
   );
 }
 
-// ─── SLOT 4 — input AND span ─────────────────────────────────────────────────
+// ─── SLOT 4 - input AND span ─────────────────────────────────────────────────
 function Slot4({ onNext, playSound, inputDone, setInputDone, spanDone, setSpanDone }) {
   const [choice, setChoice] = useState(null);
 
@@ -488,13 +488,13 @@ function Slot4({ onNext, playSound, inputDone, setInputDone, spanDone, setSpanDo
       <div className="hk-card" style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 14, marginBottom: 14 }}>
         <span style={{ color: "#60A5FA" }}>&lt;input /&gt;</span>
         <div style={{ color: "#94A3B8", fontSize: 12, marginTop: 6 }}>
-          💬 self-closing — note the / ... no closing tag needed ... input has no content inside
+          💬 self-closing - note the / ... no closing tag needed ... input has no content inside
         </div>
       </div>
 
       <Callout icon="🔒" title="Self-closing, explained" variant="tip">
         Most tags have content inside: &lt;h1&gt;Some text&lt;/h1&gt;<br /><br />
-        input has no content — the user types INTO it. So it closes itself: &lt;input /&gt;<br /><br />
+        input has no content - the user types INTO it. So it closes itself: &lt;input /&gt;<br /><br />
         The / at the end means "I close myself here."
       </Callout>
 
@@ -529,7 +529,7 @@ function Slot4({ onNext, playSound, inputDone, setInputDone, spanDone, setSpanDo
         <div style={{ marginTop: 24, animation: "slideIn 0.4s ease" }}>
           <Callout icon="🏷️" title="What is span?" variant="info">
             span wraps a small piece of inline text.<br /><br />
-            Unlike p which takes a full line — span sits INSIDE a line of text.<br /><br />
+            Unlike p which takes a full line - span sits INSIDE a line of text.<br /><br />
             Used for badges, labels, highlighted words.
           </Callout>
 
@@ -538,12 +538,12 @@ function Slot4({ onNext, playSound, inputDone, setInputDone, spanDone, setSpanDo
             <div><span style={{ color: "#60A5FA" }}>&lt;span&gt;</span>Basic Plan<span style={{ color: "#60A5FA" }}>&lt;/span&gt;</span></div>
           </div>
           <div style={{ fontSize: 13, color: "#374151", marginBottom: 14 }}>
-            These sit inline — on the same line as other elements. p sits on its own line. span shares a line.
+            These sit inline - on the same line as other elements. p sits on its own line. span shares a line.
           </div>
 
           <div className="hk-card" style={{ background: "#F9FAFB", border: "1px solid #E2E8F0", borderRadius: 10, padding: 14 }}>
             <div style={{ fontSize: 11, color: "#64748B", marginBottom: 8, fontWeight: 700, letterSpacing: 0.5 }}>📊 p vs span</div>
-            <div>This is a paragraph — takes its own full line</div>
+            <div>This is a paragraph - takes its own full line</div>
             <div style={{ marginTop: 6 }}>This text has a <span style={{ background: "#FDE68A", padding: "1px 4px", borderRadius: 3 }}>highlighted word</span> inside it.</div>
           </div>
 
@@ -564,7 +564,7 @@ function Slot4({ onNext, playSound, inputDone, setInputDone, spanDone, setSpanDo
   );
 }
 
-// ─── SLOT 5 — NESTING ────────────────────────────────────────────────────────
+// ─── SLOT 5 - NESTING ────────────────────────────────────────────────────────
 function Slot5({ onNext, playSound, done, setDone, hoverPart, setHoverPart }) {
   const [value, setValue] = useState("");
   const [wrong, setWrong] = useState(false);
@@ -583,7 +583,7 @@ function Slot5({ onNext, playSound, done, setDone, hoverPart, setHoverPart }) {
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 14 }}>📦 Nesting — boxes inside boxes</div>
+      <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 14 }}>📦 Nesting - boxes inside boxes</div>
 
       <div className={`hk-card${correct ? " hk-pop" : wrong ? " hk-shake" : ""}`} style={{
         background: "linear-gradient(180deg,#1E293B,#0F172A)", color: "#E2E8F0", borderRadius: 12, padding: 18, fontFamily: "monospace", fontSize: 14,
@@ -616,7 +616,7 @@ function Slot5({ onNext, playSound, done, setDone, hoverPart, setHoverPart }) {
       </div>
       {wrong && !correct && (
         <Callout icon="🚫" variant="danger" shake style={{ marginTop: 8 }}>
-          The outer box tag is div — short for division.
+          The outer box tag is div - short for division.
         </Callout>
       )}
 
@@ -632,7 +632,7 @@ function Slot5({ onNext, playSound, done, setDone, hoverPart, setHoverPart }) {
             </div>
             <div style={{ marginTop: 8 }}>
               Those spaces (indentation) show what is inside what.<br /><br />
-              HTML does not require them. But every developer uses them. Without them — nested HTML is impossible to read.<br /><br />
+              HTML does not require them. But every developer uses them. Without them - nested HTML is impossible to read.<br /><br />
               <strong>Rule: add 2 spaces for each level of nesting.</strong>
             </div>
           </Callout>
@@ -645,7 +645,7 @@ function Slot5({ onNext, playSound, done, setDone, hoverPart, setHoverPart }) {
             <div style={{ borderLeft: "3px solid #60A5FA", paddingLeft: 8, color: "#E2E8F0" }}>&lt;/div&gt;</div>
           </div>
           <div style={{ fontSize: 12, color: "#64748B", marginTop: 6 }}>
-            🔁 div inside div — common in React. Each level indented 2 more spaces.
+            🔁 div inside div - common in React. Each level indented 2 more spaces.
           </div>
 
           <label style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 14, fontSize: 13, cursor: "pointer" }}>
@@ -665,7 +665,7 @@ function Slot5({ onNext, playSound, done, setDone, hoverPart, setHoverPart }) {
   );
 }
 
-// ─── SLOT 6 — COMPLETE MEMBER CARD ───────────────────────────────────────────
+// ─── SLOT 6 - COMPLETE MEMBER CARD ───────────────────────────────────────────
 function Slot6({ onDone, playSound, name, setName, plan, setPlan, status, setStatus, cardDone, setCardDone }) {
   const ack = () => {
     if (!cardDone) { playSound("correct"); setCardDone(true); playSound("correct"); onDone(); }
@@ -675,7 +675,7 @@ function Slot6({ onDone, playSound, name, setName, plan, setPlan, status, setSta
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
       <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>🪪 Build YOUR member card in HTML</div>
       <div style={{ color: "#64748B", fontSize: 13, marginBottom: 16 }}>
-        Combine everything you learned. One complete member card. No styling yet — intentionally. Just the skeleton.
+        Combine everything you learned. One complete member card. No styling yet - intentionally. Just the skeleton.
       </div>
 
       <div className="hk-card" style={{ background: "#F9FAFB", border: "1px solid #E2E8F0", borderRadius: 12, padding: 16, marginBottom: 16 }}>
@@ -722,14 +722,14 @@ function Slot6({ onDone, playSound, name, setName, plan, setPlan, status, setSta
 // ─── REVEAL CARD ─────────────────────────────────────────────────────────────
 function RevealCard({ onDone, playSound }) {
   const items = [
-    ["🧱 HTML", "describes structure — tags define what each element is"],
-    ["📏 h1 / h2 / h3", "headings — three sizes, h1 biggest"],
-    ["📄 p", "paragraph — sits on its own line"],
+    ["🧱 HTML", "describes structure - tags define what each element is"],
+    ["📏 h1 / h2 / h3", "headings - three sizes, h1 biggest"],
+    ["📄 p", "paragraph - sits on its own line"],
     ["🔘 button", "clickable element"],
-    ["⌨️ input", "self-closing text field — user types into it"],
-    ["🏷️ span", "inline text wrapper — shares a line with other elements"],
-    ["📦 div", "the outer box — groups elements together"],
-    ["🔁 nesting", "elements inside elements — indent 2 spaces per level"],
+    ["⌨️ input", "self-closing text field - user types into it"],
+    ["🏷️ span", "inline text wrapper - shares a line with other elements"],
+    ["📦 div", "the outer box - groups elements together"],
+    ["🔁 nesting", "elements inside elements - indent 2 spaces per level"],
   ];
   const [ticked, setTicked] = useState([]);
   useEffect(() => {
@@ -761,7 +761,7 @@ function RevealCard({ onDone, playSound }) {
       }}>
         🏆 You just wrote real HTML.<br /><br />
         The skeleton of your gym app.<br /><br />
-        Next — 4.0.2.<br />
+        Next - 4.0.2.<br />
         CSS gives it colour and style.<br />
         The skeleton gets its clothes. 👕
       </div>
@@ -769,7 +769,7 @@ function RevealCard({ onDone, playSound }) {
   );
 }
 
-// ─── PHASE 2 — DOMAIN STARTERS ────────────────────────────────────────────────
+// ─── PHASE 2 - DOMAIN STARTERS ────────────────────────────────────────────────
 const DOMAINS = {
   gym: { icon: "🏋️", label: "Gym", starter:
 `<div>
@@ -866,7 +866,7 @@ function Phase2Left({ domain, setDomain, code, setCode, reflection, setReflectio
           <div style={{ marginTop: 14 }}>
             <button onClick={() => setShowStretch(s => !s)}
               style={{ background: "none", border: "none", color: "#2563EB", fontSize: 13, cursor: "pointer", padding: 0 }}>
-              {showStretch ? "▾" : "▸"} Optional extra — try a table
+              {showStretch ? "▾" : "▸"} Optional extra - try a table
             </button>
             {showStretch && (
               <div style={{ marginTop: 8, background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 12, lineHeight: 1.9 }}>
@@ -889,13 +889,13 @@ function Phase2Left({ domain, setDomain, code, setCode, reflection, setReflectio
 
           <div style={{ marginTop: 20 }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              In one sentence — what does HTML do, and why does the unstyled version look plain?
+              In one sentence - what does HTML do, and why does the unstyled version look plain?
             </div>
             <textarea
               value={reflection}
               onChange={e => setReflection(e.target.value)}
               onPaste={e => e.preventDefault()}
-              placeholder="HTML describes the structure of the page using tags like div, h2, p, and button, but it has no colours or spacing because that is CSS's job — which we add in the next subtopic..."
+              placeholder="HTML describes the structure of the page using tags like div, h2, p, and button, but it has no colours or spacing because that is CSS's job - which we add in the next subtopic..."
               style={{
                 width: "100%", minHeight: 90, padding: 12, borderRadius: 10,
                 border: `2px solid ${reflectionOk ? "#10B981" : "#E2E8F0"}`, fontSize: 14,
@@ -913,7 +913,7 @@ function Phase2Left({ domain, setDomain, code, setCode, reflection, setReflectio
               background: (domain && reflectionOk) ? "linear-gradient(135deg,#1E293B,#334155)" : "#CBD5E1",
               color: "#fff", border: "none", borderRadius: 12, fontSize: 16, fontWeight: 700,
               cursor: (domain && reflectionOk) ? "pointer" : "not-allowed", display: "block", width: "100%"
-            }}>HTML is clear — add CSS next →</button>
+            }}>HTML is clear - add CSS next →</button>
         </>
       )}
 
@@ -924,14 +924,14 @@ function Phase2Left({ domain, setDomain, code, setCode, reflection, setReflectio
         }}>
           <div style={{ fontSize: 22, fontWeight: 800, color: "#064E3B", marginBottom: 14, textAlign: "center" }}>🦴 Skeleton built. 🎉</div>
           <div style={{ fontSize: 14, color: "#065F46", lineHeight: 2, background: "#fff", borderRadius: 12, padding: 16, border: "1px dashed #10B981" }}>
-            ✅ div — outer box<br />
-            ✅ h1/h2/h3 — headings<br />
-            ✅ p — paragraphs<br />
-            ✅ button — clickable<br />
-            ✅ input — text field<br />
-            ✅ span — inline text<br />
-            ✅ Nesting — boxes inside boxes<br /><br />
-            Next — 4.0.2.<br />
+            ✅ div - outer box<br />
+            ✅ h1/h2/h3 - headings<br />
+            ✅ p - paragraphs<br />
+            ✅ button - clickable<br />
+            ✅ input - text field<br />
+            ✅ span - inline text<br />
+            ✅ Nesting - boxes inside boxes<br /><br />
+            Next - 4.0.2.<br />
             CSS gives it colour. Spacing. Rounded corners.<br />
             Your card will look real. 👕
           </div>
@@ -1094,7 +1094,7 @@ export default function HTMLIntro() {
         <div style={{ position: "absolute", bottom: -60, right: -30, width: 200, height: 200, borderRadius: "50%", background: "radial-gradient(circle,rgba(96,165,250,0.25),transparent 70%)" }} />
         <div style={{ position: "relative" }}>
           <div style={{ fontSize: 12, color: "#C4B5FD", letterSpacing: 2, marginBottom: 8, fontWeight: 700 }}>🚀 SUBTOPIC 4.0.1 · HATCHKOD</div>
-          <div style={{ fontSize: 30, fontWeight: 800, marginBottom: 8 }}>🧱 HTML — The Skeleton</div>
+          <div style={{ fontSize: 30, fontWeight: 800, marginBottom: 8 }}>🧱 HTML - The Skeleton</div>
           <div style={{ fontSize: 15, color: "#DDD6FE" }}>Structure only. Zero CSS. This is the skeleton.</div>
         </div>
       </div>

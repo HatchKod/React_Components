@@ -58,8 +58,8 @@ function mn(t) { return <span style={{ color: Y, fontWeight: 700 }}>{t}</span>; 
 function fd(t) { return <span style={{ color: O }}>{t}</span>; }
 function val(t) { return <span style={{ color: G }}>{t}</span>; }
 function cm(t) { return <span style={{ color: GR }}>{t}</span>; }
-function privateTip(t) { return <Tip text="Only this class can access — locked from outside"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
-function publicTip(t) { return <Tip text="Anyone can call this — no restriction"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function privateTip(t) { return <Tip text="Only this class can access - locked from outside"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function publicTip(t) { return <Tip text="Anyone can call this - no restriction"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
 function returnTip(t) { return <Tip text="Give this value back to whoever called"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
 function voidTip(t) { return <Tip text="Does something, gives nothing back"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
 
@@ -105,7 +105,7 @@ function Clipboard({ text }) {
       borderRadius: 6, padding: "6px 10px", marginTop: 6, animation: "slideIn 0.3s ease"
     }}>
       <div style={{ fontSize: 9, color: "#92400E", fontWeight: 700, marginBottom: 2 }}>CHECK:</div>
-      <div style={{ fontFamily: "monospace", fontSize: 11, color: "#78350F" }}>{text || "—"}</div>
+      <div style={{ fontFamily: "monospace", fontSize: 11, color: "#78350F" }}>{text || "-"}</div>
     </div>
   );
 }
@@ -122,12 +122,12 @@ function Dabba({ label, locked, value, testFlash }) {
         <div style={{ position: "absolute", top: -10, right: -6, fontSize: 16, animation: "popIn 0.3s ease" }}>🔒</div>
       )}
       <div style={{ fontSize: 11, fontWeight: 700, color: "#374151" }}>{label}</div>
-      <div style={{ fontSize: 12, color: "#6B7280", marginTop: 4, minHeight: 16 }}>{value ?? "—"}</div>
+      <div style={{ fontSize: 12, color: "#6B7280", marginTop: 4, minHeight: 16 }}>{value ?? "-"}</div>
     </div>
   );
 }
 
-// ─── TRAVELER — the animated attempt walking through the zones ──────────────
+// ─── TRAVELER - the animated attempt walking through the zones ──────────────
 // type: "pass" (walks all the way down to the dabba), "blocked" (stopped and
 // bounced back at the bodyguard), "read" (value floats up from the dabba out)
 function Traveler({ id, type, value, onArrive }) {
@@ -171,7 +171,7 @@ function Traveler({ id, type, value, onArrive }) {
   );
 }
 
-// ─── FLASH + STAMP — big, unmissable feedback on every attempt ──────────────
+// ─── FLASH + STAMP - big, unmissable feedback on every attempt ──────────────
 function FlashOverlay({ id, color }) {
   return (
     <div key={id} style={{
@@ -200,7 +200,7 @@ function StatusStamp({ id, type }) {
   );
 }
 
-// ─── PHASE 1 — SLOT 1 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 1 ────────────────────────────────────────────────────────
 function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result, setResult, locked, slot, fireTravel }) {
   const [input, setInput] = useState("");
   const [attempted, setAttempted] = useState(false);
@@ -222,8 +222,8 @@ function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result
 
   return (
     <div style={{ marginBottom: 28 }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>See the problem — public fields</div>
-      <div style={{ color: "#64748B", marginBottom: 10, fontSize: 13 }}>Read this class. Notice — nothing protects these fields.</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>See the problem - public fields</div>
+      <div style={{ color: "#64748B", marginBottom: 10, fontSize: 13 }}>Read this class. Notice - nothing protects these fields.</div>
 
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
         <div>{kw("class")}{" "}{cn("GymMember")}{" {"}</div>
@@ -235,7 +235,7 @@ function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result
 
       <div style={{ marginTop: 16, background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: 10, padding: 16 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: "#7F1D1D", marginBottom: 8 }}>
-          Try to break it — right now try setting age to something ridiculous:
+          Try to break it - right now try setting age to something ridiculous:
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           <input type="number" value={input} onChange={e => setInput(e.target.value)} placeholder="-500"
@@ -265,7 +265,7 @@ function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result
           <div style={{ marginTop: 14, background: "#0F172A", color: "#E2E8F0", borderRadius: 8, padding: 14, fontFamily: "monospace", fontSize: 13, lineHeight: 1.8, animation: "slideIn 0.4s ease" }}>
             ravi.age = {breakValue} ❌<br />
             <span style={{ color: "#F87171" }}>Cannot access private field from outside.</span><br />
-            <span style={{ color: "#F87171" }}>The bodyguard blocked it — watch the right panel.</span>
+            <span style={{ color: "#F87171" }}>The bodyguard blocked it - watch the right panel.</span>
           </div>
         )}
       </div>
@@ -278,14 +278,14 @@ function Slot1({ onNext, playSound, onAttempt, breakValue, setBreakValue, result
       )}
       {locked && (
         <div style={{ marginTop: 10, fontSize: 12, color: "#94A3B8" }}>
-          Fields are locked now — try clicking "Set age directly" again above and watch what happens on the right.
+          Fields are locked now - try clicking "Set age directly" again above and watch what happens on the right.
         </div>
       )}
     </div>
   );
 }
 
-// ─── PHASE 1 — SLOT 2 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 2 ────────────────────────────────────────────────────────
 function Slot2({ onNext, playSound, privacy, setPrivacy, breakValue, result }) {
   const fields = ["name", "age", "plan"];
   const types = { name: "String", age: "int", plan: "String" };
@@ -305,7 +305,7 @@ function Slot2({ onNext, playSound, privacy, setPrivacy, breakValue, result }) {
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>Step 1 — Lock each field</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>Step 1 - Lock each field</div>
       <div style={{ color: "#64748B", marginBottom: 14, fontSize: 13 }}>Choose the access modifier that locks each field.</div>
 
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2.2 }}>
@@ -329,7 +329,7 @@ function Slot2({ onNext, playSound, privacy, setPrivacy, breakValue, result }) {
             </div>
             {wrongRow === f && privacy[f] !== "private" && (
               <div style={{ fontSize: 11, color: "#F87171", marginTop: 2 }}>
-                public leaves it unprotected. Try private — this is the lock.
+                public leaves it unprotected. Try private - this is the lock.
               </div>
             )}
           </div>
@@ -339,7 +339,7 @@ function Slot2({ onNext, playSound, privacy, setPrivacy, breakValue, result }) {
 
       {allPrivate && (
         <div style={{ marginTop: 14, background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 10, padding: 12, fontSize: 13, color: "#065F46", animation: "slideIn 0.4s ease" }}>
-          🔒 All three fields are locked. Scroll up and click <strong>"Set age directly →"</strong> again — watch the bodyguard stop it this time.
+          🔒 All three fields are locked. Scroll up and click <strong>"Set age directly →"</strong> again - watch the bodyguard stop it this time.
         </div>
       )}
 
@@ -353,7 +353,7 @@ function Slot2({ onNext, playSound, privacy, setPrivacy, breakValue, result }) {
   );
 }
 
-// ─── PHASE 1 — SLOT 3 ────────────────────────────────────────────────────────
+// ─── PHASE 1 - SLOT 3 ────────────────────────────────────────────────────────
 const CHECK_OPTIONS = [
   { label: "Only allow if age > 0", value: "newAge > 0" },
   { label: "Only allow if name is not empty", value: "!newName.isEmpty()" },
@@ -381,9 +381,9 @@ function Slot3({ onDone, playSound, getter, setGetter, setter, setSetter }) {
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 14 }}>Step 2 — Add a controlled door</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 14 }}>Step 2 - Add a controlled door</div>
 
-      <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>GETTER — let people READ the age</div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>GETTER - let people READ the age</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           {publicTip("public")}
@@ -420,7 +420,7 @@ function Slot3({ onDone, playSound, getter, setGetter, setter, setSetter }) {
 
       {getterOk && (
         <div style={{ marginTop: 26, animation: "slideIn 0.4s ease" }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>SETTER — let people UPDATE the age, with a check</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginBottom: 8 }}>SETTER - let people UPDATE the age, with a check</div>
           <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
               {publicTip("public")}
@@ -450,8 +450,8 @@ function Slot3({ onDone, playSound, getter, setGetter, setter, setSetter }) {
             {setterOk && (
               <>
                 <div style={{ paddingLeft: 24, marginTop: 8 }}>{kw("if")} ({checkExpr}) {"{  "}{cm("// bodyguard checks")}</div>
-                <div style={{ paddingLeft: 48 }}>{fd("age")}{" = "}{fd("newAge")};{"  "}{cm("// valid — let through")}</div>
-                <div style={{ paddingLeft: 24 }}>{"}"}{"  "}{cm("// invalid — blocked silently")}</div>
+                <div style={{ paddingLeft: 48 }}>{fd("age")}{" = "}{fd("newAge")};{"  "}{cm("// valid - let through")}</div>
+                <div style={{ paddingLeft: 24 }}>{"}"}{"  "}{cm("// invalid - blocked silently")}</div>
               </>
             )}
             <div>{"}"}</div>
@@ -469,7 +469,7 @@ function Slot3({ onDone, playSound, getter, setGetter, setter, setSetter }) {
   );
 }
 
-// ─── PHASE 1 — ASSEMBLED CLASS + TEST ────────────────────────────────────────
+// ─── PHASE 1 - ASSEMBLED CLASS + TEST ────────────────────────────────────────
 function AssembledClass({ getter, setter, checkExpr, onDone, playSound, ageValue, setAgeValue, fireTravel }) {
   const [neg, setNeg] = useState(false);
   const [pos, setPos] = useState(false);
@@ -485,12 +485,12 @@ function AssembledClass({ getter, setter, checkExpr, onDone, playSound, ageValue
 
   return (
     <div style={{ marginBottom: 28, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Your class — fully assembled</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Your class - fully assembled</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 18, fontFamily: "monospace", fontSize: 13, lineHeight: 2 }}>
         <div>{kw("class")}{" "}{cn("GymMember")}{" {"}</div>
-        <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{fd("name")};{"  "}{cm("// locked — bodyguard on duty")}</div>
-        <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("int")}{" "}{fd("age")};{"   "}{cm("// locked — bodyguard on duty")}</div>
-        <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{fd("plan")};{"  "}{cm("// locked — bodyguard on duty")}</div>
+        <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{fd("name")};{"  "}{cm("// locked - bodyguard on duty")}</div>
+        <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("int")}{" "}{fd("age")};{"   "}{cm("// locked - bodyguard on duty")}</div>
+        <div style={{ paddingLeft: 24 }}>{kw("private")}{" "}{kw("String")}{" "}{fd("plan")};{"  "}{cm("// locked - bodyguard on duty")}</div>
         <div style={{ height: 8 }} />
         <div style={{ paddingLeft: 24 }}>{kw("public")}{" "}{kw("int")}{" "}{mn(getter.methodName)}(){" {   "}{cm("// reading window for age")}</div>
         <div style={{ paddingLeft: 48 }}>{kw("return")}{" "}{fd("age")};</div>
@@ -498,7 +498,7 @@ function AssembledClass({ getter, setter, checkExpr, onDone, playSound, ageValue
         <div style={{ height: 8 }} />
         <div style={{ paddingLeft: 24 }}>{kw("public")}{" "}{kw("void")}{" "}{mn(setter.methodName)}({kw("int")} {fd("newAge")}) {" {  "}{cm("// controlled door for age")}</div>
         <div style={{ paddingLeft: 48 }}>{kw("if")} ({checkExpr}) {" {            "}{cm("// bodyguard checks")}</div>
-        <div style={{ paddingLeft: 72 }}>{fd("age")}{" = "}{fd("newAge")};{"            "}{cm("// valid — through")}</div>
+        <div style={{ paddingLeft: 72 }}>{fd("age")}{" = "}{fd("newAge")};{"            "}{cm("// valid - through")}</div>
         <div style={{ paddingLeft: 48 }}>{"}"}</div>
         <div style={{ paddingLeft: 24 }}>{"}"}</div>
         <div>{"}"}</div>
@@ -517,8 +517,8 @@ function AssembledClass({ getter, setter, checkExpr, onDone, playSound, ageValue
         </button>
       </div>
 
-      {neg && <div style={{ marginTop: 10, fontSize: 13, color: "#DC2626" }}>❌ Blocked — the bodyguard checked the clipboard and shook their head.</div>}
-      {pos && <div style={{ marginTop: 6, fontSize: 13, color: "#059669" }}>✅ Allowed — age is now {ageValue}.</div>}
+      {neg && <div style={{ marginTop: 10, fontSize: 13, color: "#DC2626" }}>❌ Blocked - the bodyguard checked the clipboard and shook their head.</div>}
+      {pos && <div style={{ marginTop: 6, fontSize: 13, color: "#059669" }}>✅ Allowed - age is now {ageValue}.</div>}
       {got && <div style={{ marginTop: 6, fontSize: 13, color: "#2563EB" }}>👁️ getAge() returned {ageValue ?? 21} through the reading window.</div>}
     </div>
   );
@@ -528,10 +528,10 @@ function AssembledClass({ getter, setter, checkExpr, onDone, playSound, ageValue
 function RevealCard({ onDone, playSound }) {
   const items = [
     ["Encapsulation", "hiding fields, controlling access through methods"],
-    ["private", "locks a field — only this class can touch it"],
+    ["private", "locks a field - only this class can touch it"],
     ["public", "opens a method to anyone"],
-    ["Getter", "the reading window — get + field name"],
-    ["Setter", "the controlled door — set + field name + a check inside"],
+    ["Getter", "the reading window - get + field name"],
+    ["Setter", "the controlled door - set + field name + a check inside"],
   ];
   const [ticked, setTicked] = useState([]);
   useEffect(() => {
@@ -660,7 +660,7 @@ class ________ {
     private boolean ________; // locked
 }
 
-// Step 2: getters — reading windows
+// Step 2: getters - reading windows
 public String get________() { // read ________
     return ________;
 }
@@ -669,7 +669,7 @@ public int get________() {    // read ________
     return ________;
 }
 
-// Step 3: setters — controlled doors
+// Step 3: setters - controlled doors
 public void set________(String new________) {
     if (________ != null && !________.isEmpty()) {  // check not empty
         ________ = new________;
@@ -710,7 +710,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              In one sentence — what would happen to your app's data if you didn't have encapsulation?
+              In one sentence - what would happen to your app's data if you didn't have encapsulation?
             </div>
             <textarea
               value={reflection}
@@ -750,9 +750,9 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
             Every field is private.<br />
             Getters let people read safely.<br />
             Setters check before allowing changes.<br /><br />
-            In a later module — when you connect your class to a database — this pattern is exactly what makes that connection work.<br /><br />
+            In a later module - when you connect your class to a database - this pattern is exactly what makes that connection work.<br /><br />
             <strong>Your bodyguard is in place.</strong><br /><br />
-            Next — make your class even more powerful. One class inheriting from another. Writing less code by reusing what already exists.
+            Next - make your class even more powerful. One class inheriting from another. Writing less code by reusing what already exists.
           </div>
         </div>
       )}
@@ -811,7 +811,7 @@ export default function EncapsulationGuard() {
   const [result, setResult] = useState(null);
   const [breakAttempted, setBreakAttempted] = useState(false);
 
-  // animated traveler — the attempt walking through the zones on the right
+  // animated traveler - the attempt walking through the zones on the right
   const [travel, setTravel] = useState(null);
   const [ageDabbaValue, setAgeDabbaValue] = useState(null);
   const travelIdRef = useRef(0);

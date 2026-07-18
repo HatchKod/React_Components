@@ -79,11 +79,11 @@ function DataParticles({ active }) {
 
 /* ─── Field → Column mapping data ─── */
 const CLASS_FIELDS = [
-  { key:'id',       type:'Long',    name:'id',       col:'id',       sqlType:'BIGINT',  label:'Auto-generated unique number for each row — MySQL assigns it', color:'#8B5CF6' },
-  { key:'name',     type:'String',  name:'name',     col:'name',     sqlType:'VARCHAR', label:'Java String → MySQL VARCHAR — variable-length text', color:'#3B82F6' },
-  { key:'age',      type:'int',     name:'age',      col:'age',      sqlType:'INTEGER', label:'Java int → MySQL INTEGER — whole numbers only', color:'#F59E0B' },
-  { key:'plan',     type:'String',  name:'plan',     col:'plan',     sqlType:'VARCHAR', label:'Java String → MySQL VARCHAR — another text column', color:'#10B981' },
-  { key:'isActive', type:'boolean', name:'isActive', col:'isActive', sqlType:'TINYINT', label:'Java boolean → MySQL TINYINT — stored as 0 or 1', color:'#EF4444' },
+  { key:'id',       type:'Long',    name:'id',       col:'id',       sqlType:'BIGINT',  label:'Auto-generated unique number for each row - MySQL assigns it', color:'#8B5CF6' },
+  { key:'name',     type:'String',  name:'name',     col:'name',     sqlType:'VARCHAR', label:'Java String → MySQL VARCHAR - variable-length text', color:'#3B82F6' },
+  { key:'age',      type:'int',     name:'age',      col:'age',      sqlType:'INTEGER', label:'Java int → MySQL INTEGER - whole numbers only', color:'#F59E0B' },
+  { key:'plan',     type:'String',  name:'plan',     col:'plan',     sqlType:'VARCHAR', label:'Java String → MySQL VARCHAR - another text column', color:'#10B981' },
+  { key:'isActive', type:'boolean', name:'isActive', col:'isActive', sqlType:'TINYINT', label:'Java boolean → MySQL TINYINT - stored as 0 or 1', color:'#EF4444' },
 ];
 
 const SAMPLE_ROWS = [
@@ -101,7 +101,7 @@ const DOMAIN_FIELDS = {
 
 const MCQ = [
   { q:'What happens to your List<GymMember> when MySQL is connected?',
-    opts:[{a:'A',t:"It still exists alongside MySQL"},{ a:'B',t:'The List is replaced — MySQL stores the data instead'},{ a:'C',t:'MySQL is just a backup for the List'}],
+    opts:[{a:'A',t:"It still exists alongside MySQL"},{ a:'B',t:'The List is replaced - MySQL stores the data instead'},{ a:'C',t:'MySQL is just a backup for the List'}],
     correct:'B', explain:'MySQL takes over completely. No more List.' },
   { q:'What is the relationship between one Java object and MySQL?',
     opts:[{ a:'A',t:'One object = one database'},{ a:'B',t:'One object = one row in the table'},{ a:'C',t:'One object = one column'}],
@@ -310,7 +310,7 @@ export default function DatabaseIntro() {
           Why Databases Exist
         </h1>
         <p style={{ color:'#475569', fontSize:'1.1rem', marginBottom:36, lineHeight:1.7 }}>
-          You have seen data disappear three times on restart. Today you find out why — and how to fix it forever.
+          You have seen data disappear three times on restart. Today you find out why - and how to fix it forever.
         </p>
         <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
           <button className="btn-main" onClick={() => { goTo(1); }}>Start the Journey →</button>
@@ -403,9 +403,9 @@ export default function DatabaseIntro() {
           {restartDone && (
             <div style={{ animation:'slide-up 0.5s ease' }}>
               <div style={{ background:'#FEF2F2', borderLeft:'4px solid #EF4444', borderRadius:8, padding:20, marginBottom:20 }}>
-                <div style={{ fontWeight:800, color:'#991B1B', marginBottom:8, fontSize:'1.05rem' }}>Ravi, Suresh, Priya — gone.</div>
+                <div style={{ fontWeight:800, color:'#991B1B', marginBottom:8, fontSize:'1.05rem' }}>Ravi, Suresh, Priya - gone.</div>
                 <p style={{ color:'#7F1D1D', margin:'0 0 8px', lineHeight:1.7, fontSize:'0.95rem' }}>
-                  This is exactly how memory works. When your server stops — the ArrayList is <b>destroyed</b>.<br/>
+                  This is exactly how memory works. When your server stops - the ArrayList is <b>destroyed</b>.<br/>
                   When it starts up again, a brand new empty list is created.
                 </p>
                 <p style={{ color:'#4F46E5', fontWeight:800, margin:0, fontSize:'1.05rem' }}>Let's introduce a solution that remembers.</p>
@@ -417,7 +417,7 @@ export default function DatabaseIntro() {
           )}
         </div>
 
-        {/* RIGHT — Visual explanation */}
+        {/* RIGHT - Visual explanation */}
         <div style={{ borderLeft:'1px solid #E2E8F0', padding:'40px 28px', display:'flex', flexDirection:'column', gap:20, overflowY:'auto' }}>
           <div style={{ ...S.glassLight, padding:20, background:'#FEF2F2', border:'1px solid #FECACA' }}>
             <div style={{ fontSize:'2.5rem', marginBottom:8 }}>⚡</div>
@@ -499,7 +499,7 @@ export default function DatabaseIntro() {
 
             <div style={{ background:'white', borderRadius:8, padding:16, minHeight:150, position:'relative', border:'2px solid #CBD5E1', overflow:'hidden', boxShadow:'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
               <div className="wb-erase-bar" style={{ width: wbErasing ? '100%' : '0%', transition: wbErasing ? 'width 0.85s ease-in-out' : 'none' }}>
-                {wbErased && <span style={{ color:'#94A3B8', fontSize:'0.95rem', fontWeight:700 }}>— WIPED CLEAN —</span>}
+                {wbErased && <span style={{ color:'#94A3B8', fontSize:'0.95rem', fontWeight:700 }}>- WIPED CLEAN -</span>}
               </div>
               {wbNames.map((n,i) => (
                 <div key={i} style={{ color:'#1E293B', fontFamily:'monospace', fontSize:'0.9rem', marginBottom:6, animation:'nb-entry 0.3s ease' }}>• {n}</div>
@@ -651,14 +651,14 @@ export default function DatabaseIntro() {
             <div style={{ background:'#FFFBEB', border:'1px solid #FDE68A', borderRadius:12, padding:24, animation:'slide-up 0.4s' }}>
               <div style={{ fontWeight:800, color:'#92400E', marginBottom:16, fontSize:'1.05rem' }}>Database Vocabulary:</div>
               {[
-                'Database → stores data permanently — survives restarts',
-                'MySQL → most popular open-source database — free, powerful',
-                'Table → like a spreadsheet — rows and columns',
+                'Database → stores data permanently - survives restarts',
+                'MySQL → most popular open-source database - free, powerful',
+                'Table → like a spreadsheet - rows and columns',
                 'Row → one GymMember object → one record',
                 'Column → one field across all members',
                 'id field → auto-generated unique number per row',
                 'Persistence → data that survives program restarts',
-                'Schema → structure of your database — tables and columns',
+                'Schema → structure of your database - tables and columns',
               ].slice(0, revealLines).map((line, i) => (
                 <div key={i} className="reveal-item" style={{ display:'flex', gap:10, marginBottom:10, fontSize:'0.92rem', color:'#475569', animationDelay:`${i*0.05}s` }}>
                   <span style={{ color:'#10B981', flexShrink:0 }}>✅</span> <span>{line}</span>
@@ -679,7 +679,7 @@ export default function DatabaseIntro() {
           )}
         </div>
 
-        {/* RIGHT — MySQL table preview */}
+        {/* RIGHT - MySQL table preview */}
         <div style={{ borderLeft:'1px solid #E2E8F0', padding:'32px 24px', background:'#F8FAFC' }}>
           <div style={{ marginBottom:16 }}>
             <div style={{ fontSize:'0.75rem', color:'#64748B', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8 }}>MySQL Table Preview</div>
@@ -716,7 +716,7 @@ export default function DatabaseIntro() {
           {/* Sample rows */}
           {tapped.length >= 3 && (
             <div style={{ animation:'slide-up 0.4s' }}>
-              <div style={{ fontSize:'0.75rem', color:'#64748B', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8 }}>Sample rows — tap one:</div>
+              <div style={{ fontSize:'0.75rem', color:'#64748B', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8 }}>Sample rows - tap one:</div>
               <div style={{ background:'white', border:'1px solid #E2E8F0', borderRadius:12, overflow:'hidden' }}>
                 <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'0.78rem' }}>
                   <thead>
@@ -848,7 +848,7 @@ export default function DatabaseIntro() {
                   {allQ && (
                     <div style={{ animation:'slide-up 0.4s' }}>
                       <h4 style={{ color:'#1E293B', margin:'0 0 8px', fontWeight:800 }}>Reflection:</h4>
-                      <p style={{ color:'#475569', fontSize:'0.88rem', margin:'0 0 8px' }}>Using the notebook analogy — why does your app need MySQL?</p>
+                      <p style={{ color:'#475569', fontSize:'0.88rem', margin:'0 0 8px' }}>Using the notebook analogy - why does your app need MySQL?</p>
                       <textarea className="reflection-box" placeholder="My app needs MySQL because the in-memory List is like a whiteboard..." value={reflection} onChange={e=>setReflection(e.target.value)} />
                       <div style={{ textAlign:'right', fontSize:'0.85rem', color: sentences>=1?'#16A34A':'#64748B', fontWeight:700, marginTop:4 }}>{sentences} / 1 sentence minimum</div>
                       <button
@@ -856,12 +856,12 @@ export default function DatabaseIntro() {
                         style={{ width:'100%', marginTop:20, padding:'18px', fontSize:'1.05rem', opacity:canSubmit?1:0.4 }}
                         disabled={!canSubmit}
                         onClick={()=>{ play('submit'); setSubmitted(true); }}>
-                        {submitted ? '✅ Completed!' : "I understand why we need MySQL — let's connect it →"}
+                        {submitted ? '✅ Completed!' : "I understand why we need MySQL - let's connect it →"}
                       </button>
                       {submitted && (
                         <div style={{ marginTop:20, padding:20, background:'#F0FDF4', border:'1px solid #86EFAC', borderRadius:12, animation:'slide-up 0.4s' }}>
                           <div style={{ fontWeight:800, color:'#166534', fontSize:'1.1rem', marginBottom:8 }}>The concept is clear. 🎯</div>
-                          <p style={{ color:'#14532D', margin:0 }}>In 2.3.2 — two annotations on your class.<br/>In 2.3.3 — one file connects Spring Boot to MySQL.<br/><b style={{ color:'#047857' }}>After that — restart your server and your data is still there.</b></p>
+                          <p style={{ color:'#14532D', margin:0 }}>In 2.3.2 - two annotations on your class.<br/>In 2.3.3 - one file connects Spring Boot to MySQL.<br/><b style={{ color:'#047857' }}>After that - restart your server and your data is still there.</b></p>
                         </div>
                       )}
                     </div>

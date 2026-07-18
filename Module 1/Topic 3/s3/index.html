@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dev Setup Guide — HatchKod 0.3.3</title>
-  <meta name="description" content="Set up your development environment step by step — Java, VS Code, and Git. A calm guided walkthrough for first-time developers." />
+  <title>Dev Setup Guide - HatchKod 0.3.3</title>
+  <meta name="description" content="Set up your development environment step by step - Java, VS Code, and Git. A calm guided walkthrough for first-time developers." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -94,7 +94,7 @@ function playSound(type, muted) {
 // ─────────────────────────────────────────────
 const STEPS = [
   {
-    id: 1, part: 'Part 1 — Install Java', partIndex: 0,
+    id: 1, part: 'Part 1 - Install Java', partIndex: 0,
     title: 'Download Java 17',
     instruction: `Open your browser and go to:\nhttps://adoptium.net\n\nClick the big green button that says 'Latest LTS Release'.\n\nThis will download a file called something like:\nOpenJDK17U-jdk_x64_windows_hotspot_17.x.x.msi\n\nWait for it to finish downloading.`,
     expected: 'A file downloaded in your browser. Usually appears at the bottom of your screen or in your Downloads folder.',
@@ -102,7 +102,7 @@ const STEPS = [
     troubleshooter: [
       {
         label: "The website looks different / I see different buttons",
-        fix: "That is okay — the website may have updated. Look for any button that says 'JDK 17' or 'LTS'. Click that one. LTS means Long Term Support — it is the stable version we need."
+        fix: "That is okay - the website may have updated. Look for any button that says 'JDK 17' or 'LTS'. Click that one. LTS means Long Term Support - it is the stable version we need."
       },
       {
         label: "The download is very slow or stopped",
@@ -110,20 +110,20 @@ const STEPS = [
       },
       {
         label: "I don't know if I have Windows or Mac",
-        fix: "Press the Windows key on your keyboard. If a Start menu appears — you have Windows. Download the .msi file.\nIf nothing happens and you see an Apple logo — you have a Mac. Download the .pkg file."
+        fix: "Press the Windows key on your keyboard. If a Start menu appears - you have Windows. Download the .msi file.\nIf nothing happens and you see an Apple logo - you have a Mac. Download the .pkg file."
       }
     ]
   },
   {
     id: 2, part: null, partIndex: 0,
     title: 'Install the file you just downloaded',
-    instruction: `Find the downloaded file in your Downloads folder.\nDouble-click it.\n\nA setup window will open.\nKeep clicking 'Next' on every screen.\nWhen you see 'Finish' — click it.\n\nJava is now installed.`,
+    instruction: `Find the downloaded file in your Downloads folder.\nDouble-click it.\n\nA setup window will open.\nKeep clicking 'Next' on every screen.\nWhen you see 'Finish' - click it.\n\nJava is now installed.`,
     expected: "A setup wizard window with Next buttons. At the end it shows 'Installation Complete' or 'Finish'.",
     hasCode: false,
     troubleshooter: [
       {
         label: "It is asking me for an administrator password",
-        fix: "Type your laptop's login password. This is normal — installing software always needs permission. If you don't know your password, ask whoever manages your laptop."
+        fix: "Type your laptop's login password. This is normal - installing software always needs permission. If you don't know your password, ask whoever manages your laptop."
       },
       {
         label: "The installer opened and closed immediately / nothing happened",
@@ -131,7 +131,7 @@ const STEPS = [
       },
       {
         label: "It says Java is already installed",
-        fix: "Good news — you might already have Java! Skip to Step 3 and check the version."
+        fix: "Good news - you might already have Java! Skip to Step 3 and check the version."
       }
     ]
   },
@@ -144,7 +144,7 @@ const STEPS = [
     troubleshooter: [
       {
         label: "'java' is not recognized as an internal or external command",
-        fix: "Java installed but Windows cannot find it.\n\nDo this:\n1. Search 'Environment Variables' in Windows search\n2. Click 'Edit the system environment variables'\n3. Click 'Environment Variables' button\n4. Under 'System variables' find 'Path'\n5. Click Edit → New\n6. Paste: C:\\Program Files\\Eclipse Adoptium\\jdk-17.x.x.x-hotspot\\bin\n   (the exact path may vary slightly — check what folder was created in Program Files)\n7. Click OK everywhere\n8. Close and reopen terminal\n9. Try java -version again"
+        fix: "Java installed but Windows cannot find it.\n\nDo this:\n1. Search 'Environment Variables' in Windows search\n2. Click 'Edit the system environment variables'\n3. Click 'Environment Variables' button\n4. Under 'System variables' find 'Path'\n5. Click Edit → New\n6. Paste: C:\\Program Files\\Eclipse Adoptium\\jdk-17.x.x.x-hotspot\\bin\n   (the exact path may vary slightly - check what folder was created in Program Files)\n7. Click OK everywhere\n8. Close and reopen terminal\n9. Try java -version again"
       },
       {
         label: "I see a version number but it says Java 8 or Java 11",
@@ -152,12 +152,12 @@ const STEPS = [
       },
       {
         label: "The terminal opened but I don't know how to type in it",
-        fix: "Click anywhere inside the dark window to make sure it is selected. Then just type — java -version — exactly as shown and press Enter. The terminal does not have a visible cursor you can click on like a text box."
+        fix: "Click anywhere inside the dark window to make sure it is selected. Then just type - java -version - exactly as shown and press Enter. The terminal does not have a visible cursor you can click on like a text box."
       }
     ]
   },
   {
-    id: 4, part: 'Part 2 — Install VS Code', partIndex: 1,
+    id: 4, part: 'Part 2 - Install VS Code', partIndex: 1,
     title: 'Download VS Code',
     instruction: `Go to: https://code.visualstudio.com\n\nClick the big blue Download button.\nIt will auto-detect your operating system.\n\nWait for the download to finish.`,
     expected: "A file called VSCodeSetup-x64-x.x.x.exe (Windows) or VSCode-darwin.zip (Mac) in your downloads.",
@@ -176,24 +176,24 @@ const STEPS = [
   {
     id: 5, part: null, partIndex: 1,
     title: 'Install VS Code',
-    instruction: `Double-click the downloaded file.\n\nKeep clicking Next.\n\nOn the 'Select Additional Tasks' screen — tick these two boxes:\n✓ Add 'Open with Code' action to Windows Explorer file context menu\n✓ Add to PATH\n\nClick Next then Install.`,
+    instruction: `Double-click the downloaded file.\n\nKeep clicking Next.\n\nOn the 'Select Additional Tasks' screen - tick these two boxes:\n✓ Add 'Open with Code' action to Windows Explorer file context menu\n✓ Add to PATH\n\nClick Next then Install.`,
     expected: "VS Code opens after installation. A welcome screen appears.",
     hasCode: false,
     troubleshooter: [
       {
         label: "I did not see the 'Select Additional Tasks' screen",
-        fix: "That is okay — some versions skip it. Continue with the installation normally."
+        fix: "That is okay - some versions skip it. Continue with the installation normally."
       },
       {
         label: "VS Code opened but it looks complicated and scary",
-        fix: "That is normal — you are seeing it for the first time. You do not need to understand anything on this screen yet. Just confirm it opened. We will learn VS Code properly in Module 1."
+        fix: "That is normal - you are seeing it for the first time. You do not need to understand anything on this screen yet. Just confirm it opened. We will learn VS Code properly in Module 1."
       }
     ]
   },
   {
     id: 6, part: null, partIndex: 1,
     title: 'Add Java support to VS Code',
-    instruction: `Inside VS Code:\n\n1. Look for the blocks icon on the left sidebar (it looks like four squares)\n   This is called Extensions\n\n2. In the search box type:\n   Extension Pack for Java\n\n3. Click the first result (by Microsoft)\n\n4. Click the blue Install button\n\n5. Wait for it to finish — takes 1-2 minutes`,
+    instruction: `Inside VS Code:\n\n1. Look for the blocks icon on the left sidebar (it looks like four squares)\n   This is called Extensions\n\n2. In the search box type:\n   Extension Pack for Java\n\n3. Click the first result (by Microsoft)\n\n4. Click the blue Install button\n\n5. Wait for it to finish - takes 1-2 minutes`,
     expected: "A blue Install button that turns into a green tick when done.",
     hasCode: true, code: 'Extension Pack for Java',
     troubleshooter: [
@@ -208,7 +208,7 @@ const STEPS = [
     ]
   },
   {
-    id: 7, part: 'Part 3 — Install Git', partIndex: 2,
+    id: 7, part: 'Part 3 - Install Git', partIndex: 2,
     title: 'Download Git',
     instruction: `Go to: https://git-scm.com/downloads\n\nClick the download for your operating system.\n\nWindows: A file called Git-2.x.x-64-bit.exe\nMac: Follow the instructions shown on the page`,
     expected: "Git installer downloaded.",
@@ -216,19 +216,19 @@ const STEPS = [
     troubleshooter: [
       {
         label: "Mac says Git is already installed",
-        fix: "Mac often comes with Git pre-installed. Open Terminal, type git --version. If you see a version number — you are done! Skip to Step 9."
+        fix: "Mac often comes with Git pre-installed. Open Terminal, type git --version. If you see a version number - you are done! Skip to Step 9."
       }
     ]
   },
   {
     id: 8, part: null, partIndex: 2,
-    title: 'Install Git — keep all default settings',
-    instruction: `Double-click the downloaded file.\n\nImportant: keep clicking Next on every screen without changing anything.\n\nThe default settings are exactly right for this course.\n\nWhen you see Finish — click it.`,
-    expected: "Git installed. No window stays open — that is normal. Git works in the terminal.",
+    title: 'Install Git - keep all default settings',
+    instruction: `Double-click the downloaded file.\n\nImportant: keep clicking Next on every screen without changing anything.\n\nThe default settings are exactly right for this course.\n\nWhen you see Finish - click it.`,
+    expected: "Git installed. No window stays open - that is normal. Git works in the terminal.",
     hasCode: false,
     troubleshooter: [
       {
-        label: "One screen asks me to choose a default editor — what do I pick?",
+        label: "One screen asks me to choose a default editor - what do I pick?",
         fix: "Select 'Use Visual Studio Code as Git's default editor' from the dropdown. Then click Next."
       },
       {
@@ -240,7 +240,7 @@ const STEPS = [
   {
     id: 9, part: null, partIndex: 2,
     title: 'Introduce yourself to Git',
-    instruction: `Open your terminal and type these two commands — one at a time.\n\nReplace the name and email with your own:\n\ngit config --global user.name 'Your Name'\n\ngit config --global user.email 'youremail@gmail.com'\n\nPress Enter after each one.\n\nNothing will appear on screen after — that means it worked.`,
+    instruction: `Open your terminal and type these two commands - one at a time.\n\nReplace the name and email with your own:\n\ngit config --global user.name 'Your Name'\n\ngit config --global user.email 'youremail@gmail.com'\n\nPress Enter after each one.\n\nNothing will appear on screen after - that means it worked.`,
     expected: "Nothing. A blank line. That is correct. Git saved your details silently.",
     hasCode: true, code: "git config --global user.name 'Your Name'\ngit config --global user.email 'youremail@gmail.com'",
     troubleshooter: [
@@ -249,14 +249,14 @@ const STEPS = [
         fix: "Make sure you typed the single quotes ' ' around your name exactly as shown. If your name has a space, the quotes are required."
       },
       {
-        label: "I don't have an email — which one should I use?",
+        label: "I don't have an email - which one should I use?",
         fix: "Use your college email or any Gmail you have. You will need this same email when creating your GitHub account in Module 1."
       }
     ]
   }
 ];
 
-const PART_LABELS = ['Part 1 — Install Java', 'Part 2 — Install VS Code', 'Part 3 — Install Git'];
+const PART_LABELS = ['Part 1 - Install Java', 'Part 2 - Install VS Code', 'Part 3 - Install Git'];
 const PART_COLORS = ['#3B82F6', '#8B5CF6', '#10B981'];
 
 // ─────────────────────────────────────────────
@@ -669,7 +669,7 @@ function StepCard({ step, status, isExpanded, onDone, onOpenTrouble, muted }) {
 
           <div className="dsg-btn-row">
             <button id={`btn-done-${step.id}`} className="dsg-btn-done" onClick={handleDone}>
-              ✓ Done — I see this
+              ✓ Done - I see this
             </button>
             <button
               id={`btn-trouble-${step.id}`}
@@ -913,10 +913,10 @@ function DevSetupGuide() {
 
       {/* ══ HEADER ══ */}
       <div className="dsg-header">
-        <h1>Let's get your laptop ready — one step at a time 💻</h1>
+        <h1>Let's get your laptop ready - one step at a time 💻</h1>
         <p>
           Follow each step carefully. Tick it when done.<br />
-          If something looks different — hit <strong>"Something looks different"</strong> and we will fix it.
+          If something looks different - hit <strong>"Something looks different"</strong> and we will fix it.
         </p>
       </div>
 
@@ -931,7 +931,7 @@ function DevSetupGuide() {
         </div>
       </div>
 
-      {/* ══ SECTION 1 — STEP CARDS ══ */}
+      {/* ══ SECTION 1 - STEP CARDS ══ */}
       {!allDone && STEPS.map(step => {
         const showPartLabel = step.part !== null;
         const partIdx = step.partIndex;
@@ -985,7 +985,7 @@ function DevSetupGuide() {
         );
       })}
 
-      {/* ══ SECTION 2 — VERIFICATION MOMENT ══ */}
+      {/* ══ SECTION 2 - VERIFICATION MOMENT ══ */}
       {allDone && (
         <div className="dsg-section2" id="section-2">
           <div className="dsg-celebration-text">
@@ -1023,11 +1023,11 @@ function DevSetupGuide() {
             <div className="dsg-reveal-card" id="reveal-card" ref={section2Ref}>
               <h2>Your machine is now a developer's machine 💻</h2>
               <p>
-                From today — this laptop is not just for downloading notes and watching YouTube.
+                From today - this laptop is not just for downloading notes and watching YouTube.
               </p>
               <p>It is a development machine.</p>
               <p>
-                The same setup you just completed — Java, VS Code, Git — is what every Java developer
+                The same setup you just completed - Java, VS Code, Git - is what every Java developer
                 has on their laptop in every company in every city in India.
               </p>
               <p>
@@ -1039,7 +1039,7 @@ function DevSetupGuide() {
           {showReveal && (
             <div className="dsg-reflection-wrap" id="reflection-wrap">
               <label htmlFor="reflection-input">
-                One last thing — how do you feel right now?<br />
+                One last thing - how do you feel right now?<br />
                 <span style={{ fontWeight: 400, fontSize: '.97rem' }}>
                   Not about the setup. About everything you did in Module 0.
                 </span>
@@ -1063,7 +1063,7 @@ function DevSetupGuide() {
               />
               <div id="sentence-counter" className={`dsg-counter${canSubmit ? ' ready' : ''}`}>
                 {canSubmit
-                  ? `✓ ${sentenceCount} sentences written — ready to submit`
+                  ? `✓ ${sentenceCount} sentences written - ready to submit`
                   : `${sentenceCount} of 2 sentences written`}
               </div>
             </div>

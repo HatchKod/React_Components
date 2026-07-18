@@ -51,7 +51,7 @@ const STYLE = `
   .log-err { border-left-color: #EF4444; }
   .log-err .log-res { color: #F87171; }
 
-  /* Scene 3 — Full width stacked design */
+  /* Scene 3 - Full width stacked design */
   .s3-section { margin-top: 20px; }
   .s3-banner { display: flex; align-items: stretch; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E2E8F0; margin-bottom: 20px; }
   .s3-side { flex: 1; padding: 20px 24px; }
@@ -202,7 +202,7 @@ export default function ServerSimulator() {
             A) Here is the list: Ravi, Suresh, Priya ✅
           </button>
           <button className="choice-btn" onClick={() => handleChoice(false, "", "", "A server tries to help. Try Button A.")}>
-            B) Error — I don't understand ❌
+            B) Error - I don't understand ❌
           </button>
         </>
       );
@@ -211,13 +211,13 @@ export default function ServerSimulator() {
         <>
           <div style={{ margin: '16px 0', fontWeight: 600 }}>Customer: "Is Room 101 available?"</div>
           <button className="choice-btn" onClick={() => handleChoice(true, "Is Room 101 available?", "Yes, Room 101 is free", "")}>
-            A) Yes — Room 101 is free ✅
+            A) Yes - Room 101 is free ✅
           </button>
           <button className="choice-btn" onClick={() => handleChoice(false, "", "", "That response doesn't match the request. A server must respond to what was asked.")}>
             B) Here is the gym members list ❌
           </button>
           <button className="choice-btn" onClick={() => handleChoice(false, "", "", "A good server never crashes. It always sends SOMETHING back.")}>
-            C) Error — I crashed ❌
+            C) Error - I crashed ❌
           </button>
         </>
       );
@@ -399,7 +399,7 @@ export default function ServerSimulator() {
               <h2 className="card-header" style={{ fontSize: '1.6rem' }}>Before you move forward 🙏</h2>
               <p style={{ color: '#475569' }}>
                 You just played the role of a server.<br/><br/>
-                In your own words — explain what a server does, using the chai shop analogy.
+                In your own words - explain what a server does, using the chai shop analogy.
                 Who is the customer? Who is the waiter? What is the kitchen?<br/><br/>
                 <b>Write it for your neighbourhood project. Explain it like you are telling a friend.</b>
               </p>
@@ -418,13 +418,13 @@ export default function ServerSimulator() {
                 disabled={!canSubmit || submitted}
                 onClick={() => { play("submit"); setSubmitted(true); }}
               >
-                {submitted ? "Completed ✅" : "I understand servers — let's build one →"}
+                {submitted ? "Completed ✅" : "I understand servers - let's build one →"}
               </button>
 
               {submitted && (
                 <div style={{ marginTop: '20px', padding: '16px', background: '#F0FDF4', borderRadius: '8px', color: '#065F46', textAlign: 'center', animation: 'popIn 0.3s' }}>
                   <b>Perfect. You understand why servers exist.</b><br/>
-                  Next — you will create one. Download Spring Boot. Run it. See your laptop serve a response for the first time.
+                  Next - you will create one. Download Spring Boot. Run it. See your laptop serve a response for the first time.
                 </div>
               )}
             </div>

@@ -202,7 +202,7 @@ export default function SpringBootSetup() {
   const handleArtifact = (v) => {
     setArtifact(v);
     if (v.includes(" ")) {
-      setArtifactHint("No spaces — try gymapp or gym-app");
+      setArtifactHint("No spaces - try gymapp or gym-app");
       play("warn");
     } else {
       setArtifactHint("");
@@ -305,7 +305,7 @@ export default function SpringBootSetup() {
           <div>
             {/* STEP 1 */}
             <div className={`card ${!s1Checked ? 'active' : 'complete'}`}>
-              <h2 className="card-header">Step 1 — Create project at start.spring.io</h2>
+              <h2 className="card-header">Step 1 - Create project at start.spring.io</h2>
               
               <div style={{ background: '#F8FAFC', padding: '20px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
                 <div className="pill-group" style={{ marginBottom: '16px' }}>
@@ -328,7 +328,7 @@ export default function SpringBootSetup() {
 
                 <div className="input-group">
                   <label className="input-label">Dependencies</label>
-                  <div className="dep-pill" title="This is the waiter dependency. Without this — no web server.">
+                  <div className="dep-pill" title="This is the waiter dependency. Without this - no web server.">
                     Spring Web <span style={{ opacity: 0.5 }}>×</span>
                   </div>
                 </div>
@@ -362,7 +362,7 @@ export default function SpringBootSetup() {
 
             {/* STEP 2 */}
             <div className={`card ${!s1Checked ? 'future' : !s2Checked ? 'active' : 'complete'}`}>
-              <h2 className="card-header">Step 2 — Open in VS Code</h2>
+              <h2 className="card-header">Step 2 - Open in VS Code</h2>
               <ol style={{ margin: '0 0 20px 0', paddingLeft: '20px', color: '#475569' }}>
                 <li>Open VS Code</li>
                 <li>Click <b>File → Open Folder</b></li>
@@ -390,7 +390,7 @@ export default function SpringBootSetup() {
 
             {/* STEP 3 */}
             <div className={`card ${!s2Checked ? 'future' : !s3Checked ? 'active' : 'complete'}`}>
-              <h2 className="card-header">Step 3 — Start your server</h2>
+              <h2 className="card-header">Step 3 - Start your server</h2>
               
               <div className="os-tabs">
                 <button className={`os-tab ${os === 'windows' ? 'active' : ''}`} onClick={() => setOs('windows')}>Windows</button>
@@ -454,7 +454,7 @@ export default function SpringBootSetup() {
 
             {/* STEP 4 */}
             <div className={`card ${!s3Checked ? 'future' : !s4Checked ? 'active' : 'complete'}`}>
-              <h2 className="card-header">Step 4 — Open your browser</h2>
+              <h2 className="card-header">Step 4 - Open your browser</h2>
               <p style={{ color: '#475569' }}>While the terminal is still running, open your browser and go to:</p>
               
               <div className="code-block" style={{ fontSize: '1.2rem', padding: '20px', textAlign: 'center' }}>
@@ -465,7 +465,7 @@ export default function SpringBootSetup() {
               <div className="success-card">
                 <div className="success-title">✅ This is NOT an error!</div>
                 <p style={{ margin: 0, color: '#065F46', lineHeight: 1.6 }}>
-                  If you see a page saying <b>"Whitelabel Error Page"</b> — you have succeeded.<br/><br/>
+                  If you see a page saying <b>"Whitelabel Error Page"</b> - you have succeeded.<br/><br/>
                   Spring Boot is saying: "I am running. I heard you. But I have no routes set up yet to show you."<br/><br/>
                   <b>This means your server is ALIVE.</b>
                 </p>
@@ -480,11 +480,11 @@ export default function SpringBootSetup() {
             {s4Checked && (
               <div className="reveal-card">
                 <h2 style={{ margin: '0 0 20px 0', color: '#92400E' }}>What just happened?</h2>
-                {revealLines >= 1 && <div className="reveal-line">✅ <b>localhost</b> → "this computer" — your laptop is the server</div>}
-                {revealLines >= 2 && <div className="reveal-line">✅ <b>8080</b> → port — the door number your server listens at</div>}
-                {revealLines >= 3 && <div className="reveal-line">✅ <b>Whitelabel Error</b> → running, no routes yet — this IS success</div>}
-                {revealLines >= 4 && <div className="reveal-line">✅ <b>pom.xml</b> → shopping list — Spring Web (waiter) was hired</div>}
-                {revealLines >= 5 && <div className="reveal-line">✅ <b>mvnw</b> → Maven wrapper — downloads dependencies automatically</div>}
+                {revealLines >= 1 && <div className="reveal-line">✅ <b>localhost</b> → "this computer" - your laptop is the server</div>}
+                {revealLines >= 2 && <div className="reveal-line">✅ <b>8080</b> → port - the door number your server listens at</div>}
+                {revealLines >= 3 && <div className="reveal-line">✅ <b>Whitelabel Error</b> → running, no routes yet - this IS success</div>}
+                {revealLines >= 4 && <div className="reveal-line">✅ <b>pom.xml</b> → shopping list - Spring Web (waiter) was hired</div>}
+                {revealLines >= 5 && <div className="reveal-line">✅ <b>mvnw</b> → Maven wrapper - downloads dependencies automatically</div>}
                 
                 {revealLines >= 6 && (
                   <div style={{ marginTop: '30px', textAlign: 'center', animation: 'slideIn 0.5s' }}>
@@ -512,7 +512,7 @@ export default function SpringBootSetup() {
                 <div className="timeline-line-active" style={{ height: `${timelineProgress}%` }} />
                 <div className={`timeline-item ${s1Checked ? 'complete' : ''}`}>Step 1: Project created at start.spring.io</div>
                 <div className={`timeline-item ${s2Checked ? 'complete' : ''}`}>Step 2: Opened in VS Code</div>
-                <div className={`timeline-item ${s3Checked ? 'complete' : ''}`}>Step 3: Server started — port 8080</div>
+                <div className={`timeline-item ${s3Checked ? 'complete' : ''}`}>Step 3: Server started - port 8080</div>
                 <div className={`timeline-item ${s4Checked ? 'complete' : ''}`} style={{ paddingBottom: 0 }}>Step 4: Browser received response</div>
               </div>
 
@@ -586,8 +586,8 @@ export default function SpringBootSetup() {
               <p style={{ color: '#64748B', marginBottom: '24px' }}>Three quick questions to check your knowledge.</p>
 
               <div style={{ marginBottom: '32px' }}>
-                <h4 style={{ margin: '0 0 12px 0', fontSize: '1.1rem' }}>1. When you see 'Whitelabel Error Page' in your browser — what does it mean?</h4>
-                <div className={`mcq-opt ${q1 === 'A' ? 'selected wrong' : ''}`} onClick={() => handleQ(1, 'A', false)}>A) Something went wrong — fix it</div>
+                <h4 style={{ margin: '0 0 12px 0', fontSize: '1.1rem' }}>1. When you see 'Whitelabel Error Page' in your browser - what does it mean?</h4>
+                <div className={`mcq-opt ${q1 === 'A' ? 'selected wrong' : ''}`} onClick={() => handleQ(1, 'A', false)}>A) Something went wrong - fix it</div>
                 <div className={`mcq-opt ${q1 === 'correct' ? 'selected correct' : ''}`} onClick={() => handleQ(1, 'B', true)}>B) Spring Boot is running but has no routes yet</div>
                 <div className={`mcq-opt ${q1 === 'C' ? 'selected wrong' : ''}`} onClick={() => handleQ(1, 'C', false)}>C) Your internet is not connected</div>
               </div>
@@ -610,7 +610,7 @@ export default function SpringBootSetup() {
                 <div style={{ animation: 'slideIn 0.5s' }}>
                   <div className="success-card">
                     <h3 style={{ margin: '0 0 8px 0', color: '#065F46' }}>Awesome! Now in your own words:</h3>
-                    <p style={{ margin: '0 0 12px 0', color: '#065F46' }}>In one sentence — what just happened when you typed localhost:8080 in your browser?</p>
+                    <p style={{ margin: '0 0 12px 0', color: '#065F46' }}>In one sentence - what just happened when you typed localhost:8080 in your browser?</p>
                     <textarea 
                       className="reflection-box"
                       placeholder="When I typed localhost:8080, my browser sent a request to..."

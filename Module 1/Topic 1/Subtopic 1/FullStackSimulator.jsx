@@ -200,7 +200,7 @@ export default function FullStackSimulator() {
         {/* Live log panel */}
         {showSuccess && (
           <div className="log-panel">
-            <div className="heading" style={{ fontSize: "0.9rem", fontWeight: "600", marginBottom: "4px" }}>What just happened — step by step:</div>
+            <div className="heading" style={{ fontSize: "0.9rem", fontWeight: "600", marginBottom: "4px" }}>What just happened - step by step:</div>
             {logLines.map((l, i) => (<div key={i} className="log-line">{l}</div>))}
           </div>
         )}
@@ -223,17 +223,17 @@ export default function FullStackSimulator() {
         </div>
       )}
 
-      {/* ---------- Section 2 — The Task ---------- */}
+      {/* ---------- Section 2 - The Task ---------- */}
       {showSuccess && (
         <div className="task-card">
-          <div className="task-heading">Before you move forward — one small thing 🙏</div>
+          <div className="task-heading">Before you move forward - one small thing 🙏</div>
           <div style={{ marginBottom: "12px" }}>
             In the simulator above, you watched a name travel from the screen to the brain to the notebook and back.
             <br />Now close your eyes for 5 seconds. Then answer this:
-            <br /><br />In your own words — what just happened? Write it like you are explaining it to your friend sitting next to you in class.
-            <br /><br />There is no right or wrong answer. Your mentor will read this only to understand how you think — not to judge you.
+            <br /><br />In your own words - what just happened? Write it like you are explaining it to your friend sitting next to you in class.
+            <br /><br />There is no right or wrong answer. Your mentor will read this only to understand how you think - not to judge you.
             <br />One rule: write it yourself. No copying. Your own words, even if they are simple, even if your English is not perfect. Simple and honest beats perfect and copied. Every time.
-            <br />We can tell the difference. And more importantly — so can you.
+            <br />We can tell the difference. And more importantly - so can you.
           </div>
           <textarea
             className="textarea"
@@ -249,7 +249,7 @@ export default function FullStackSimulator() {
               className="submit-btn"
               disabled={sentCount < 3}
               onClick={() => setSubmitted(true)}
-            >I wrote this myself — submit my answer →</button>
+            >I wrote this myself - submit my answer →</button>
           )}
           {submitted && (
             <div className="confirm-msg">

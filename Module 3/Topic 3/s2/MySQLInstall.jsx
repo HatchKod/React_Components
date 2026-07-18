@@ -1038,7 +1038,7 @@ export default function MySQLInstall() {
                       <li>Open the installer and drag the MySQL package to your Applications.</li>
                       <li>Open macOS <b>System Settings</b> → Scroll down to <b>MySQL</b>.</li>
                       <li>Click <b>Start MySQL Server</b>.</li>
-                      <li>Copy down the temporary root password from the installation popup—you will need it immediately.</li>
+                      <li>Copy down the temporary root password from the installation popup-you will need it immediately.</li>
                     </ol>
                   </div>
                 )}
@@ -1178,7 +1178,7 @@ export default function MySQLInstall() {
                       <h4 className="error-title">4. Port 3306 already in use</h4>
                       <p style={{ margin: 0, fontSize: '0.88rem', color: '#94A3B8' }}>
                         Another database process is already listening to MySQL's default port.
-                        This is actually fine—MySQL is already running on your laptop. You can safely skip to Step 2.
+                        This is actually fine-MySQL is already running on your laptop. You can safely skip to Step 2.
                       </p>
                     </div>
                   </div>
@@ -1223,7 +1223,7 @@ export default function MySQLInstall() {
                 <div className="term-dot term-red"></div>
                 <div className="term-dot term-yel"></div>
                 <div className="term-dot term-grn"></div>
-                <span className="term-title">terminal — mysql</span>
+                <span className="term-title">terminal - mysql</span>
               </div>
               <div className="terminal-body">
                 $ mysql -u root -p<br/>
@@ -1412,7 +1412,7 @@ export default function MySQLInstall() {
                 {revealIndex >= 1 && (
                   <div className="reveal-row">
                     <span className="reveal-tick">✓</span>
-                    <span><b>MySQL:</b> a program that stores your app's data permanently — even after you close your laptop.</span>
+                    <span><b>MySQL:</b> a program that stores your app's data permanently - even after you close your laptop.</span>
                   </div>
                 )}
                 {revealIndex >= 2 && (
@@ -1424,7 +1424,7 @@ export default function MySQLInstall() {
                 {revealIndex >= 3 && (
                   <div className="reveal-row">
                     <span className="reveal-tick">✓</span>
-                    <span><b>Root password:</b> the master key to your MySQL — Spring Boot needs it to log in on your behalf.</span>
+                    <span><b>Root password:</b> the master key to your MySQL - Spring Boot needs it to log in on your behalf.</span>
                   </div>
                 )}
                 {revealIndex >= 4 && (
@@ -1492,7 +1492,7 @@ export default function MySQLInstall() {
                 <div style={{ marginTop: '28px' }}>
                   <h4 style={{ margin: '0 0 6px 0', color: '#F1F5F9' }}>Reflection Check:</h4>
                   <p style={{ margin: 0, fontSize: '0.9rem', color: '#94A3B8' }}>
-                    In one sentence — what is your MySQL root password for, and why must you remember it?
+                    In one sentence - what is your MySQL root password for, and why must you remember it?
                   </p>
                   <textarea
                     className="reflection-box"
@@ -1517,7 +1517,7 @@ export default function MySQLInstall() {
               {/* Submit button */}
               <div style={{ marginTop: '24px' }}>
                 <button className="submit-btn" disabled={!canSubmit || submitted} onClick={handleSubmit}>
-                  {submitted ? 'MySQL config submitted successfully! ✅' : 'MySQL ready — connect Spring Boot now →'}
+                  {submitted ? 'MySQL config submitted successfully! ✅' : 'MySQL ready - connect Spring Boot now →'}
                 </button>
               </div>
 
@@ -1620,7 +1620,7 @@ export default function MySQLInstall() {
                   {checkedStep3 ? 'Your database exists' : 'Create your database'}
                 </div>
                 <div className="milestone-desc">
-                  {checkedStep3 ? `[${dbName}] is created and empty — ready for tables` : 'Waiting for CREATE DATABASE'}
+                  {checkedStep3 ? `[${dbName}] is created and empty - ready for tables` : 'Waiting for CREATE DATABASE'}
                 </div>
               </div>
             </div>
@@ -1647,7 +1647,7 @@ export default function MySQLInstall() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: q2Answer === 'C' ? '#10B981' : '#64748B', fontWeight: 700 }}>
                     <span>Your database:</span>
-                    <span>{q2Answer === 'C' ? 'Empty — tables come in 2.3.3' : '?'}</span>
+                    <span>{q2Answer === 'C' ? 'Empty - tables come in 2.3.3' : '?'}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: q3Answer === 'B' ? '#10B981' : '#64748B', fontWeight: 700 }}>
                     <span>Who builds the tables:</span>

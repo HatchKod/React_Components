@@ -275,7 +275,7 @@ function validateName(name) {
 function BoolCode({ name, value }) {
   return (
     <div className="dm-code">
-      <Tip text="Holds only true or false — yes or no"><span className="dm-kw">boolean</span></Tip>
+      <Tip text="Holds only true or false - yes or no"><span className="dm-kw">boolean</span></Tip>
       {" "}{name || "name"}{" = "}<span className="dm-val">{value || "?"}</span>{"; "}
       <span className="dm-cm">// yes/no dabba</span>
     </div>
@@ -292,16 +292,16 @@ function IfElseCode({ name, trueMsg, falseMsg }) {
       <div>
         <Tip text="Checks if something is true"><span className="dm-kw">if</span></Tip>
         {" ("}{n}{") "}
-        <Tip text="Curly braces — groups code that belongs together"><span>{"{"}</span></Tip>
+        <Tip text="Curly braces - groups code that belongs together"><span>{"{"}</span></Tip>
         {"   "}<span className="dm-cm">// IF true...</span>
       </div>
       <div>{"    System.out.println("}<span className="dm-str">"{tMsg}"</span>{");"}</div>
       <div>
-        <Tip text="Curly braces — groups code that belongs together"><span>{"}"}</span></Tip>
+        <Tip text="Curly braces - groups code that belongs together"><span>{"}"}</span></Tip>
         {" "}
         <Tip text="What to do if it is NOT true"><span className="dm-kw">else</span></Tip>
         {" "}
-        <Tip text="Curly braces — groups code that belongs together"><span>{"{"}</span></Tip>
+        <Tip text="Curly braces - groups code that belongs together"><span>{"{"}</span></Tip>
         {"   "}<span className="dm-cm">// OTHERWISE...</span>
       </div>
       <div>{"    System.out.println("}<span className="dm-str">"{fMsg}"</span>{");"}</div>
@@ -354,7 +354,7 @@ export default function DecisionMaker() {
     soundRef.current[type]?.();
   }, [muted]);
 
-  /* ── Phase 1 — guided ── */
+  /* ── Phase 1 - guided ── */
   const [slot1Name, setSlot1Name] = useState("");
   const [slot1Value, setSlot1Value] = useState("");
   const [slot1Locked, setSlot1Locked] = useState(false);
@@ -417,7 +417,7 @@ export default function DecisionMaker() {
     }
   }, [phase1Complete, play]);
 
-  /* ── Phase 2 — free project ── */
+  /* ── Phase 2 - free project ── */
   const [domain, setDomain] = useState("other");
   const [code2, setCode2] = useState("");
   const [editorHint, setEditorHint] = useState(null);
@@ -475,7 +475,7 @@ export default function DecisionMaker() {
       <div className="dm-wrap">
 
         {/* ══════════════════════════════════════
-            PHASE 1 — GUIDED
+            PHASE 1 - GUIDED
         ══════════════════════════════════════ */}
         <div className="dm-card">
           <h1 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1E293B", margin: "0 0 4px" }}>
@@ -488,10 +488,10 @@ export default function DecisionMaker() {
           <div className="dm-split">
             <div className="dm-split-left">
 
-              {/* Slot 1 — boolean */}
+              {/* Slot 1 - boolean */}
               {!slot1Locked ? (
                 <div className="dm-slot">
-                  <h3 style={{ margin: "0 0 12px", fontWeight: 700 }}>Step 1 — Your boolean</h3>
+                  <h3 style={{ margin: "0 0 12px", fontWeight: 700 }}>Step 1 - Your boolean</h3>
                   <div className="dm-slot-row">
                     <div className="dm-slot-group">
                       <label className="dm-lbl">Type</label>
@@ -508,7 +508,7 @@ export default function DecisionMaker() {
                       {nameHint === "space" && <div className="dm-hint-warn">⚠️ No spaces. Try camelCase.</div>}
                       {nameHint === "capital" && <div className="dm-hint-warn">⚠️ Start with a small letter.</div>}
                       {nameHint === "ok" && <div className="dm-hint-ok">✓ Looks good</div>}
-                      <span className="dm-hint-sub">Start with 'is' — isBooked, isOpen</span>
+                      <span className="dm-hint-sub">Start with 'is' - isBooked, isOpen</span>
                     </div>
                     <div className="dm-slot-group">
                       <label className="dm-lbl">Value</label>
@@ -530,12 +530,12 @@ export default function DecisionMaker() {
                 </div>
               )}
 
-              {/* Slot 2 — if/else */}
+              {/* Slot 2 - if/else */}
               {slot1Locked && (
                 <div className="dm-slot">
-                  <h3 style={{ margin: "0 0 12px", fontWeight: 700 }}>Step 2 — Your if/else</h3>
+                  <h3 style={{ margin: "0 0 12px", fontWeight: 700 }}>Step 2 - Your if/else</h3>
                   <div className="dm-fg">
-                    <label className="dm-lbl">If TRUE — what should happen?</label>
+                    <label className="dm-lbl">If TRUE - what should happen?</label>
                     <textarea
                       className="dm-input"
                       rows={2}
@@ -545,7 +545,7 @@ export default function DecisionMaker() {
                     />
                   </div>
                   <div className="dm-fg">
-                    <label className="dm-lbl">If FALSE — what should happen?</label>
+                    <label className="dm-lbl">If FALSE - what should happen?</label>
                     <textarea
                       className="dm-input"
                       rows={2}
@@ -604,8 +604,8 @@ export default function DecisionMaker() {
               You just watched Java decide based on your condition.
             </p>
             <p style={{ color: "#374151", lineHeight: 1.8, margin: 0 }}>
-              Flip the toggle — code changes.<br />
-              Code changes — result changes.<br />
+              Flip the toggle - code changes.<br />
+              Code changes - result changes.<br />
               <strong>That is if/else.</strong>
             </p>
 
@@ -629,12 +629,12 @@ export default function DecisionMaker() {
                 {revealCount >= 3 && (
                   <div className="dm-rline">
                     <span>✅</span>
-                    <span><strong style={{ color: "#60A5FA" }}>{"{ } curly braces"}</strong>{" → groups code that belongs together — everything inside belongs together"}</span>
+                    <span><strong style={{ color: "#60A5FA" }}>{"{ } curly braces"}</strong>{" → groups code that belongs together - everything inside belongs together"}</span>
                   </div>
                 )}
                 {revealCount >= 3 && (
                   <p style={{ fontWeight: 700, textAlign: "center", margin: "16px 0 0", color: "#1E293B", lineHeight: 1.8 }}>
-                    These three — boolean, if/else, curly braces —<br />
+                    These three - boolean, if/else, curly braces -<br />
                     appear in EVERY Java program ever written.<br />
                     Including yours.
                   </p>
@@ -651,7 +651,7 @@ export default function DecisionMaker() {
         )}
 
         {/* ══════════════════════════════════════
-            PHASE 2 — FREE PROJECT
+            PHASE 2 - FREE PROJECT
         ══════════════════════════════════════ */}
         {phase === 2 && (
           <>
@@ -677,12 +677,12 @@ export default function DecisionMaker() {
                 <p style={{ margin: "0 0 6px", fontWeight: 600 }}>Rules:</p>
                 <ul style={{ margin: "0 0 10px", paddingLeft: "20px" }}>
                   <li>Start with a boolean variable</li>
-                  <li>Use if/else — not just if</li>
+                  <li>Use if/else - not just if</li>
                   <li>Add a comment on every line explaining what it does</li>
-                  <li>Use Telugu or English in your println messages — whatever feels natural</li>
+                  <li>Use Telugu or English in your println messages - whatever feels natural</li>
                 </ul>
                 <p style={{ margin: "0 0 10px" }}>
-                  Then below your code — write one sentence:<br />
+                  Then below your code - write one sentence:<br />
                   <em>'This decision matters for my app because...'</em>
                 </p>
                 <p style={{ margin: 0, fontWeight: 600, color: "#1E293B" }}>
@@ -727,7 +727,7 @@ export default function DecisionMaker() {
 
                     <div style={{ marginTop: 16 }}>
                       <label className="dm-lbl" style={{ fontSize: "0.9rem" }}>
-                        In one sentence — why does this decision matter for your business owner?
+                        In one sentence - why does this decision matter for your business owner?
                       </label>
                       <div className="dm-plain-area">
                         <textarea
@@ -804,15 +804,15 @@ export default function DecisionMaker() {
                     That boolean and if/else you just wrote?
                   </p>
                   <p style={{ color: "#374151", lineHeight: 1.75, margin: "0 0 10px" }}>
-                    In <strong>Module 2</strong> — your Spring Boot API will run this exact check
+                    In <strong>Module 2</strong> - your Spring Boot API will run this exact check
                     every time a user asks "is this slot available?"
                   </p>
                   <p style={{ color: "#374151", lineHeight: 1.75, margin: "0 0 10px" }}>
-                    In <strong>Module 4</strong> — React will read that response and show the right
+                    In <strong>Module 4</strong> - React will read that response and show the right
                     message on screen automatically.
                   </p>
                   <p style={{ fontWeight: 700, color: "#1E293B", margin: 0 }}>
-                    Next — teach the computer to repeat things. Loops and methods.
+                    Next - teach the computer to repeat things. Loops and methods.
                   </p>
                 </div>
               )}

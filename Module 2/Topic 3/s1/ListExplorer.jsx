@@ -59,8 +59,8 @@ function fd(t) { return <span style={{ color: O }}>{t}</span>; }
 function str(t) { return <span style={{ color: G }}>{t}</span>; }
 function cm(t) { return <span style={{ color: GR }}>{t}</span>; }
 function ang(t) { return <span style={{ color: P }}>{t}</span>; }
-function listTip(t) { return <Tip text="A flexible collection — grows and shrinks as needed"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
-function arrayListTip(t) { return <Tip text="Most common List type — use this by default"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function listTip(t) { return <Tip text="A flexible collection - grows and shrinks as needed"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
+function arrayListTip(t) { return <Tip text="Most common List type - use this by default"><span style={{ color: B, fontWeight: 700 }}>{t}</span></Tip>; }
 
 // ─── FLASH + STAMP ────────────────────────────────────────────────────────────
 function FlashOverlay({ id, color }) {
@@ -127,7 +127,7 @@ function Pill({ name, pos, glowType, removing }) {
   );
 }
 
-// ─── QUEUE VISUAL — the canteen line ──────────────────────────────────────────
+// ─── QUEUE VISUAL - the canteen line ──────────────────────────────────────────
 function Queue({ items, getPos, sweepIndex, empty }) {
   return (
     <div style={{ position: "relative" }}>
@@ -143,7 +143,7 @@ function Queue({ items, getPos, sweepIndex, empty }) {
         </div>
         <div style={{ width: 3, alignSelf: "stretch", background: "#93C5FD", marginRight: 16, borderRadius: 2, flexShrink: 0 }} />
 
-        {empty && <div style={{ color: "#94A3B8", fontSize: 13, alignSelf: "center" }}>— empty — waiting for the first person —</div>}
+        {empty && <div style={{ color: "#94A3B8", fontSize: 13, alignSelf: "center" }}>- empty - waiting for the first person -</div>}
         {items.map((it, i) => (
           <Pill key={it.id} name={it.name} pos={i} glowType={getPos === i ? "get" : sweepIndex === i ? "loop" : null} removing={it.removing} />
         ))}
@@ -157,13 +157,13 @@ function Queue({ items, getPos, sweepIndex, empty }) {
   );
 }
 
-// ─── SLOT 1 — the array problem ──────────────────────────────────────────────
+// ─── SLOT 1 - the array problem ──────────────────────────────────────────────
 function Slot1({ onNext, playSound, onSee, boxesFilled, errorShown }) {
   return (
     <div style={{ marginBottom: 26 }}>
       <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Arrays have one problem.</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 13, lineHeight: 1.9 }}>
-        <div style={{ color: GR }}>{"// array — size is fixed forever"}</div>
+        <div style={{ color: GR }}>{"// array - size is fixed forever"}</div>
         <div>{kw("String")}[] {fd("members")} = {kw("new")} {kw("String")}[3];{"  "}{cm("// exactly 3 slots")}</div>
         <div>{fd("members")}[0] = {str('"Ravi"')};</div>
         <div>{fd("members")}[1] = {str('"Suresh"')};</div>
@@ -197,7 +197,7 @@ function Slot1({ onNext, playSound, onSee, boxesFilled, errorShown }) {
   );
 }
 
-// ─── SLOT 2 — create a List ───────────────────────────────────────────────────
+// ─── SLOT 2 - create a List ───────────────────────────────────────────────────
 function Slot2({ onNext, playSound }) {
   const [input, setInput] = useState("");
   const [wrong, setWrong] = useState(false);
@@ -213,7 +213,7 @@ function Slot2({ onNext, playSound }) {
 
   return (
     <div style={{ marginBottom: 26, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>List — the queue that manages itself</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>List - the queue that manages itself</div>
       <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 13, lineHeight: 1.9 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           {listTip("List")}{ang("<")}{kw("String")}{ang(">")} {fd("members")} = {kw("new")}{" "}
@@ -243,7 +243,7 @@ function Slot2({ onNext, playSound }) {
 
           <div style={{ marginTop: 12, background: "#0F172A", color: "#E2E8F0", borderRadius: 10, padding: 16, fontFamily: "monospace", fontSize: 13, lineHeight: 1.9 }}>
             {listTip("List")}{ang("<")}{kw("String")}{ang(">")} {fd("members")} = {kw("new")} {arrayListTip("ArrayList")}{ang("<>()")};
-            <div style={{ color: GR, fontSize: 11 }}>{"// holds Strings — grows freely, no limit"}</div>
+            <div style={{ color: GR, fontSize: 11 }}>{"// holds Strings - grows freely, no limit"}</div>
           </div>
           <div style={{ marginTop: 10, fontSize: 13, color: "#374151" }}>Empty. No size limit. Ready for any number of members.</div>
           <button onClick={() => { playSound("tick"); onNext(); }}
@@ -256,7 +256,7 @@ function Slot2({ onNext, playSound }) {
   );
 }
 
-// ─── SLOT 3 — add / size / get / remove ──────────────────────────────────────
+// ─── SLOT 3 - add / size / get / remove ──────────────────────────────────────
 function Slot3({ onDone, playSound, items, addAll, sizeChecked, runSize, getRecord, runGet, removedName, runRemove }) {
   const [names, setNames] = useState(["", "", "", ""]);
   const [added, setAdded] = useState(false);
@@ -276,7 +276,7 @@ function Slot3({ onDone, playSound, items, addAll, sizeChecked, runSize, getReco
     <div style={{ marginBottom: 26, animation: "slideIn 0.4s ease" }}>
       <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>Four things you can do with a List</div>
 
-      <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 14, marginBottom: 6 }}>ADD — members.add()</div>
+      <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 14, marginBottom: 6 }}>ADD - members.add()</div>
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
         {names.map((n, i) => (
           <input key={i} value={n} disabled={added} onChange={e => { const c = [...names]; c[i] = e.target.value; setNames(c); }}
@@ -284,7 +284,7 @@ function Slot3({ onDone, playSound, items, addAll, sizeChecked, runSize, getReco
             style={{ width: 110, padding: "8px 10px", borderRadius: 8, border: "1px solid #CBD5E1", fontSize: 13 }} />
         ))}
       </div>
-      <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 4 }}>use real names — people from your neighbourhood</div>
+      <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 4 }}>use real names - people from your neighbourhood</div>
       {!added && (
         <button onClick={doAdd} disabled={!allFilled}
           style={{ marginTop: 8, padding: "8px 18px", background: allFilled ? "#1E293B" : "#CBD5E1", color: "#fff", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: allFilled ? "pointer" : "default" }}>
@@ -293,14 +293,14 @@ function Slot3({ onDone, playSound, items, addAll, sizeChecked, runSize, getReco
       )}
       {added && (
         <div style={{ marginTop: 8, background: "#1E293B", color: "#E2E8F0", borderRadius: 8, padding: 12, fontFamily: "monospace", fontSize: 12, lineHeight: 1.8 }}>
-          {names.map((n, i) => <div key={i}>{fd("members")}.{mth("add")}({str(`"${n}"`)});{"  "}{cm(`// list grows — now ${i + 1}`)}</div>)}
+          {names.map((n, i) => <div key={i}>{fd("members")}.{mth("add")}({str(`"${n}"`)});{"  "}{cm(`// list grows - now ${i + 1}`)}</div>)}
         </div>
       )}
-      {items.length >= 4 && <div style={{ fontSize: 12, color: "#059669", marginTop: 6 }}>List now has 4 members — no size limit hit.</div>}
+      {items.length >= 4 && <div style={{ fontSize: 12, color: "#059669", marginTop: 6 }}>List now has 4 members - no size limit hit.</div>}
 
       {items.length >= 4 && (
         <>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>SIZE — members.size()</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>SIZE - members.size()</div>
           <div style={{ background: "#1E293B", color: "#E2E8F0", borderRadius: 8, padding: 12, fontFamily: "monospace", fontSize: 12 }}>
             {kw("System")}.out.println({fd("members")}.{mth("size")}(){cm(" // count how many")});
           </div>
@@ -316,11 +316,11 @@ function Slot3({ onDone, playSound, items, addAll, sizeChecked, runSize, getReco
 
       {sizeChecked && (
         <>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>GET — members.get(i)</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>GET - members.get(i)</div>
           <select value={pos} onChange={e => doGet(e.target.value)}
             style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #CBD5E1", fontSize: 13 }}>
             <option value="">Which position?</option>
-            {items.map((it, i) => <option key={i} value={i}>{i} — {["first", "second", "third", "fourth"][i] || i}</option>)}
+            {items.map((it, i) => <option key={i} value={i}>{i} - {["first", "second", "third", "fourth"][i] || i}</option>)}
           </select>
           {getRecord && (
             <div style={{ marginTop: 6, fontFamily: "monospace", fontSize: 12, color: "#1E3A8A" }}>
@@ -333,8 +333,8 @@ function Slot3({ onDone, playSound, items, addAll, sizeChecked, runSize, getReco
 
       {getRecord && !removedName && (
         <>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>REMOVE — members.remove()</div>
-          <div style={{ fontSize: 13, color: "#64748B", marginBottom: 6 }}>Remove one member — they left the gym.</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1, marginTop: 20, marginBottom: 6 }}>REMOVE - members.remove()</div>
+          <div style={{ fontSize: 13, color: "#64748B", marginBottom: 6 }}>Remove one member - they left the gym.</div>
           <select value={removeChoice} onChange={e => setRemoveChoice(e.target.value)}
             style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #CBD5E1", fontSize: 13 }}>
             <option value="">Which member?</option>
@@ -363,11 +363,11 @@ function Slot3({ onDone, playSound, items, addAll, sizeChecked, runSize, getReco
   );
 }
 
-// ─── SLOT 4 — for-each loop ────────────────────────────────────────────────────
+// ─── SLOT 4 - for-each loop ────────────────────────────────────────────────────
 function Slot4({ onDone, playSound, items, runLoop, loopRan, loopOption, setLoopOption }) {
   return (
     <div style={{ marginBottom: 26, animation: "slideIn 0.4s ease" }}>
-      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Go through every member — the easy way</div>
+      <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>Go through every member - the easy way</div>
 
       <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
         <button onClick={() => setLoopOption("for")}
@@ -390,7 +390,7 @@ function Slot4({ onDone, playSound, items, runLoop, loopRan, loopOption, setLoop
           </>
         ) : (
           <>
-            <div style={{ color: GR }}>{"// simpler — reads like plain English"}</div>
+            <div style={{ color: GR }}>{"// simpler - reads like plain English"}</div>
             <div>{kw("for")} ({kw("String")} {fd("member")} {ang(":")} {fd("members")}) {"{"}</div>
             <div style={{ paddingLeft: 24, color: GR, fontSize: 11 }}>{"// ↑ each item          ↑ the list"}</div>
             <div style={{ paddingLeft: 24 }}>{kw("System")}.out.println({fd("member")});</div>
@@ -409,7 +409,7 @@ function Slot4({ onDone, playSound, items, runLoop, loopRan, loopOption, setLoop
       {loopRan && (
         <div style={{ animation: "slideIn 0.4s ease" }}>
           <div style={{ marginTop: 10, fontSize: 13, color: "#374151" }}>
-            Loop went through all {items.filter(i => !i.removing).length} remaining members. Same loop works for 3 or 300 — members.size() handles the count.
+            Loop went through all {items.filter(i => !i.removing).length} remaining members. Same loop works for 3 or 300 - members.size() handles the count.
           </div>
           <button onClick={() => { playSound("correct"); onDone(); }}
             style={{ marginTop: 14, padding: "12px 24px", background: "#1E293B", color: "#fff", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
@@ -424,13 +424,13 @@ function Slot4({ onDone, playSound, items, runLoop, loopRan, loopOption, setLoop
 // ─── REVEAL ───────────────────────────────────────────────────────────────────
 function RevealCard({ onDone, playSound }) {
   const items = [
-    ["List", "a growing flexible collection — no fixed size ever"],
-    ["ArrayList", "the most common List — use this by default"],
+    ["List", "a growing flexible collection - no fixed size ever"],
+    ["ArrayList", "the most common List - use this by default"],
     [".add()", "put one item at the end"],
     [".get(i)", "get item at position i"],
     [".remove()", "delete an item"],
     [".size()", "count how many items"],
-    ["for-each", "for (Type item : list) — simpler loop through every item"],
+    ["for-each", "for (Type item : list) - simpler loop through every item"],
   ];
   const [ticked, setTicked] = useState([]);
   useEffect(() => {
@@ -448,7 +448,7 @@ function RevealCard({ onDone, playSound }) {
         </div>
       ))}
       <div style={{ marginTop: 16, textAlign: "center", color: "#78350F", fontSize: 13, lineHeight: 1.8, fontWeight: 700 }}>
-        In a later module — when your app gets data from a database, it comes back as a List just like this.<br />
+        In a later module - when your app gets data from a database, it comes back as a List just like this.<br />
         You just learned the tool that carries your app's data.
       </div>
     </div>
@@ -472,7 +472,7 @@ function ArrayBox({ i, name, filled, error }) {
 function Phase1Visual({ slot, boxesFilled, errorShown, items, getPos, sweepIndex, sizeChecked, pulse }) {
   return (
     <div style={{ position: "relative", minHeight: 260 }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", letterSpacing: 1, marginBottom: 10, textAlign: "center" }}>YOUR LIST — LIVE</div>
+      <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", letterSpacing: 1, marginBottom: 10, textAlign: "center" }}>YOUR LIST - LIVE</div>
 
       {slot === 1 && (
         <div style={{ textAlign: "center" }}>
@@ -481,7 +481,7 @@ function Phase1Visual({ slot, boxesFilled, errorShown, items, getPos, sweepIndex
               <ArrayBox key={i} i={i} name={["Ravi", "Suresh", "Priya"][i]} filled={boxesFilled && i < 3} error={errorShown && i === 3} />
             ))}
           </div>
-          <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 8 }}>Fixed — only 3 slots</div>
+          <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 8 }}>Fixed - only 3 slots</div>
         </div>
       )}
 
@@ -531,7 +531,7 @@ function parsePhase2(code) {
   return { listType, listName, items, getPositions, removeUsed, sizeUsed, loopUsed, operationsUsed };
 }
 
-const PHASE2_STARTER = `// YOUR PROJECT — List
+const PHASE2_STARTER = `// YOUR PROJECT - List
 
 // What list does your app need?
 // Gym -> List of members
@@ -587,7 +587,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              In one sentence — what will your project store in this List, and why is a List better than an array for it?
+              In one sentence - what will your project store in this List, and why is a List better than an array for it?
             </div>
             <textarea
               value={reflection}
@@ -626,7 +626,7 @@ function Phase2Left({ code, setCode, reflection, setReflection, onSubmit, submit
         <div style={{ background: "#ECFDF5", border: "2px solid #10B981", borderRadius: 16, padding: 28, animation: "slideIn 0.5s ease" }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: "#064E3B", marginBottom: 14, textAlign: "center" }}>Your List is live. 📋</div>
           <div style={{ fontSize: 14, color: "#065F46", lineHeight: 1.9 }}>
-            {parsed.listName || "Your List"} will carry your project's data — growing and shrinking as needed.<br /><br />
+            {parsed.listName || "Your List"} will carry your project's data - growing and shrinking as needed.<br /><br />
             No fixed size. No overflow errors.<br /><br />
             In a later module, data from a database will arrive in exactly this shape.
           </div>
@@ -646,13 +646,13 @@ function Phase2Visual({ parsed }) {
         Phase 1 List (members)
       </div>
       <div style={{ fontSize: 12, fontWeight: 700, color: "#374151", marginBottom: 8, textAlign: "center" }}>
-        Your project's List — live
+        Your project's List - live
       </div>
       <Queue items={queueItems} getPos={lastGet} sweepIndex={parsed.loopUsed ? -1 : null} empty={queueItems.length === 0} />
 
       <div style={{ background: "#F9FAFB", borderRadius: 10, padding: 14, marginTop: 12, fontSize: 12, color: "#374151", lineHeight: 1.9 }}>
-        List name: <strong>{parsed.listName || "—"}</strong><br />
-        Type: <strong>{parsed.listType || "—"}</strong><br />
+        List name: <strong>{parsed.listName || "-"}</strong><br />
+        Type: <strong>{parsed.listType || "-"}</strong><br />
         Items: <strong>{queueItems.length}</strong>
       </div>
     </div>
@@ -678,7 +678,7 @@ export default function ListExplorer() {
   const [phase, setPhase] = useState(1);
   const [slot, setSlot] = useState(1);
 
-  // slot 1 — array problem
+  // slot 1 - array problem
   const [boxesFilled, setBoxesFilled] = useState(false);
   const [errorShown, setErrorShown] = useState(false);
   const seeArrayProblem = () => {
@@ -691,7 +691,7 @@ export default function ListExplorer() {
   const idRef = useRef(0);
   const [sizeChecked, setSizeChecked] = useState(false);
   const [getPos, setGetPos] = useState(null);
-  const [getRecord, setGetRecord] = useState(null); // frozen {position, result} — survives later removals
+  const [getRecord, setGetRecord] = useState(null); // frozen {position, result} - survives later removals
   const [removedName, setRemovedName] = useState(null);
   const [loopOption, setLoopOption] = useState("foreach");
   const [sweepIndex, setSweepIndex] = useState(null);
@@ -713,7 +713,7 @@ export default function ListExplorer() {
     playSound("tick");
   };
   const runRemove = (name) => {
-    setGetPos(null); // positions shift after a removal — clear the live highlight, keep getRecord as history
+    setGetPos(null); // positions shift after a removal - clear the live highlight, keep getRecord as history
     setItems(prev => prev.map(it => it.name === name ? { ...it, removing: true } : it));
     playSound("remove");
     setTimeout(() => {

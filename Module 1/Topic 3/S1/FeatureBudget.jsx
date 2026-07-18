@@ -638,9 +638,9 @@ export default function FeatureBudget() {
       return (
         <div className="fb-warning">
           <strong>Wait a minute... 🤔</strong><br/>
-          One of your features is marked Complex — meaning it could take 6+ weeks on its own. 
+          One of your features is marked Complex - meaning it could take 6+ weeks on its own. 
           This might be risky for your 8-week timeline. Consider swapping it for a Simpler version. 
-          Your mentor will guide you — but it's worth thinking about now.
+          Your mentor will guide you - but it's worth thinking about now.
         </div>
       );
     } else if (simpleCount === 3) {
@@ -706,7 +706,7 @@ export default function FeatureBudget() {
       {stage === 1 && (
         <>
           <div style={{ textAlign: 'center', marginBottom: '1rem', fontWeight: 'bold' }}>
-            First — which type of business are you building for?
+            First - which type of business are you building for?
           </div>
           <div className="fb-domain-selector">
             {[
@@ -794,7 +794,7 @@ export default function FeatureBudget() {
                     }
                     return (
                       <div key={`slot-${i}`} className="fb-slot">
-                        Slot {i + 1} — drag or add a feature here
+                        Slot {i + 1} - drag or add a feature here
                       </div>
                     );
                   })}
@@ -823,7 +823,7 @@ export default function FeatureBudget() {
               {getFeedbackMessage()}
 
               <div className="fb-note">
-                <strong>What you just defined is called an MVP</strong> — Minimum Viable Product. 
+                <strong>What you just defined is called an MVP</strong> - Minimum Viable Product. 
                 The smallest version of your app that actually solves the problem. Every product in the world starts here.
               </div>
 
@@ -845,13 +845,13 @@ export default function FeatureBudget() {
             <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#1e293b' }}>
               You just chose your 3 features.
               <br/><br/>
-              Now — for each feature, write one sentence explaining <strong>WHY</strong> you chose it.
+              Now - for each feature, write one sentence explaining <strong>WHY</strong> you chose it.
               <br/><br/>
-              Not what it does — you already know that. <strong>WHY</strong> this one matters more than the others you didn't pick.
+              Not what it does - you already know that. <strong>WHY</strong> this one matters more than the others you didn't pick.
               <br/><br/>
               This forces you to think like a developer, not a student. Developers don't build features because they seem cool. They build them because a real person needs them.
               <br/><br/>
-              <em>Your own words only. No copying. No ChatGPT.</em> What you write here will remind you — in Week 5 when things get hard — why you chose to build this.
+              <em>Your own words only. No copying. No ChatGPT.</em> What you write here will remind you - in Week 5 when things get hard - why you chose to build this.
             </p>
           </div>
 
@@ -884,7 +884,7 @@ export default function FeatureBudget() {
             disabled={!allJustified}
             style={{ marginTop: '2rem' }}
           >
-            My MVP is locked — let's build it →
+            My MVP is locked - let's build it →
           </button>
         </div>
       )}
@@ -899,7 +899,7 @@ export default function FeatureBudget() {
             Everything you learn from Module 1 onwards is a brick for this building.
           </p>
           <p>
-            Next — let's draw what it looks like before we write a single line of code.
+            Next - let's draw what it looks like before we write a single line of code.
           </p>
         </div>
       )}

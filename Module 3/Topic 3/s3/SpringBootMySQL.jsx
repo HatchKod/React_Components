@@ -419,7 +419,7 @@ const GLOBAL_CSS = `
 `;
 
 /* ─────────────────────────────────────────
-   PHASE 2 — APPLY TO YOUR PROJECT
+   PHASE 2 - APPLY TO YOUR PROJECT
 ───────────────────────────────────────── */
 function Phase2({
   play, entityName, tableName, dbName,
@@ -490,7 +490,7 @@ function Phase2({
 
         {allEntity && (
           <div style={{ marginTop: '14px', background: 'rgba(6,78,59,0.2)', border: '1px solid #059669', borderRadius: '9px', padding: '10px 14px', color: '#34d399', fontSize: '12px', fontWeight: 700 }}>
-            ✓ {entityName} is fully annotated — JPA will create the {tableName} table.
+            ✓ {entityName} is fully annotated - JPA will create the {tableName} table.
           </div>
         )}
       </div>
@@ -500,7 +500,7 @@ function Phase2({
         <div style={{ fontSize: '10px', color: '#3b82f6', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>Task 3</div>
         <div style={{ fontSize: '15px', fontWeight: 800, color: '#e2e8f0', marginBottom: '12px' }}>Verify the table in MySQL</div>
         <p style={{ color: '#64748b', fontSize: '13px', lineHeight: 1.7, marginBottom: '12px' }}>
-          Run SHOW TABLES; — enter the table name you see:
+          Run SHOW TABLES; - enter the table name you see:
         </p>
         <input
           value={tableInputName} onChange={e => setTableInputName(e.target.value)}
@@ -523,7 +523,7 @@ function Phase2({
 
       {/* TASK 4 */}
       <div style={{ background: '#060a12', border: '1px solid #1a2236', borderRadius: '14px', padding: '20px', marginBottom: '20px' }}>
-        <div style={{ fontSize: '10px', color: '#f59e0b', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>Task 4 — Security</div>
+        <div style={{ fontSize: '10px', color: '#f59e0b', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>Task 4 - Security</div>
         <div style={{ fontSize: '15px', fontWeight: 800, color: '#e2e8f0', marginBottom: '12px' }}>Git commit (safely)</div>
         <div style={{ background: 'rgba(220,38,38,0.08)', border: '1px solid rgba(220,38,38,0.25)', borderRadius: '10px', padding: '14px', marginBottom: '14px' }}>
           <div style={{ color: '#fca5a5', fontWeight: 800, fontSize: '13px', marginBottom: '6px' }}>🚨 Before committing</div>
@@ -547,7 +547,7 @@ function Phase2({
       {p2c1 && allEntity && p2c3 && p2c4 && (
         <div style={{ background: '#060a12', border: '1px solid #1a2236', borderRadius: '14px', padding: '20px', marginBottom: '20px', animation: 'popIn 0.4s ease' }}>
           <div style={{ fontSize: '13px', fontWeight: 800, color: '#e2e8f0', marginBottom: '10px' }}>
-            One sentence — your own words:
+            One sentence - your own words:
           </div>
           <p style={{ color: '#64748b', fontSize: '12px', marginBottom: '10px' }}>
             What does application.properties tell Spring Boot, and what does @Entity tell JPA?
@@ -578,7 +578,7 @@ function Phase2({
         transition: 'all 0.3s', boxShadow: canSubmit ? '0 0 20px rgba(5,150,105,0.3)' : 'none',
         animation: canSubmit ? 'glow 2s ease-in-out infinite' : 'none',
       }}>
-        {submitted ? '✓ Spring Boot is connected to MySQL!' : 'Submit — Spring Boot ↔ MySQL connected →'}
+        {submitted ? '✓ Spring Boot is connected to MySQL!' : 'Submit - Spring Boot ↔ MySQL connected →'}
       </button>
 
       {submitted && (
@@ -591,12 +591,12 @@ function Phase2({
             🔗 Connection established!
           </div>
           <div>✓ Spring Boot knows where MySQL lives.</div>
-          <div>✓ JPA built the schema automatically — zero SQL written.</div>
+          <div>✓ JPA built the schema automatically - zero SQL written.</div>
           <div>✓ Your class is now a MySQL table.</div>
           <div style={{ marginTop: '12px', color: '#475569', fontSize: '12px' }}>
             Your controller still uses <code style={{ color: '#fbbf24' }}>List&lt;{entityName}&gt;</code>.
-            Next — 2.3.4 replaces it with <code style={{ color: '#7dd3fc' }}>JpaRepository</code>.
-            Persistence survives restarts — forever.
+            Next - 2.3.4 replaces it with <code style={{ color: '#7dd3fc' }}>JpaRepository</code>.
+            Persistence survives restarts - forever.
           </div>
         </div>
       )}
@@ -641,7 +641,7 @@ export default function SpringBootMySQL() {
     'spring.jpa.hibernate.ddl-auto=update → tables auto-created',
     '@Entity → class mapped to SQL table',
     `@Id + @GeneratedValue → auto-increment primary key`,
-    'Zero SQL written — JPA handled it all.',
+    'Zero SQL written - JPA handled it all.',
     `Your table: ${tableName} ✓`,
   ];
 
@@ -767,7 +767,7 @@ public class ${entityName} {
 
               {/* ── STEP 1: application.properties ── */}
               <StepCard n={1} total={4} title="Give Spring Boot MySQL's address" state={s1 ? 'done' : activeStep === 1 ? 'active' : 'locked'}>
-                {/* Address label analogy — visual */}
+                {/* Address label analogy - visual */}
                 <div style={{
                   background: '#0a0e1a', border: '1px solid #1a2236', borderRadius: '12px',
                   padding: '18px', marginBottom: '18px',
@@ -840,7 +840,7 @@ public class ${entityName} {
                     </button>
                   </div>
                   <div style={{ fontSize: '10px', color: '#1e293b', marginTop: '4px' }}>
-                    Used locally only — never pushed anywhere.
+                    Used locally only - never pushed anywhere.
                   </div>
                 </div>
 
@@ -862,7 +862,7 @@ public class ${entityName} {
                 {/* Port explanation */}
                 <div style={{ background: '#0a0e1a', border: '1px solid #1a2236', borderRadius: '9px', padding: '12px 14px', marginTop: '14px', marginBottom: '6px' }}>
                   <span style={{ color: '#fbbf24', fontWeight: 700, fontSize: '12px' }}>Port 3306</span>
-                  <span style={{ color: '#475569', fontSize: '12px' }}> — MySQL's door. Spring Boot knocks here. You don't need to change it.</span>
+                  <span style={{ color: '#475569', fontSize: '12px' }}> - MySQL's door. Spring Boot knocks here. You don't need to change it.</span>
                 </div>
 
                 {/* GitHub warning */}
@@ -893,7 +893,7 @@ public class ${entityName} {
                   Open <code style={{ color: '#fbbf24' }}>pom.xml</code>, find the <code style={{ color: '#7dd3fc' }}>&lt;dependencies&gt;</code> block, and add these two entries:
                 </p>
 
-                <div style={{ fontSize: '12px', color: '#34d399', fontWeight: 700, marginBottom: '8px' }}>① JPA Starter — bridges Java objects to SQL:</div>
+                <div style={{ fontSize: '12px', color: '#34d399', fontWeight: 700, marginBottom: '8px' }}>① JPA Starter - bridges Java objects to SQL:</div>
                 <div style={{ position: 'relative', marginBottom: '16px' }}>
                   <Code>
                     <CopyBtn text={`<dependency>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-data-jpa</artifactId>\n</dependency>`} />
@@ -904,7 +904,7 @@ public class ${entityName} {
                   </Code>
                 </div>
 
-                <div style={{ fontSize: '12px', color: '#34d399', fontWeight: 700, marginBottom: '8px' }}>② MySQL Connector — the JDBC driver:</div>
+                <div style={{ fontSize: '12px', color: '#34d399', fontWeight: 700, marginBottom: '8px' }}>② MySQL Connector - the JDBC driver:</div>
                 <div style={{ position: 'relative', marginBottom: '18px' }}>
                   <Code>
                     <CopyBtn text={`<dependency>\n    <groupId>com.mysql</groupId>\n    <artifactId>mysql-connector-j</artifactId>\n    <scope>runtime</scope>\n</dependency>`} />
@@ -917,13 +917,13 @@ public class ${entityName} {
                 </div>
 
                 <div style={{ background: '#0a0e1a', border: '1px solid #1a2236', borderRadius: '9px', padding: '12px 14px', marginBottom: '6px', fontSize: '12px', color: '#64748b', lineHeight: 1.6 }}>
-                  💡 Save pom.xml — Maven downloads the jars automatically.
+                  💡 Save pom.xml - Maven downloads the jars automatically.
                   Wait for <code style={{ color: '#34d399' }}>BUILD SUCCESS</code> in the terminal before continuing.
                 </div>
 
                 {s1 && (
                   <CheckLabel checked={s2} onChange={e => { setS2(e.target.checked); if (e.target.checked) { play('connect'); setActiveStep(3); } else play('remove'); }}>
-                    Dependencies added — BUILD SUCCESS seen
+                    Dependencies added - BUILD SUCCESS seen
                   </CheckLabel>
                 )}
               </StepCard>
@@ -964,7 +964,7 @@ public class ${entityName} {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
                   {[
                     { an: '@Entity', color: '#a78bfa', desc: `Tells JPA to build a table named "${tableName}" from this class.` },
-                    { an: '@Id', color: '#60a5fa', desc: 'Marks the primary key column — every row has a unique id.' },
+                    { an: '@Id', color: '#60a5fa', desc: 'Marks the primary key column - every row has a unique id.' },
                     { an: '@GeneratedValue', color: '#34d399', desc: 'MySQL auto-increments: 1, 2, 3… You never set the id manually.' },
                   ].map(({ an, color, desc }) => (
                     <div key={an} style={{
@@ -984,7 +984,7 @@ public class ${entityName} {
                   </div>
                   <Blank
                     answer="@Entity" placeholder="@Entity"
-                    hint="starts with @ — tells JPA to make a MySQL table from this class"
+                    hint="starts with @ - tells JPA to make a MySQL table from this class"
                     play={play} onCorrect={() => setBlankCorrect(true)}
                   />
                 </div>
@@ -997,7 +997,7 @@ public class ${entityName} {
               </StepCard>
 
               {/* ── STEP 4: See the table ── */}
-              <StepCard n={4} total={4} title="Restart — see your table appear" state={s4 ? 'done' : activeStep === 4 ? 'active' : activeStep < 4 ? 'locked' : 'done'}>
+              <StepCard n={4} total={4} title="Restart - see your table appear" state={s4 ? 'done' : activeStep === 4 ? 'active' : activeStep < 4 ? 'locked' : 'done'}>
                 <p style={{ color: '#64748b', fontSize: '13px', lineHeight: 1.7, marginBottom: '14px' }}>
                   Stop the server (Ctrl+C), then restart. Because <code style={{ color: '#fbbf24' }}>show-sql=true</code>, watch for Hibernate output:
                 </p>
@@ -1072,10 +1072,10 @@ public class ${entityName} {
                   {accordionOpen && (
                     <div style={{ background: '#060a12', padding: '14px 16px', borderTop: '1px solid #1a2236' }}>
                       {[
-                        { err: "Access denied for user 'root'", fix: "Password in properties doesn't match. Re-type carefully — it's case-sensitive." },
+                        { err: "Access denied for user 'root'", fix: "Password in properties doesn't match. Re-type carefully - it's case-sensitive." },
                         { err: `Unknown database '${dbName}'`, fix: `Database not created yet. Run: CREATE DATABASE ${dbName}; in MySQL terminal.` },
                         { err: 'Communications link failure', fix: 'MySQL is not running. Start MySQL service first (Step 1 from 2.3.2).' },
-                        { err: 'Table already exists', fix: `Change ddl-auto from "create" to "update" — update never drops existing tables.` },
+                        { err: 'Table already exists', fix: `Change ddl-auto from "create" to "update" - update never drops existing tables.` },
                       ].map(({ err, fix }, i) => (
                         <div key={i} style={{ marginBottom: i < 3 ? '14px' : 0, paddingBottom: i < 3 ? '14px' : 0, borderBottom: i < 3 ? '1px solid #1a2236' : 'none' }}>
                           <div style={{ color: '#fca5a5', fontWeight: 700, fontSize: '12px', marginBottom: '4px' }}>✗ {err}</div>
@@ -1148,7 +1148,7 @@ public class ${entityName} {
           )}
         </div>
 
-        {/* RIGHT PANEL — sticky docking bay */}
+        {/* RIGHT PANEL - sticky docking bay */}
         <aside style={{ position: 'sticky', top: '72px', height: 'fit-content' }}>
           <div style={{
             background: '#060a12', border: '1px solid #1a2236', borderRadius: '14px', padding: '20px',

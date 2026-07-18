@@ -38,10 +38,10 @@ export default function TestCode() {
       <div className="full-code">
         <button className="copy-btn">Copy</button>
         <L><span className="cm">{"// the program's name ↓"}</span></L>
-        <L><Tooltip tip="The program's container — everything lives inside here"><span className="kw">public class</span></Tooltip>{" MyFirstProgram {"}</L>
+        <L><Tooltip tip="The program's container - everything lives inside here"><span className="kw">public class</span></Tooltip>{" MyFirstProgram {"}</L>
         <L>&nbsp;</L>
-        <L i={1}><span className="cm">{"// front door — Java starts here ↓"}</span></L>
-        <L i={1}><Tooltip tip="Front door — Java starts reading from here"><span className="kw">public static void main</span></Tooltip>{"("}<span className="kw">String</span>{"[] args) {"}</L>
+        <L i={1}><span className="cm">{"// front door - Java starts here ↓"}</span></L>
+        <L i={1}><Tooltip tip="Front door - Java starts reading from here"><span className="kw">public static void main</span></Tooltip>{"("}<span className="kw">String</span>{"[] args) {"}</L>
         <L>&nbsp;</L>
         <L i={2}><span className="cm">{"// your dabbas ↓"}</span></L>
         <L i={2}><span className="kw">String</span>{" name = "}<span className="str">"Ravi"</span>{";"}<span className="cm">{"         // dabba: words"}</span></L>
@@ -49,11 +49,11 @@ export default function TestCode() {
         <L i={2}><span className="kw">String</span>{" city = "}<span className="str">"Karimnagar"</span>{";"}<span className="cm">{"   // dabba: words"}</span></L>
         <L i={2}><span className="kw">String</span>{` gymName = `}<span className="str">"Sai Fitness"</span>{";"}<span className="cm">{" // your dabba"}</span></L>
         <L>&nbsp;</L>
-        <L i={2}><span className="cm">{"// Java's mouth — speaks to terminal ↓"}</span></L>
-        <L i={2}><Tooltip tip="Java's mouth — prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"My name is \" + name"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
-        <L i={2}><Tooltip tip="Java's mouth — prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"My age is \" + age"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
-        <L i={2}><Tooltip tip="Java's mouth — prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"I am from \" + city"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
-        <L i={2}><Tooltip tip="Java's mouth — prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"gymName = \" + gymName"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
+        <L i={2}><span className="cm">{"// Java's mouth - speaks to terminal ↓"}</span></L>
+        <L i={2}><Tooltip tip="Java's mouth - prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"My name is \" + name"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
+        <L i={2}><Tooltip tip="Java's mouth - prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"My age is \" + age"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
+        <L i={2}><Tooltip tip="Java's mouth - prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"I am from \" + city"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
+        <L i={2}><Tooltip tip="Java's mouth - prints to the terminal screen"><span className="kw">System.out.println</span></Tooltip>{"("}<span className="str">{"\"gymName = \" + gymName"}</span>{"); "}<span className="cm">{"// speak it on screen"}</span></L>
         <L>&nbsp;</L>
         <L i={1}>{"} "}<span className="cm">{"// close front door"}</span></L>
         <L>&nbsp;</L>

@@ -5,13 +5,13 @@ const STEPS = [
     id: 1,
     question: "What is the business called, and what kind of business is it?",
     placeholder:
-      "e.g. Sai Krishna Tiffin Center — a small breakfast and tiffin shop near the college gate",
+      "e.g. Sai Krishna Tiffin Center - a small breakfast and tiffin shop near the college gate",
     type: "text",
   },
   {
     id: 2,
     question:
-      "What did you see them doing manually — the thing that gave you the idea?",
+      "What did you see them doing manually - the thing that gave you the idea?",
     placeholder:
       "e.g. The owner writes down every order on small paper chits and keeps them in a box near the till",
     type: "textarea",
@@ -27,14 +27,14 @@ const STEPS = [
   {
     id: 4,
     question:
-      "When you asked if an app would help — what did they say? What do you think would actually help them?",
+      "When you asked if an app would help - what did they say? What do you think would actually help them?",
     placeholder:
       "e.g. He said it would be great if there was a simple way to take orders on a phone or tablet so nothing gets lost, and he can see what sold at the end of the day",
     type: "textarea",
   },
   {
     id: 5,
-    question: "Now — in ONE sentence, describe what you are going to build for them.",
+    question: "Now - in ONE sentence, describe what you are going to build for them.",
     placeholder:
       "e.g. An app where the tiffin center can take and track orders digitally so nothing gets lost and they can see daily sales",
     type: "textarea",
@@ -415,12 +415,12 @@ export default function ProblemCardBuilder() {
                 with one quick question to help you sharpen it.
               </p>
               <p>
-                Either way — you've done the hardest part. You found a real
+                Either way - you've done the hardest part. You found a real
                 problem, talked to a real person, and wrote it down clearly.
               </p>
             </div>
             <div style={styles.submittedHighlight}>
-              Next — we plan exactly what you'll build.
+              Next - we plan exactly what you'll build.
             </div>
           </div>
         </div>
@@ -436,7 +436,7 @@ export default function ProblemCardBuilder() {
           <div style={styles.reviewOuter}>
             <h1 style={styles.reviewHeading}>Here is your Problem Card 🎉</h1>
             <p style={styles.reviewSubtext}>
-              This is the page your mentor will read. Review it — you can go
+              This is the page your mentor will read. Review it - you can go
               back and edit any answer before submitting.
             </p>
 
@@ -444,7 +444,7 @@ export default function ProblemCardBuilder() {
               <div style={styles.cardHeader}>
                 <div style={styles.cardTitle}>Problem Card</div>
                 <div style={styles.cardSubtitle}>
-                  Friendly Neighbourhood Developer Internship — Module 0
+                  Friendly Neighbourhood Developer Internship - Module 0
                 </div>
               </div>
 
@@ -484,8 +484,8 @@ export default function ProblemCardBuilder() {
 
             {revealNote && (
               <div style={styles.revealNote(noteOpacity)}>
-                This page is called a Problem Statement. Every app ever built —
-                Swiggy, PhonePe, the one you're about to make — started with a
+                This page is called a Problem Statement. Every app ever built -
+                Swiggy, PhonePe, the one you're about to make - started with a
                 page exactly like this. You just wrote yours.
               </div>
             )}
@@ -509,7 +509,7 @@ export default function ProblemCardBuilder() {
           </h1>
           <p style={styles.subtext}>
             Five short questions. Answer based on what you actually saw and
-            heard this week. No need to make it sound fancy — just real.
+            heard this week. No need to make it sound fancy - just real.
           </p>
 
           <div style={styles.progressWrap}>
@@ -568,7 +568,7 @@ export default function ProblemCardBuilder() {
             {currentStep === 5 && (
               <div style={styles.wordCounter}>
                 {wordCount(currentAnswer)} word
-                {wordCount(currentAnswer) !== 1 ? "s" : ""} — Keep it to one
+                {wordCount(currentAnswer) !== 1 ? "s" : ""} - Keep it to one
                 or two sentences. Simple is perfect.
               </div>
             )}

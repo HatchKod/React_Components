@@ -401,7 +401,7 @@ function RegisterScene({ items, event, wasRestarted }) {
               </div>
             ))}
             <div className="reg-empty-state">
-              {wasRestarted ? '🔄 memory cleared — server restarted' : 'No orders yet — POST to add'}
+              {wasRestarted ? '🔄 memory cleared - server restarted' : 'No orders yet - POST to add'}
             </div>
           </>
         ) : (
@@ -525,9 +525,9 @@ export default function GetPostBuilder() {
   const allS4 = c4_1 && c4_2 && c4_3 && c4_4;
   const sentences = (reflection.match(/[.!?]+/g) || []).length;
   const RET_TYPE_HINTS = {
-    String: 'String can only hold ONE value. You have a whole List of members — you need List<String>.',
-    int: "int holds a single number. Member names aren't numbers — you need List<String>.",
-    void: 'void returns nothing at all. GET must send the member list back — you need List<String>.',
+    String: 'String can only hold ONE value. You have a whole List of members - you need List<String>.',
+    int: "int holds a single number. Member names aren't numbers - you need List<String>.",
+    void: 'void returns nothing at all. GET must send the member list back - you need List<String>.',
   };
   const handleRetType = (v) => { setRetType(v); if (v === 'List<String>') { setRetStatus(true); play('add'); } else if (v) { setRetStatus(false); play('warn'); } };
   const handleB1 = (v) => { setB1(v); if (v.trim() === '@PostMapping') { setB1Status(true); play('add'); } else if (v) { setB1Status(null); } };
@@ -542,7 +542,7 @@ export default function GetPostBuilder() {
       if (pmMethod === 'POST') {
         const raw = pmBody.trim();
         const isValidJsonString = /^"[^"]*"$/.test(raw);
-        if (!isValidJsonString) { setPmResponse(raw.length === 0 ? 'Error 400: empty body' : `Error 400: invalid JSON — a String body needs double quotes, e.g. "Ravi" (you sent ${raw})`); play('warn'); return; }
+        if (!isValidJsonString) { setPmResponse(raw.length === 0 ? 'Error 400: empty body' : `Error 400: invalid JSON - a String body needs double quotes, e.g. "Ravi" (you sent ${raw})`); play('warn'); return; }
         const name = raw.slice(1, -1).trim();
         if (name) { setPmResponse(`Member added: ${name}`); setRegisterItems(prev => [...prev, name]); fireSceneEvent('postman'); play('correct'); setTimeout(() => setPmSent(true), 500); }
         else { setPmResponse('Error 400: empty string body'); play('warn'); }
@@ -561,7 +561,7 @@ export default function GetPostBuilder() {
     setDomain(d);
     const map = { Gym: ['members', 'member', 'gym'], Hotel: ['rooms', 'room', 'hotel'], Mess: ['menu', 'item', 'mess'], Chai: ['orders', 'order', 'chai'] };
     const [items, item, path] = map[d] || ['items', 'item', 'app'];
-    const generated = `@RestController\npublic class ${d}Controller {\n\n  // in-memory storage — resets on restart\n  // database connection comes in Topic 3\n  private List<String> ${items} = new ArrayList<>();\n\n  // GET — read all ${items}\n  @GetMapping("/${path}/${items}")\n  public List<String> get${items.charAt(0).toUpperCase()+items.slice(1)}() {\n      return ${items};\n  }\n\n  // POST — add a new ${item}\n  @PostMapping("/${path}/${items}")\n  public String add${item.charAt(0).toUpperCase()+item.slice(1)}(@RequestBody String name) {\n      ${items}.add(name);\n      return "${item.charAt(0).toUpperCase()+item.slice(1)} added: " + name;\n  }\n}`;
+    const generated = `@RestController\npublic class ${d}Controller {\n\n  // in-memory storage - resets on restart\n  // database connection comes in Topic 3\n  private List<String> ${items} = new ArrayList<>();\n\n  // GET - read all ${items}\n  @GetMapping("/${path}/${items}")\n  public List<String> get${items.charAt(0).toUpperCase()+items.slice(1)}() {\n      return ${items};\n  }\n\n  // POST - add a new ${item}\n  @PostMapping("/${path}/${items}")\n  public String add${item.charAt(0).toUpperCase()+item.slice(1)}(@RequestBody String name) {\n      ${items}.add(name);\n      return "${item.charAt(0).toUpperCase()+item.slice(1)} added: " + name;\n  }\n}`;
     setFreeCode(generated); setTemplateCode(generated); play('tick');
   };
   const MIN_MEANINGFUL_EDIT_CHARS = 3;
@@ -622,7 +622,7 @@ export default function GetPostBuilder() {
               <div ref={el => slotRefs.current[1] = el} className={`card ${slot === 1 ? 'active' : 'complete'}`}>
                 <div className="step-counter">Step 1 of 4</div>
                 <h2 className="card-header">GET your data as a list</h2>
-                <p style={{ color: '#475569' }}>In 2.1.3 you returned a String. Now you'll return a real List — Spring Boot converts it to JSON automatically.</p>
+                <p style={{ color: '#475569' }}>In 2.1.3 you returned a String. Now you'll return a real List - Spring Boot converts it to JSON automatically.</p>
                 <div className="diff-row">
                   <div className="diff-before">
                     <div className="diff-label">Before</div>
@@ -651,7 +651,7 @@ export default function GetPostBuilder() {
                     {"}"}
                   </div>
                 </div>
-                {retStatus === false && <div className="warn-msg">{RET_TYPE_HINTS[retType] || "That return type doesn't match — you need List<String>."}</div>}
+                {retStatus === false && <div className="warn-msg">{RET_TYPE_HINTS[retType] || "That return type doesn't match - you need List<String>."}</div>}
                 {retStatus === true && (
                   <div style={{ animation: 'slideIn 0.3s' }}>
                     <div className="info-note">Add this to your controller. Open <code>localhost:8080/gym/members</code></div>
@@ -666,7 +666,7 @@ export default function GetPostBuilder() {
                       </div>
                       <div className="mockup-body">
                         <span style={{ color: '#94A3B8' }}>[ ]&nbsp;</span>
-                        <span style={{ color: '#64748B', fontSize: '0.85rem', marginLeft: 8 }}>empty array — list exists, zero items ✅</span>
+                        <span style={{ color: '#64748B', fontSize: '0.85rem', marginLeft: 8 }}>empty array - list exists, zero items ✅</span>
                       </div>
                     </div>
                     <label className="checkbox-label">
@@ -681,25 +681,25 @@ export default function GetPostBuilder() {
                 <div ref={el => slotRefs.current[2] = el} className={`card ${slot === 2 ? 'active' : 'complete'}`} style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 2 of 4</div>
                   <h2 className="card-header">POST to add data</h2>
-                  <p style={{ color: '#475569', margin: '0 0 4px' }}>Your <code>getMembers()</code> from Step 1 can only read <code>members</code> — right now it's always empty. A POST is how something actually gets added to that same list.</p>
+                  <p style={{ color: '#475569', margin: '0 0 4px' }}>Your <code>getMembers()</code> from Step 1 can only read <code>members</code> - right now it's always empty. A POST is how something actually gets added to that same list.</p>
                   <p style={{ color: '#475569' }}>Fill in the two annotations that make POST work.</p>
                   <div className="code-block">
                     <span className="ck">import</span> org.springframework.web.bind.annotation.PostMapping;<br/>
                     <span className="ck">import</span> org.springframework.web.bind.annotation.RequestBody;<br/><br/>
                     <div className="blank-wrap">
                       <input className={`blank-input ${b1Status === true ? 'blank-correct' : b1Status === false ? 'blank-wrong' : ''}`} placeholder="@PostMapping" value={b1} onChange={e => handleB1(e.target.value)} onBlur={checkB1} />
-                    </div> <span className="cc">// blank 1 — annotation for POST</span><br/>
+                    </div> <span className="cc">// blank 1 - annotation for POST</span><br/>
                     <span className="ck">public</span> String addMember(<br/>
                     &nbsp;&nbsp;<div className="blank-wrap">
                       <input className={`blank-input ${b2Status === true ? 'blank-correct' : b2Status === false ? 'blank-wrong' : ''}`} placeholder="@RequestBody" value={b2} onChange={e => handleB2(e.target.value)} onBlur={checkB2} />
-                    </div> String name <span className="cc">// blank 2 — reads the body</span><br/>
+                    </div> String name <span className="cc">// blank 2 - reads the body</span><br/>
                     ) {"{"}<br/>
                     &nbsp;&nbsp;members.add(name);<br/>
                     &nbsp;&nbsp;<span className="ck">return</span> <span className="cs">"Member added: "</span> + name;<br/>
                     {"}"}
                   </div>
-                  {b1Status === false && <div className="warn-msg">Just the annotation name — type @PostMapping (no path needed here, unlike @GetMapping above).</div>}
-                  {b2Status === false && <div className="warn-msg">Try @RequestBody — it reads whatever was sent in the POST request body.</div>}
+                  {b1Status === false && <div className="warn-msg">Just the annotation name - type @PostMapping (no path needed here, unlike @GetMapping above).</div>}
+                  {b2Status === false && <div className="warn-msg">Try @RequestBody - it reads whatever was sent in the POST request body.</div>}
                   {allBlanksCorrect && (
                     <div style={{ marginTop: 16, animation: 'slideIn 0.3s' }}>
                       <div className="code-block" style={{ border: '1px solid #10B981' }}>
@@ -721,8 +721,8 @@ export default function GetPostBuilder() {
                 <div ref={el => slotRefs.current[3] = el} className={`card ${slot === 3 ? 'active' : 'complete'}`} style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 3 of 4</div>
                   <h2 className="card-header">Test with Postman</h2>
-                  <p style={{ color: '#475569', margin: '0 0 12px' }}>The <code>addMember()</code> endpoint you just wrote is real code now — but you can't call it by typing a URL in the browser.</p>
-                  <div className="info-note" style={{ marginBottom: 16 }}>Your browser only sends GET requests. To send POST — you need <b>Postman</b>.<br/>Postman lets you send any HTTP method and see exactly what the server responds.</div>
+                  <p style={{ color: '#475569', margin: '0 0 12px' }}>The <code>addMember()</code> endpoint you just wrote is real code now - but you can't call it by typing a URL in the browser.</p>
+                  <div className="info-note" style={{ marginBottom: 16 }}>Your browser only sends GET requests. To send POST - you need <b>Postman</b>.<br/>Postman lets you send any HTTP method and see exactly what the server responds.</div>
                   <ol style={{ paddingLeft: 20, color: '#475569', lineHeight: 1.8, marginBottom: 16 }}>
                     <li>Go to <b>postman.com</b> and download the free desktop app</li>
                     <li>Create a free account (or skip)</li>
@@ -748,7 +748,7 @@ export default function GetPostBuilder() {
                             <div className="postman-tab active" style={{ color: '#F97316', borderBottomColor: '#F97316' }}>JSON</div>
                           </div>
                           <textarea className="postman-body-input" value={pmBody} onChange={e => setPmBody(e.target.value)} placeholder='"Ravi"' />
-                          <div style={{ color: '#6B7280', fontSize: '0.75rem', marginTop: 6 }}>String body must be wrapped in double quotes — "Ravi", not Ravi</div>
+                          <div style={{ color: '#6B7280', fontSize: '0.75rem', marginTop: 6 }}>String body must be wrapped in double quotes - "Ravi", not Ravi</div>
                         </div>
                         {pmResponse && (
                           <div className={`postman-response${pmResponse.startsWith('Error') ? ' error' : ''}`}>
@@ -772,14 +772,14 @@ export default function GetPostBuilder() {
                 <div ref={el => slotRefs.current[4] = el} className="card active" style={{ animation: 'slideIn 0.3s' }}>
                   <div className="step-counter">Step 4 of 4</div>
                   <h2 className="card-header">Watch GET and POST work together</h2>
-                  <p style={{ color: '#475569', margin: '0 0 16px' }}>Check the register on the right — Ravi is already sitting in it from Postman. GET and POST are now the same list, viewed two ways.</p>
+                  <p style={{ color: '#475569', margin: '0 0 16px' }}>Check the register on the right - Ravi is already sitting in it from Postman. GET and POST are now the same list, viewed two ways.</p>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
                     <div style={{ background: '#EFF6FF', padding: 16, borderRadius: 8, border: '1px solid #BFDBFE' }}>
-                      <div style={{ fontWeight: 700, color: '#1D4ED8', marginBottom: 8 }}>POST — Write</div>
+                      <div style={{ fontWeight: 700, color: '#1D4ED8', marginBottom: 8 }}>POST - Write</div>
                       <p style={{ color: '#1E40AF', fontSize: '0.9rem', margin: 0 }}>Send via Postman:<br/><code>POST /gym/members</code><br/>body: "Ravi"</p>
                     </div>
                     <div style={{ background: '#F0FDF4', padding: 16, borderRadius: 8, border: '1px solid #BBF7D0' }}>
-                      <div style={{ fontWeight: 700, color: '#15803D', marginBottom: 8 }}>GET — Read</div>
+                      <div style={{ fontWeight: 700, color: '#15803D', marginBottom: 8 }}>GET - Read</div>
                       <p style={{ color: '#166534', fontSize: '0.9rem', margin: 0 }}>Open in browser:<br/><code>GET /gym/members</code><br/>returns: ["Ravi"]</p>
                     </div>
                   </div>
@@ -808,8 +808,8 @@ export default function GetPostBuilder() {
                   <div className="amber-note">
                     <div className="amber-note-title">⚠️ Restart your server now.</div>
                     Go to <code>localhost:8080/gym/members</code> again. You will see: <b>[ ]</b><br/><br/>
-                    Empty. Ravi, Suresh, Priya are gone. That is expected. Your List lives in memory — it resets on restart.<br/><br/>
-                    <b>In Topic 3 — you connect to a database. Data survives restarts. That is why databases exist.</b>
+                    Empty. Ravi, Suresh, Priya are gone. That is expected. Your List lives in memory - it resets on restart.<br/><br/>
+                    <b>In Topic 3 - you connect to a database. Data survives restarts. That is why databases exist.</b>
                   </div>
                   <label className="checkbox-label"><input type="checkbox" checked={c4_1} onChange={() => !c4_1 && handleS4Check(1, setC4_1)} />I added 3 members via Postman</label>
                   <label className="checkbox-label"><input type="checkbox" checked={c4_2} onChange={() => !c4_2 && handleS4Check(2, setC4_2)} disabled={!c4_1} />I saw them in GET response as JSON</label>
@@ -820,13 +820,13 @@ export default function GetPostBuilder() {
                       <h3 style={{ margin: '0 0 16px 0', color: '#92400E' }}>What you just built:</h3>
                       {revealLines >= 1 && <div className="reveal-line">✅ <b>@PostMapping</b> → maps POST request to a method</div>}
                       {revealLines >= 2 && <div className="reveal-line">✅ <b>@RequestBody</b> → reads what was sent in the request body</div>}
-                      {revealLines >= 3 && <div className="reveal-line">✅ <b>POST</b> → creates new data — sends data TO the server</div>}
-                      {revealLines >= 4 && <div className="reveal-line">✅ <b>GET</b> → reads data — gets data FROM the server</div>}
-                      {revealLines >= 5 && <div className="reveal-line">✅ <b>JSON</b> → Spring Boot converts List to JSON automatically — zero code from you</div>}
-                      {revealLines >= 6 && <div className="reveal-line">✅ <b>Postman</b> → tool to test APIs — send any HTTP method</div>}
+                      {revealLines >= 3 && <div className="reveal-line">✅ <b>POST</b> → creates new data - sends data TO the server</div>}
+                      {revealLines >= 4 && <div className="reveal-line">✅ <b>GET</b> → reads data - gets data FROM the server</div>}
+                      {revealLines >= 5 && <div className="reveal-line">✅ <b>JSON</b> → Spring Boot converts List to JSON automatically - zero code from you</div>}
+                      {revealLines >= 6 && <div className="reveal-line">✅ <b>Postman</b> → tool to test APIs - send any HTTP method</div>}
                       {revealLines >= 7 && (
                         <div style={{ marginTop: 24, textAlign: 'center', animation: 'slideIn 0.3s' }}>
-                          <h3 style={{ color: '#1E293B' }}>POST writes. GET reads.<br/>Your data disappears on restart because it lives in memory.<br/>Next — connect to MySQL. Data that survives forever.</h3>
+                          <h3 style={{ color: '#1E293B' }}>POST writes. GET reads.<br/>Your data disappears on restart because it lives in memory.<br/>Next - connect to MySQL. Data that survives forever.</h3>
                           <button className="btn green" style={{ padding: '16px 32px', fontSize: '1.1rem', marginTop: 20 }} onClick={() => { setPhase(2); play('tick'); }}>Now build for YOUR project →</button>
                         </div>
                       )}
@@ -840,7 +840,7 @@ export default function GetPostBuilder() {
           {phase === 2 && (
             <div className="card active" style={{ animation: 'slideIn 0.3s' }}>
               <h2 className="card-header" style={{ fontSize: '1.5rem' }}>Build GET and POST for YOUR project</h2>
-              <p style={{ color: '#64748B' }}>Same pattern — your domain. Replace the placeholder variables with your real domain.</p>
+              <p style={{ color: '#64748B' }}>Same pattern - your domain. Replace the placeholder variables with your real domain.</p>
               {!domain ? (
                 <div className="domain-pills">
                   <button className="domain-pill" onClick={() => handleDomain('Gym')}>🏋️ Gym</button>
@@ -857,19 +857,19 @@ export default function GetPostBuilder() {
                     {domain === 'Chai' && "Your chai shop needs: GET /chai/orders → order list. POST /chai/orders → adds an order."}
                   </div>
                   <textarea className="free-editor" value={freeCode} onChange={e => setFreeCode(e.target.value)} onPaste={e => e.preventDefault()} onContextMenu={e => e.preventDefault()} spellCheck="false" />
-                  {!codeWasEdited && <div className="warn-msg" style={{ marginTop: 10 }}>✏️ This is the auto-filled starting point — before continuing, make a real change (a few characters isn't enough): rename a variable, adjust a path, or add a comment in your own words.</div>}
+                  {!codeWasEdited && <div className="warn-msg" style={{ marginTop: 10 }}>✏️ This is the auto-filled starting point - before continuing, make a real change (a few characters isn't enough): rename a variable, adjust a path, or add a comment in your own words.</div>}
                 </>
               )}
               {domain && (
                 <div style={{ marginTop: 24 }}>
-                  <h4 style={{ margin: '0 0 12px 0' }}>Postman task — test your endpoints:</h4>
+                  <h4 style={{ margin: '0 0 12px 0' }}>Postman task - test your endpoints:</h4>
                   <label className="checkbox-label"><input type="checkbox" checked={p2c1} onChange={e => { setP2c1(e.target.checked); if(e.target.checked) play('add'); }} disabled={!codeWasEdited} />GET /{domain.toLowerCase()}/items working in browser</label>
                   <label className="checkbox-label"><input type="checkbox" checked={p2c2} onChange={e => { setP2c2(e.target.checked); if(e.target.checked) play('add'); }} disabled={!p2c1} />POST /{domain.toLowerCase()}/items working via Postman</label>
                   <label className="checkbox-label"><input type="checkbox" checked={p2c3} onChange={e => { setP2c3(e.target.checked); if(e.target.checked) play('add'); }} disabled={!p2c2} />I posted 3 real {domain.toLowerCase()} items via Postman</label>
                   <label className="checkbox-label"><input type="checkbox" checked={p2c4} onChange={e => { setP2c4(e.target.checked); if(e.target.checked) play('add'); }} disabled={!p2c3} />I restarted and confirmed data resets to []</label>
                   <div style={{ marginTop: 24 }}>
                     <h4 style={{ margin: '0 0 8px 0' }}>Reflection:</h4>
-                    <p style={{ color: '#475569', fontSize: '0.95rem', margin: '0 0 8px 0' }}>In one sentence — why does your data disappear when the server restarts, and what will fix this in Topic 3?</p>
+                    <p style={{ color: '#475569', fontSize: '0.95rem', margin: '0 0 8px 0' }}>In one sentence - why does your data disappear when the server restarts, and what will fix this in Topic 3?</p>
                     <textarea className="reflection-box" placeholder="The data disappears because it lives in a Java List. In Topic 3, a database will fix this because..." value={reflection} onChange={e => setReflection(e.target.value)} />
                     <div className={`word-count ${sentences >= 1 ? 'ok' : ''}`}>{sentences} / 1 sentence minimum</div>
                   </div>
@@ -880,7 +880,7 @@ export default function GetPostBuilder() {
                     <div style={{ marginTop: 20, padding: 16, background: '#F0FDF4', borderRadius: 8, color: '#065F46', animation: 'popIn 0.3s' }}>
                       <b>Your first real CRUD operations are working! 🎉</b><br/><br/>
                       ✅ POST writes to your List<br/>✅ GET reads from your List<br/>✅ Spring Boot returns JSON automatically<br/><br/>
-                      <b>Next — PUT to update, DELETE to remove. Then — connect to MySQL.</b>
+                      <b>Next - PUT to update, DELETE to remove. Then - connect to MySQL.</b>
                     </div>
                   )}
                 </div>

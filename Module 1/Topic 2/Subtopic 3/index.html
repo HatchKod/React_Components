@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Problem Card Builder — HatchKod</title>
+  <title>Problem Card Builder - HatchKod</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #fdf6ec; }
@@ -12,7 +12,7 @@
 <body>
   <div id="root"></div>
 
-  <!-- React + Babel via CDN — fine for standalone/Netlify deploy -->
+  <!-- React + Babel via CDN - fine for standalone/Netlify deploy -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -25,13 +25,13 @@
         id: 1,
         question: "What is the business called, and what kind of business is it?",
         placeholder:
-          "e.g. Sai Krishna Tiffin Center — a small breakfast and tiffin shop near the college gate",
+          "e.g. Sai Krishna Tiffin Center - a small breakfast and tiffin shop near the college gate",
         type: "text",
       },
       {
         id: 2,
         question:
-          "What did you see them doing manually — the thing that gave you the idea?",
+          "What did you see them doing manually - the thing that gave you the idea?",
         placeholder:
           "e.g. The owner writes down every order on small paper chits and keeps them in a box near the till",
         type: "textarea",
@@ -47,14 +47,14 @@
       {
         id: 4,
         question:
-          "When you asked if an app would help — what did they say? What do you think would actually help them?",
+          "When you asked if an app would help - what did they say? What do you think would actually help them?",
         placeholder:
           "e.g. He said it would be great if there was a simple way to take orders on a phone or tablet so nothing gets lost, and he can see what sold at the end of the day",
         type: "textarea",
       },
       {
         id: 5,
-        question: "Now — in ONE sentence, describe what you are going to build for them.",
+        question: "Now - in ONE sentence, describe what you are going to build for them.",
         placeholder:
           "e.g. An app where the tiffin center can take and track orders digitally so nothing gets lost and they can see daily sales",
         type: "textarea",
@@ -396,12 +396,12 @@
                     back with one quick question to help you sharpen it.
                   </p>
                   <p style={{ marginBottom: 0 }}>
-                    Either way — you've done the hardest part. You found a real
+                    Either way - you've done the hardest part. You found a real
                     problem, talked to a real person, and wrote it down clearly.
                   </p>
                 </div>
                 <div style={s.submittedHighlight}>
-                  Next — we plan exactly what you'll build.
+                  Next - we plan exactly what you'll build.
                 </div>
               </div>
             </div>
@@ -416,7 +416,7 @@
             <div style={s.container}>
               <h1 style={s.reviewHeading}>Here is your Problem Card 🎉</h1>
               <p style={s.subtext}>
-                This is the page your mentor will read. Review it — you can go
+                This is the page your mentor will read. Review it - you can go
                 back and edit any answer before submitting.
               </p>
 
@@ -424,7 +424,7 @@
                 <div style={s.cardHeader}>
                   <div style={s.cardTitle}>Problem Card</div>
                   <div style={s.cardSubtitle}>
-                    Friendly Neighbourhood Developer Internship — Module 0
+                    Friendly Neighbourhood Developer Internship - Module 0
                   </div>
                 </div>
 
@@ -462,7 +462,7 @@
               {revealNote && (
                 <div style={s.revealNote(noteOpacity)}>
                   This page is called a Problem Statement. Every app ever
-                  built — Swiggy, PhonePe, the one you're about to make —
+                  built - Swiggy, PhonePe, the one you're about to make -
                   started with a page exactly like this. You just wrote yours.
                 </div>
               )}
@@ -490,7 +490,7 @@
               </h1>
               <p style={s.subtext}>
                 Five short questions. Answer based on what you actually saw and
-                heard this week. No need to make it sound fancy — just real.
+                heard this week. No need to make it sound fancy - just real.
               </p>
 
               <div style={s.progressLabel}>Step {currentStep} of 5</div>
@@ -535,7 +535,7 @@
 
               {currentStep === 5 && (
                 <div style={s.wordCounter}>
-                  {wordCount(currentAnswer)} word{wordCount(currentAnswer) !== 1 ? "s" : ""} —
+                  {wordCount(currentAnswer)} word{wordCount(currentAnswer) !== 1 ? "s" : ""} -
                   Keep it to one or two sentences. Simple is perfect.
                 </div>
               )}
