@@ -92,6 +92,26 @@ const STYLE = `
   @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes walkIn { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+  /* Phase 2 */
+  .domain-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+  .domain-btn { padding: 10px 18px; border-radius: 20px; border: 2px solid #E2E8F0; background: #fff; font-weight: 700; cursor: pointer; font-size: 0.9rem; color: #475569; transition: all 0.2s; }
+  .domain-btn:hover { border-color: #3B82F6; }
+  .domain-btn.selected { background: #3B82F6; border-color: #3B82F6; color: #fff; }
+
+  .verdict-card { background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 18px 20px; margin: 14px 0; transition: all 0.3s; }
+  .verdict-card.done { border-color: #10B981; background: #F0FDF4; }
+  .verdict-request { font-family: 'Courier New', monospace; font-size: 0.95rem; color: #334155; background: #fff; border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; border: 1px solid #E2E8F0; }
+  .verdict-choices { display: flex; gap: 10px; flex-wrap: wrap; }
+  .verdict-btn { flex: 1; min-width: 130px; padding: 10px 14px; border-radius: 8px; border: 2px solid #E2E8F0; background: #fff; font-weight: 700; cursor: pointer; font-size: 0.85rem; }
+  .verdict-btn.good { color: #065F46; }
+  .verdict-btn.bad { color: #B91C1C; }
+  .verdict-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .verdict-btn.chosen-good { background: #F0FDF4; border-color: #10B981; }
+  .verdict-btn.chosen-bad { background: #FEF2F2; border-color: #EF4444; }
+  .verdict-explain { font-size: 0.85rem; color: #64748B; margin-top: 10px; animation: slideIn 0.3s; }
+
+  .score-badge { display: inline-block; background: #ECFDF5; color: #065F46; border: 1.5px solid #A7F3D0; border-radius: 20px; padding: 6px 16px; font-weight: 800; font-size: 0.9rem; margin-top: 12px; }
 `;
 
 function useSounds() {
@@ -136,24 +156,79 @@ function useSounds() {
   return { play, muted };
 }
 
+const DOMAIN_REQUESTS = {
+  Gym: [
+    { text: 'Give me the member list', good: 'Here is the list: Ravi, Suresh, Priya', bad: 'Error - table not found', explain: 'A good server answers the actual request with real data, not an internal error.' },
+    { text: 'Is member #45 active?', good: 'Yes, member #45 is active', bad: 'Here is the full member list', explain: 'The response must match what was asked, not just any related data.' },
+    { text: '##garbage!!input', good: "I don't understand this request, please try again", bad: '[server crashed]', explain: 'A good server never crashes on bad input - it always sends something back.' },
+  ],
+  Hotel: [
+    { text: 'Is Room 101 available?', good: 'Yes, Room 101 is free', bad: 'Error - table not found', explain: 'A good server answers the actual request with real data, not an internal error.' },
+    { text: 'Show me booking #12', good: 'Booking #12: checked in, Room 204', bad: 'Here is every booking we have', explain: 'The response must match what was asked, not dump unrelated data.' },
+    { text: '##garbage!!input', good: "I don't understand this request, please try again", bad: '[server crashed]', explain: 'A good server never crashes on bad input - it always sends something back.' },
+  ],
+  Mess: [
+    { text: 'Give me today\'s menu', good: 'Today: rice, dal, sabzi', bad: 'Error - table not found', explain: 'A good server answers the actual request with real data, not an internal error.' },
+    { text: 'Did student #7 pay this month?', good: 'Yes, student #7 has paid', bad: 'Here is the full payment list', explain: 'The response must match what was asked, not just any related data.' },
+    { text: '##garbage!!input', good: "I don't understand this request, please try again", bad: '[server crashed]', explain: 'A good server never crashes on bad input - it always sends something back.' },
+  ],
+  Chai: [
+    { text: 'What is on the menu today?', good: 'Today: chai, samosa, vada pav', bad: 'Error - table not found', explain: 'A good server answers the actual request with real data, not an internal error.' },
+    { text: 'Does customer #3 have credit due?', good: 'Yes, customer #3 owes ₹40', bad: 'Here is the full customer list', explain: 'The response must match what was asked, not dump unrelated data.' },
+    { text: '##garbage!!input', good: "I don't understand this request, please try again", bad: '[server crashed]', explain: 'A good server never crashes on bad input - it always sends something back.' },
+  ],
+};
+
 export default function ServerSimulator() {
   const { play, muted } = useSounds();
   const [isMuted, setIsMuted] = useState(false);
-  
+
   const [scene, setScene] = useState(1);
-  
+
   // Scene 1
   const [s1State, setS1State] = useState(0); // 0: initial, 1: fail, 2: success
-  
+
   // Scene 2
   const [reqNum, setReqNum] = useState(1);
   const [logs, setLogs] = useState([]);
   const [errMsg, setErrMsg] = useState("");
-  
+
   // Scene 3 / Task
   const [revealLines, setRevealLines] = useState(0);
   const [reflection, setReflection] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  // Phase 2
+  const [phase, setPhase] = useState(1);
+  const [domain, setDomain] = useState(null);
+  const [verdicts, setVerdicts] = useState({}); // { idx: 'good' | 'bad' }
+  const [p2Reflection, setP2Reflection] = useState("");
+  const [p2Submitted, setP2Submitted] = useState(false);
+
+  function selectDomain(d) {
+    play('tick');
+    setDomain(d);
+    setVerdicts({});
+  }
+
+  function chooseVerdict(idx, choice) {
+    if (verdicts[idx]) return;
+    play(choice === 'good' ? 'correct' : 'warn');
+    setVerdicts(v => ({ ...v, [idx]: choice }));
+  }
+
+  const domainRequests = domain ? DOMAIN_REQUESTS[domain] : [];
+  const allVerdictsGiven = domain && domainRequests.every((_, i) => verdicts[i]);
+  const correctCount = domain ? domainRequests.filter((_, i) => verdicts[i] === 'good').length : 0;
+
+  const p2Sentences = (p2Reflection.match(/[.!?]+/g) || []).length;
+  const canP2Submit = allVerdictsGiven && p2Sentences >= 1;
+
+  function handleP2Submit() {
+    if (!canP2Submit || p2Submitted) return;
+    play('submit');
+    setP2Submitted(true);
+  }
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -254,26 +329,31 @@ export default function ServerSimulator() {
   const sentences = (reflection.match(/[.!?]+/g) || []).length;
   const canSubmit = sentences >= 3;
 
+  function goToPhase2() {
+    play('tick');
+    setPhase(2);
+  }
+
   useEffect(() => {
-    if (submitted) {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        window.parent.postMessage({
-          type: 'HK_RESULT',
-          version: '1',
-          exerciseId: 'm2-t1-s1-server-simulator',
-          status: 'completed',
-          score: 3, maxScore: 3,
-          answers: { 
-            phase1: { withoutServerSeen: true, requestsHandled: { r1: 'correct', r2: 'correct', r3: 'correct' }, comparisonSeen: true },
-            task: { reflectionText: reflection, mentionedCustomer: reflection.toLowerCase().includes('customer'), mentionedWaiter: reflection.toLowerCase().includes('waiter'), mentionedKitchen: reflection.toLowerCase().includes('kitchen') }
-          },
-          metadata: { subtopicId: params.get('subtopicId'), taskId: params.get('taskId') },
-          completedAt: new Date().toISOString()
-        }, '*');
-      } catch(e) {}
-    }
-  }, [submitted]);
+    if (!p2Submitted) return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      window.parent.postMessage({
+        type: 'HK_RESULT',
+        version: '1',
+        exerciseId: 'm3-t1-s1-server-simulator',
+        exerciseType: 'interactive',
+        status: 'completed',
+        score: 3, maxScore: 3,
+        answers: {
+          phase1: { withoutServerSeen: true, requestsHandled: { r1: 'correct', r2: 'correct', r3: 'correct' }, comparisonSeen: true, reflectionText: reflection },
+          phase2: { domainSelected: domain, verdicts, correctCount, totalRequests: domainRequests.length, reflectionText: p2Reflection },
+        },
+        metadata: { subtopicId: params.get('subtopicId'), taskId: params.get('taskId') },
+        completedAt: new Date().toISOString(),
+      }, '*');
+    } catch (e) {}
+  }, [p2Submitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="sim-root">
@@ -285,8 +365,9 @@ export default function ServerSimulator() {
         </button>
       </div>
 
+      {phase === 1 && (
       <div className="split-layout">
-        
+
         {/* LEFT PANEL */}
         <div>
           {/* SCENE 1 */}
@@ -412,8 +493,8 @@ export default function ServerSimulator() {
               />
               <div className={`word-count ${sentences >= 3 ? 'ok' : ''}`}>{sentences} / 3 sentences minimum</div>
 
-              <button 
-                className="btn green" 
+              <button
+                className="btn green"
                 style={{ padding: '16px', fontSize: '1.1rem', marginTop: '24px', opacity: canSubmit ? 1 : 0.5 }}
                 disabled={!canSubmit || submitted}
                 onClick={() => { play("submit"); setSubmitted(true); }}
@@ -425,6 +506,7 @@ export default function ServerSimulator() {
                 <div style={{ marginTop: '20px', padding: '16px', background: '#F0FDF4', borderRadius: '8px', color: '#065F46', textAlign: 'center', animation: 'popIn 0.3s' }}>
                   <b>Perfect. You understand why servers exist.</b><br/>
                   Next - you will create one. Download Spring Boot. Run it. See your laptop serve a response for the first time.
+                  <button className="btn" style={{ marginTop: '16px' }} onClick={goToPhase2}>Try it for YOUR project →</button>
                 </div>
               )}
             </div>
@@ -434,7 +516,7 @@ export default function ServerSimulator() {
         {/* RIGHT PANEL - VISUALIZER */}
         <div>
           <div style={{ position: 'sticky', top: '24px' }}>
-            
+
             {scene === 1 && (
               <div className="s1-visual">
                 <div className={`s1-wire ${s1State === 1 ? 'fail' : s1State === 2 ? 'success' : ''}`}></div>
@@ -501,6 +583,76 @@ export default function ServerSimulator() {
           </div>
         </div>
       </div>
+      )}
+
+      {phase === 2 && (
+        <div className="split-layout" style={{ gridTemplateColumns: '1fr', maxWidth: 720 }}>
+          <div className="card active">
+            <h2 className="card-header">Classify these requests for YOUR project</h2>
+            <p style={{ color: '#475569' }}>Pick your business domain. For each incoming request, decide: is this a <b>good</b> server response or a <b>bad</b> one?</p>
+
+            <div className="domain-row">
+              {['Gym', 'Hotel', 'Mess', 'Chai'].map(d => (
+                <button key={d} className={`domain-btn${domain === d ? ' selected' : ''}`} onClick={() => selectDomain(d)}>{d}</button>
+              ))}
+            </div>
+
+            {domain && domainRequests.map((req, i) => (
+              <div key={i} className={`verdict-card${verdicts[i] ? ' done' : ''}`}>
+                <div className="verdict-request">📥 "{req.text}"</div>
+                <div className="verdict-choices">
+                  <button
+                    className={`verdict-btn good${verdicts[i] === 'good' ? ' chosen-good' : ''}`}
+                    disabled={!!verdicts[i]}
+                    onClick={() => chooseVerdict(i, 'good')}
+                  >
+                    "{req.good}"
+                  </button>
+                  <button
+                    className={`verdict-btn bad${verdicts[i] === 'bad' ? ' chosen-bad' : ''}`}
+                    disabled={!!verdicts[i]}
+                    onClick={() => chooseVerdict(i, 'bad')}
+                  >
+                    "{req.bad}"
+                  </button>
+                </div>
+                {verdicts[i] && <div className="verdict-explain">{req.explain}</div>}
+              </div>
+            ))}
+
+            {allVerdictsGiven && (
+              <>
+                <div className="score-badge">{correctCount} / {domainRequests.length} good responses chosen ✅</div>
+
+                <p style={{ color: '#475569', marginTop: 20 }}>In one sentence — why does a good server always respond, even to bad or unexpected requests?</p>
+                <textarea
+                  className="reflection-box"
+                  placeholder="A good server always responds because..."
+                  value={p2Reflection}
+                  onChange={e => setP2Reflection(e.target.value)}
+                />
+                <div className={`word-count ${p2Sentences >= 1 ? 'ok' : ''}`}>{p2Sentences} / 1 sentence minimum</div>
+
+                <button
+                  className="btn green"
+                  style={{ padding: '16px', fontSize: '1.1rem', marginTop: '24px', opacity: canP2Submit ? 1 : 0.5 }}
+                  disabled={!canP2Submit || p2Submitted}
+                  onClick={handleP2Submit}
+                >
+                  {p2Submitted ? 'Completed ✅' : "I'm ready to build one →"}
+                </button>
+
+                {p2Submitted && (
+                  <div style={{ marginTop: '20px', padding: '16px', background: '#F0FDF4', borderRadius: '8px', color: '#065F46', textAlign: 'center', animation: 'popIn 0.3s' }}>
+                    <b>Perfect. You understand why servers exist — for your project too.</b><br />
+                    Next - you will create one. Download Spring Boot. Run it. See your laptop serve a response for the first time.
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

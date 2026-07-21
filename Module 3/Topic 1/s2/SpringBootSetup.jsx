@@ -29,6 +29,7 @@ const STYLE = `
   
   .pill-group { display: flex; gap: 12px; margin-top: 8px; }
   .radio-pill { padding: 6px 16px; border-radius: 20px; border: 1.5px solid #E2E8F0; font-size: 0.9rem; font-weight: 600; color: #64748B; }
+  .pill { display: inline-block; background: #F0FDF4; border: 1.5px solid #86EFAC; color: #16A34A; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
   .radio-pill.selected { background: #EFF6FF; border-color: #3B82F6; color: #1D4ED8; }
   
   .dep-pill { background: #DCFCE7; border: 1px solid #10B981; color: #065F46; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; cursor: help; }
@@ -180,6 +181,7 @@ export default function SpringBootSetup() {
   const [submitted, setSubmitted] = useState(false);
 
   const [attempts, setAttempts] = useState([1, 1, 1]);
+  const [domain, setDomain] = useState(null);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -249,10 +251,10 @@ export default function SpringBootSetup() {
       if (qNum === 2) setQ2('correct');
       if (qNum === 3) setQ3('correct');
       
-      if ((qNum === 1 || q1 === 'correct') && 
-          (qNum === 2 || q2 === 'correct') && 
+      if ((qNum === 1 || q1 === 'correct') &&
+          (qNum === 2 || q2 === 'correct') &&
           (qNum === 3 || q3 === 'correct')) {
-        setTimeout(() => play("tada"), 500);
+        setTimeout(() => play("reveal"), 500);
       }
     } else {
       play("warn");
@@ -274,12 +276,13 @@ export default function SpringBootSetup() {
         window.parent.postMessage({
           type: 'HK_RESULT',
           version: '1',
-          exerciseId: 'm2-t1-s2-spring-boot-setup',
+          exerciseId: 'm3-t1-s2-spring-boot-setup',
+          exerciseType: 'interactive',
           status: 'completed',
           score: 3, maxScore: 3,
-          answers: { 
+          answers: {
             phase1: { group, artifact, checked: [s1Checked, s2Checked, s3Checked, s4Checked], os },
-            phase2: { q1, q2, q3, reflection, attempts }
+            phase2: { q1, q2, q3, reflection, attempts, domain, generatedGroup: `com.${(group || 'ravi').replace(/\s+/g, '').toLowerCase()}`, generatedArtifact: `${(domain || 'gym').toLowerCase()}app` }
           },
           metadata: { subtopicId: params.get('subtopicId'), taskId: params.get('taskId') },
           completedAt: new Date().toISOString()
@@ -608,6 +611,30 @@ export default function SpringBootSetup() {
 
               {q1 === 'correct' && q2 === 'correct' && q3 === 'correct' && (
                 <div style={{ animation: 'slideIn 0.5s' }}>
+                  <div className="success-card" style={{ marginBottom: 20 }}>
+                    <h3 style={{ margin: '0 0 8px 0', color: '#065F46' }}>Now generate YOUR project's setup</h3>
+                    <p style={{ margin: '0 0 12px 0', color: '#065F46' }}>Pick your business domain — this is the actual Group/Artifact you'll type into start.spring.io for your real project.</p>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
+                      {['Gym', 'Hotel', 'Mess', 'Chai'].map(d => (
+                        <button
+                          key={d}
+                          className="os-tab"
+                          style={{ background: domain === d ? '#10B981' : '#F1F5F9', color: domain === d ? '#fff' : '#475569' }}
+                          onClick={() => { setDomain(d); play('tick'); }}
+                        >
+                          {d}
+                        </button>
+                      ))}
+                    </div>
+                    {domain && (
+                      <div className="code-block" style={{ margin: 0 }}>
+                        <CopyButton text={`Group: com.${(group || 'ravi').replace(/\s+/g, '').toLowerCase()}\nArtifact: ${domain.toLowerCase()}app`} />
+                        Group: <span className="cmd">com.{(group || 'ravi').replace(/\s+/g, '').toLowerCase()}</span><br />
+                        Artifact: <span className="cmd">{domain.toLowerCase()}app</span>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="success-card">
                     <h3 style={{ margin: '0 0 8px 0', color: '#065F46' }}>Awesome! Now in your own words:</h3>
                     <p style={{ margin: '0 0 12px 0', color: '#065F46' }}>In one sentence - what just happened when you typed localhost:8080 in your browser?</p>
@@ -622,13 +649,13 @@ export default function SpringBootSetup() {
                     </div>
                   </div>
 
-                  <button 
-                    className="btn green" 
-                    style={{ width: '100%', padding: '16px', fontSize: '1.1rem', opacity: sentences >= 1 ? 1 : 0.5 }}
-                    disabled={sentences < 1 || submitted}
+                  <button
+                    className="btn green"
+                    style={{ width: '100%', padding: '16px', fontSize: '1.1rem', opacity: (sentences >= 1 && domain) ? 1 : 0.5 }}
+                    disabled={sentences < 1 || !domain || submitted}
                     onClick={() => { play("submit"); setSubmitted(true); }}
                   >
-                    {submitted ? "Completed ✅" : "Submit & Continue →"}
+                    {submitted ? "Completed ✅" : !domain ? "Pick your domain above first" : "Submit & Continue →"}
                   </button>
                 </div>
               )}

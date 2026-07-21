@@ -300,6 +300,12 @@ export default function GeminiEndpointBuilder() {
     wowFiredRef.current = true;
     play("correct");
     setWowRevealed(true);
+
+    // Chained interval/timeout reveal sequence - all timer IDs are tracked so
+    // the cleanup function below can cancel every pending step if the
+    // component unmounts mid-sequence, instead of letting orphaned timers
+    // keep firing setState calls after unmount.
+    const timers = [];
     let c = 0;
     const iv = setInterval(() => {
       c += 1;
@@ -307,18 +313,27 @@ export default function GeminiEndpointBuilder() {
       if (c >= 5) {
         clearInterval(iv);
         play("reveal");
-        setTimeout(() => {
+        const t1 = setTimeout(() => {
           setPh1Revealed(true);
           let d = 0;
           const iv2 = setInterval(() => {
             d += 1;
             setPh1Count(d);
             if (d < 7) play("tick");
-            if (d >= 7) { clearInterval(iv2); setTimeout(() => setFinalShown(true), 400); }
+            if (d >= 7) {
+              clearInterval(iv2);
+              const t2 = setTimeout(() => setFinalShown(true), 400);
+              timers.push(t2);
+            }
           }, 380);
+          timers.push(iv2);
         }, 900);
+        timers.push(t1);
       }
     }, 550);
+    timers.push(iv);
+
+    return () => timers.forEach((t) => { clearInterval(t); clearTimeout(t); });
   }, [allThree]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const goPhase2 = () => { play("tick"); setPhase(2); };

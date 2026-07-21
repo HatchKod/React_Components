@@ -301,6 +301,17 @@ const STYLE = `
   }
 `;
 
+// Plays a sound exactly once, the first time `condition` becomes true.
+function usePlayOnceWhen(condition, play, sound) {
+  const firedRef = useRef(false);
+  useEffect(() => {
+    if (condition && !firedRef.current) {
+      firedRef.current = true;
+      play(sound);
+    }
+  }, [condition]); // eslint-disable-line react-hooks/exhaustive-deps
+}
+
 function useSounds() {
   const muted = useRef(false);
   const ctxRef = useRef(null);
@@ -503,6 +514,11 @@ export default function CRUDDomainBuilder() {
   // Slot 1 - before/after upgrade + no-arg constructor
   const [upgradeShown, setUpgradeShown] = useState(false);
   const [noArgChecked, setNoArgChecked] = useState(false);
+  const [mappedFields, setMappedFields] = useState({});
+  function mapField(key) {
+    setMappedFields(m => { if (m[key]) return m; play('tick'); return { ...m, [key]: true }; });
+  }
+  const allFieldsMapped = ['name', 'age', 'plan', 'isActive'].every(k => mappedFields[k]);
 
   function handleShowUpgrade() {
     play('tick');
@@ -548,10 +564,7 @@ export default function CRUDDomainBuilder() {
   const checkB4 = () => { if (!(b1.trim() && (b4.trim() === b1.trim() || b4.trim() === 'null'))) { setB4Status(false); play('warn'); } };
 
   const allBlanksCorrect = b1Status === true && b2Status === true && b3Status === true && b4Status === true;
-  const blanksFiredRef = useRef(false);
-  useEffect(() => {
-    if (allBlanksCorrect && !blanksFiredRef.current) { blanksFiredRef.current = true; play('correct'); }
-  }, [allBlanksCorrect]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePlayOnceWhen(allBlanksCorrect, play, 'correct');
 
   const [removeIfShown, setRemoveIfShown] = useState(false);
   function handleShowRemoveIf() {
@@ -602,10 +615,7 @@ export default function CRUDDomainBuilder() {
     play('add');
   }
 
-  const testsDoneFiredRef = useRef(false);
-  useEffect(() => {
-    if (allTestsConfirmed && !testsDoneFiredRef.current) { testsDoneFiredRef.current = true; play('correct'); }
-  }, [allTestsConfirmed]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePlayOnceWhen(allTestsConfirmed, play, 'correct');
 
   // Reveal
   const [revealLines, setRevealLines] = useState(0);
@@ -693,18 +703,24 @@ public class ${d}Controller {
     play('tick');
   }
 
-  const MIN_MEANINGFUL_EDIT_CHARS = 3;
-  function meaningfulEditDistance(a, b) {
-    const normA = a.replace(/\s+/g, ' ').trim();
-    const normB = b.replace(/\s+/g, ' ').trim();
-    if (normA === normB) return 0;
-    const lenDiff = Math.abs(normA.length - normB.length);
-    let mismatches = 0;
-    const maxLen = Math.max(normA.length, normB.length);
-    for (let i = 0; i < maxLen; i++) if (normA[i] !== normB[i]) mismatches++;
-    return Math.max(lenDiff, mismatches);
+  // Require the edit to actually change a real token (a path string, class name,
+  // or method name) rather than any N-character diff, which could be satisfied
+  // by adding junk whitespace or a stray character without touching real code.
+  function extractTokens(code) {
+    const paths = [...code.matchAll(/"([^"]+)"/g)].map(m => m[1]);
+    const classNames = [...code.matchAll(/List<(\w+)>/g)].map(m => m[1]);
+    const methodNames = [...code.matchAll(/\b(?:public\s+\S+\s+)(\w+)\s*\(/g)].map(m => m[1]);
+    return new Set([...paths, ...classNames, ...methodNames]);
   }
-  const codeWasEdited = meaningfulEditDistance(freeCode, templateCode) >= MIN_MEANINGFUL_EDIT_CHARS;
+  function codeHasRealEdit(current, template) {
+    if (current.trim() === template.trim()) return false;
+    const currentTokens = extractTokens(current);
+    const templateTokens = extractTokens(template);
+    for (const t of currentTokens) if (!templateTokens.has(t)) return true;
+    for (const t of templateTokens) if (!currentTokens.has(t)) return true;
+    return false;
+  }
+  const codeWasEdited = codeHasRealEdit(freeCode, templateCode);
 
   useEffect(() => {
     if (!freeCode) return;
@@ -736,10 +752,7 @@ public class ${d}Controller {
 
   const sentences = (reflection.match(/[.!?]+/g) || []).length;
   const allP2Checked = Object.values(p2).every(Boolean);
-  const allP2FiredRef = useRef(false);
-  useEffect(() => {
-    if (allP2Checked && !allP2FiredRef.current) { allP2FiredRef.current = true; play('correct'); }
-  }, [allP2Checked]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePlayOnceWhen(allP2Checked, play, 'correct');
 
   const canSubmit = parsedGet && parsedPost && parsedPut && parsedDelete && codeWasEdited && allP2Checked && sentences >= 2;
 
@@ -754,7 +767,7 @@ public class ${d}Controller {
     try {
       window.parent.postMessage({
         type: 'HK_RESULT', version: '1',
-        exerciseId: 'm2-t2-s3-crud-domain-builder',
+        exerciseId: 'm3-t2-s3-crud-domain-builder',
         exerciseType: 'interactive',
         status: 'completed', score: 3, maxScore: 3,
         answers: {
@@ -863,31 +876,51 @@ public class ${d}Controller {
                     <div className="change-badge">📤 Method returns: <b>member object</b> not a String message</div>
 
                     <div className="purple-note">
-                      When Postman sends this JSON:
-                      <div className="test-json">
-                        {'{'}<br/>
-                        &nbsp;&nbsp;<span className="jk">"name"</span>: <span className="jv">"Ravi"</span>,<br/>
-                        &nbsp;&nbsp;<span className="jk">"age"</span>: <span className="jv">21</span>,<br/>
-                        &nbsp;&nbsp;<span className="jk">"plan"</span>: <span className="jv">"Basic"</span>,<br/>
-                        &nbsp;&nbsp;<span className="jk">"isActive"</span>: <span className="jv">true</span><br/>
-                        {'}'}
+                      When Postman sends this JSON, Spring Boot creates <b>new GymMember()</b> and fills in each field automatically. Click each JSON field, then match it to the Java field it becomes:
+                      <div className="conv-wrap" style={{ marginTop: 10 }}>
+                        <div className="conv-box conv-json">
+                          {[
+                            { key: 'name', jv: '"Ravi"' },
+                            { key: 'age', jv: '21' },
+                            { key: 'plan', jv: '"Basic"' },
+                            { key: 'isActive', jv: 'true' },
+                          ].map((f, i) => (
+                            <div key={f.key} onClick={() => mapField(f.key)} style={{ cursor: mappedFields[f.key] ? 'default' : 'pointer', padding: '2px 4px', borderRadius: 4, background: mappedFields[f.key] ? 'rgba(74,222,128,0.15)' : 'transparent' }}>
+                              <span className="jk">"{f.key}"</span>: <span className="jv">{f.jv}</span>{i < 3 ? ',' : ''}
+                            </div>
+                          ))}
+                        </div>
+                        <div className="conv-arrow">→<span className="conv-arrow-label">Spring maps</span></div>
+                        <div className="conv-box conv-java">
+                          <div className="conv-java-title">GymMember.java</div>
+                          {['name', 'age', 'plan', 'isActive'].map(k => (
+                            <div key={k} className="conv-field" style={{ opacity: mappedFields[k] ? 1 : 0.25, transition: 'opacity 0.3s' }}>
+                              this.<span className="fname">{k}</span> = {k};
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      Spring Boot reads it and creates <b>new GymMember()</b>, then sets <code>name</code>, <code>age</code>, <code>plan</code>, <code>isActive</code> - automatically. You write zero conversion code.
+                      {!allFieldsMapped && <div style={{ fontSize: '0.8rem', color: '#7C3AED', marginTop: 8 }}>Tap each JSON field above to see where it lands.</div>}
+                      {allFieldsMapped && <div style={{ fontSize: '0.85rem', color: '#166534', marginTop: 8, fontWeight: 700 }}>✅ All 4 fields mapped. You write zero conversion code - Spring Boot does this for every request.</div>}
                     </div>
 
-                    <div className="amber-note">
-                      <div className="amber-note-title">⚠️ One thing to add to your GymMember class:</div>
-                      <div className="code-block" style={{ margin: '8px 0 0' }}>
-                        <span className="ck">public</span> GymMember() {"{ }"} <span className="cc">// empty constructor</span><br/>
-                        <span className="cc">// Spring Boot needs this to create the object before filling in fields</span>
-                      </div>
-                      Add this alongside your existing constructor.
-                    </div>
+                    {allFieldsMapped && (
+                      <>
+                        <div className="amber-note">
+                          <div className="amber-note-title">⚠️ One thing to add to your GymMember class:</div>
+                          <div className="code-block" style={{ margin: '8px 0 0' }}>
+                            <span className="ck">public</span> GymMember() {"{ }"} <span className="cc">// empty constructor</span><br/>
+                            <span className="cc">// Spring Boot needs this to create the object before filling in fields</span>
+                          </div>
+                          Add this alongside your existing constructor.
+                        </div>
 
-                    <label className="checkbox-label">
-                      <input type="checkbox" checked={noArgChecked} onChange={handleNoArgCheck} />
-                      ✅ I added a no-arg constructor to my domain class
-                    </label>
+                        <label className="checkbox-label">
+                          <input type="checkbox" checked={noArgChecked} onChange={handleNoArgCheck} />
+                          ✅ I added a no-arg constructor to my domain class
+                        </label>
+                      </>
+                    )}
 
                     {noArgChecked && (
                       <button className="btn purple" style={{ width: '100%', marginTop: 8 }} onClick={() => { play('tick'); setSlot(2); }}>
@@ -1090,7 +1123,7 @@ public class ${d}Controller {
                   <textarea className="free-editor" value={freeCode} onChange={e => setFreeCode(e.target.value)} onPaste={e => e.preventDefault()} onContextMenu={e => e.preventDefault()} spellCheck="false" />
                   {!codeWasEdited && (
                     <div className="warn-msg" style={{ marginTop: 10 }}>
-                      ✏️ This is the auto-filled starting point - before continuing, make a real change (a few characters isn't enough): rename a field, adjust a path, or add a comment in your own words.
+                      ✏️ This is the auto-filled starting point - before continuing, make a real change: rename a field, change a path string, or rename a method. Adding stray characters won't count.
                     </div>
                   )}
 

@@ -338,6 +338,19 @@ function CatalogScene({ items, event, targetName, updatedName, wasRestarted }) {
   );
 }
 
+// Plays a sound exactly once, the first time `condition` becomes true.
+// Replaces the repeated "const xRef = useRef(false); useEffect(() => { if (cond && !xRef.current) {...} }, [cond])"
+// boilerplate that was duplicated per-gate throughout this file.
+function usePlayOnceWhen(condition, play, sound) {
+  const firedRef = useRef(false);
+  useEffect(() => {
+    if (condition && !firedRef.current) {
+      firedRef.current = true;
+      play(sound);
+    }
+  }, [condition]); // eslint-disable-line react-hooks/exhaustive-deps
+}
+
 function useSounds() {
   const muted = useRef(false);
   const ctxRef = useRef(null);
@@ -445,10 +458,7 @@ export default function PutDeleteBuilder() {
   const checkPutB3 = () => { if (putB3.trim() !== '-1') { setPutB3Status(false); play('warn'); } };
 
   const putAllCorrect = putB1Status === true && putB2Status === true && putB3Status === true;
-  const putFiredRef = useRef(false);
-  useEffect(() => {
-    if (putAllCorrect && !putFiredRef.current) { putFiredRef.current = true; play('correct'); }
-  }, [putAllCorrect]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePlayOnceWhen(putAllCorrect, play, 'correct');
 
   // Slot 3 - DELETE blanks
   const [delB1, setDelB1] = useState('');
@@ -462,10 +472,7 @@ export default function PutDeleteBuilder() {
   const checkDelB2 = () => { if (delB2.trim() !== '@PathVariable') { setDelB2Status(false); play('warn'); } };
 
   const delAllCorrect = delB1Status === true && delB2Status === true;
-  const delFiredRef = useRef(false);
-  useEffect(() => {
-    if (delAllCorrect && !delFiredRef.current) { delFiredRef.current = true; play('correct'); }
-  }, [delAllCorrect]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePlayOnceWhen(delAllCorrect, play, 'correct');
 
   // Postman test checkboxes (4)
   const [test1, setTest1] = useState(false); // POST + GET
@@ -501,10 +508,18 @@ export default function PutDeleteBuilder() {
     play('add');
   }
 
-  const allDoneFiredRef = useRef(false);
-  useEffect(() => {
-    if (allTestsConfirmed && !allDoneFiredRef.current) { allDoneFiredRef.current = true; play('correct'); }
-  }, [allTestsConfirmed]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePlayOnceWhen(allTestsConfirmed, play, 'correct');
+
+  // Idempotency mini-demo: calling DELETE on the same name twice has the same
+  // end result both times (member stays gone) - unlike POST, which would add a
+  // duplicate each time. This is a real, separate REST concept from the four
+  // verbs above and isn't covered anywhere else in the flow.
+  const [idempotentClicks, setIdempotentClicks] = useState(0);
+  function repeatDelete() {
+    if (idempotentClicks >= 2) return;
+    play(idempotentClicks === 0 ? 'remove' : 'tick');
+    setIdempotentClicks(c => c + 1);
+  }
 
   // Reveal card
   const [revealLines, setRevealLines] = useState(0);
@@ -587,20 +602,24 @@ public String delete${Item}(@PathVariable String name) {
     play('tick');
   }
 
-  const MIN_MEANINGFUL_EDIT_CHARS = 3;
-  function meaningfulEditDistance(a, b) {
-    const normA = a.replace(/\s+/g, ' ').trim();
-    const normB = b.replace(/\s+/g, ' ').trim();
-    if (normA === normB) return 0;
-    const lenDiff = Math.abs(normA.length - normB.length);
-    let mismatches = 0;
-    const maxLen = Math.max(normA.length, normB.length);
-    for (let i = 0; i < maxLen; i++) {
-      if (normA[i] !== normB[i]) mismatches++;
-    }
-    return Math.max(lenDiff, mismatches);
+  // Require the edit to actually change a real token (a path string, variable,
+  // or method name) rather than any N-character diff, which could be satisfied
+  // by adding junk whitespace or a stray character without touching real code.
+  function extractTokens(code) {
+    const paths = [...code.matchAll(/"([^"]+)"/g)].map(m => m[1]);
+    const idents = [...code.matchAll(/\b(?:String|int|boolean)\s+(\w+)/g)].map(m => m[1]);
+    const methodNames = [...code.matchAll(/\b(?:public\s+\S+\s+)(\w+)\s*\(/g)].map(m => m[1]);
+    return new Set([...paths, ...idents, ...methodNames]);
   }
-  const codeWasEdited = meaningfulEditDistance(freeCode, templateCode) >= MIN_MEANINGFUL_EDIT_CHARS;
+  function codeHasRealEdit(current, template) {
+    if (current.trim() === template.trim()) return false;
+    const currentTokens = extractTokens(current);
+    const templateTokens = extractTokens(template);
+    for (const t of currentTokens) if (!templateTokens.has(t)) return true;
+    for (const t of templateTokens) if (!currentTokens.has(t)) return true;
+    return false;
+  }
+  const codeWasEdited = codeHasRealEdit(freeCode, templateCode);
 
   useEffect(() => {
     if (!freeCode) return;
@@ -641,7 +660,7 @@ public String delete${Item}(@PathVariable String name) {
     try {
       window.parent.postMessage({
         type: 'HK_RESULT', version: '1',
-        exerciseId: 'm2-t2-s2-put-delete-builder',
+        exerciseId: 'm3-t2-s2-put-delete-builder',
         exerciseType: 'interactive',
         status: 'completed', score: 3, maxScore: 3,
         answers: {
@@ -906,6 +925,23 @@ public String delete${Item}(@PathVariable String name) {
                     </label>
                   </div>
 
+                  {test4 && (
+                    <div className="info-note" style={{ marginTop: 16 }}>
+                      <b>One more thing about DELETE:</b> what happens if you send the SAME delete request twice?
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10, flexWrap: 'wrap' }}>
+                        <button className="btn orange" style={{ padding: '8px 16px', fontSize: '0.9rem' }} disabled={idempotentClicks >= 2} onClick={repeatDelete}>
+                          {idempotentClicks === 0 ? 'DELETE /gym/members/Ravi Kumar' : idempotentClicks === 1 ? 'Send it again →' : 'Sent twice ✅'}
+                        </button>
+                        {idempotentClicks >= 1 && <span style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: idempotentClicks === 1 ? '#15803D' : '#92400E' }}>{idempotentClicks === 1 ? '"Deleted: Ravi Kumar ✅"' : '"Not found: Ravi Kumar ❌"'}</span>}
+                      </div>
+                      {idempotentClicks >= 2 && (
+                        <div style={{ marginTop: 10, fontSize: '0.9rem' }}>
+                          First call deletes them. Second call finds nothing to delete - but the end state is identical both times: <b>Ravi Kumar is gone</b>. That property is called <b>idempotent</b>. PUT and DELETE are idempotent. POST is not - calling it twice creates two members.
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {allTestsConfirmed && revealLines > 0 && (
                     <div className="reveal-card" style={{ marginTop: 24, animation: 'slideIn 0.3s' }}>
                       <h3 style={{ margin: '0 0 16px 0', color: '#92400E' }}>You now have all four CRUD operations 🎉</h3>
@@ -957,7 +993,7 @@ public String delete${Item}(@PathVariable String name) {
                   <textarea className="free-editor" value={freeCode} onChange={e => setFreeCode(e.target.value)} onPaste={e => e.preventDefault()} onContextMenu={e => e.preventDefault()} spellCheck="false" />
                   {!codeWasEdited && (
                     <div className="warn-msg" style={{ marginTop: 10 }}>
-                      ✏️ This is the auto-filled starting point - before continuing, make a real change (a few characters isn't enough): rename a variable, adjust a path, or add a comment in your own words.
+                      ✏️ This is the auto-filled starting point - before continuing, make a real change: rename a variable, change a path string, or rename a method. Adding stray characters won't count.
                     </div>
                   )}
                 </>

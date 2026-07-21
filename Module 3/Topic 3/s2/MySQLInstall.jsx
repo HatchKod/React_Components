@@ -775,6 +775,14 @@ export default function MySQLInstall() {
   };
   const modelClassName = getModelClassName();
 
+  // Signature interaction: instead of only copy-pasting the CREATE DATABASE
+  // command, the student must type it themselves for their own domain name
+  // and get live pass/fail feedback - a real typed-input check rather than
+  // a passive copy button.
+  const [typedCreateCmd, setTypedCreateCmd] = useState('');
+  const typedCmdCorrect = typedCreateCmd.trim().replace(/\s+/g, ' ').toLowerCase() === `create database ${dbName};`;
+  const typedCmdAttempted = typedCreateCmd.trim().length > 0;
+
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
     setCopiedText(text);
@@ -894,7 +902,7 @@ export default function MySQLInstall() {
       window.parent.postMessage({
         type: 'HK_RESULT',
         version: '1',
-        exerciseId: 'm2-t3-s2-mysql-install',
+        exerciseId: 'm3-t3-s2-mysql-install',
         exerciseType: 'interactive',
         status: 'completed',
         score: 3,
@@ -905,7 +913,8 @@ export default function MySQLInstall() {
             mysqlInstalled: true,
             mysqlPromptConfirmed: true,
             databaseName: dbName,
-            databaseCreated: true
+            databaseCreated: true,
+            typedCreateCommandCorrect: typedCmdCorrect
           },
           questions: {
             q1: q1Answer,
@@ -1380,11 +1389,39 @@ export default function MySQLInstall() {
             </div>
 
             {checkedStep2 && (
-              <label className="check-label">
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#38BDF8', display: 'block', marginBottom: 6 }}>
+                  Prove it - type the exact command for your database (don't copy-paste this one):
+                </label>
+                <input
+                  type="text"
+                  className="reflection-box"
+                  style={{ height: '42px', fontFamily: "'Courier New', monospace", borderColor: typedCmdAttempted ? (typedCmdCorrect ? '#10B981' : '#EF4444') : undefined }}
+                  placeholder={`CREATE DATABASE ${dbName};`}
+                  value={typedCreateCmd}
+                  onChange={(e) => setTypedCreateCmd(e.target.value)}
+                  onPaste={(e) => e.preventDefault()}
+                />
+                {typedCmdAttempted && !typedCmdCorrect && (
+                  <span style={{ fontSize: '0.78rem', color: '#F87171', display: 'block', marginTop: 4 }}>
+                    Not quite - check spelling, the database name, and the trailing semicolon.
+                  </span>
+                )}
+                {typedCmdCorrect && (
+                  <span style={{ fontSize: '0.78rem', color: '#10B981', fontWeight: 700, display: 'block', marginTop: 4 }}>
+                    ✅ Correct syntax.
+                  </span>
+                )}
+              </div>
+            )}
+
+            {checkedStep2 && (
+              <label className="check-label" style={{ opacity: typedCmdCorrect ? 1 : 0.4 }}>
                 <input
                   type="checkbox"
                   className="check-input"
                   checked={checkedStep3}
+                  disabled={!typedCmdCorrect}
                   onChange={(e) => handleCheckStep3(e.target.checked)}
                 />
                 <span>✅ My [{dbName}] database exists in MySQL</span>

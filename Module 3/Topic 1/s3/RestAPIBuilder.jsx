@@ -240,22 +240,29 @@ export default function RestAPIBuilder() {
   useEffect(() => {
     if (phase !== 2) return;
     setIsRestController(/@RestController/.test(freeCode));
-    
+
     const classMatch = freeCode.match(/public\s+class\s+(\w+)/);
     if (classMatch) setParsedClassName(classMatch[1]);
-    
+
+    // Split on each @GetMapping so a method body can span multiple lines,
+    // contain comments, or use variables before the return - not just a
+    // single-line "@GetMapping(...) { return "..."; }" shape.
     const endpoints = [];
-    const regex = /@GetMapping\s*\(\s*["']([^"']+)["']\s*\)[\s\S]*?return\s+["']([^"']+)["']/g;
-    let match;
-    while ((match = regex.exec(freeCode)) !== null) {
-      endpoints.push({ path: match[1], ret: match[2] });
+    const mappingParts = freeCode.split(/@GetMapping/).slice(1);
+    for (const part of mappingParts) {
+      const pathMatch = part.match(/\(\s*["']([^"']+)["']\s*\)/);
+      if (!pathMatch) continue;
+      // Look for a return statement anywhere before the next @GetMapping (already sliced off) or method close.
+      const returnMatch = part.match(/return\s+["']([^"']*)["']/);
+      endpoints.push({ path: pathMatch[1], ret: returnMatch ? returnMatch[1] : null, hasReturn: !!returnMatch });
     }
     setParsedEndpoints(endpoints);
-    
+
     if (endpoints.length > parsedEndpoints.length) play("add");
-    if (endpoints.length > 0) {
-      setVisualUrl(`localhost:8080${endpoints[endpoints.length-1].path}`);
-      setVisualRes(endpoints[endpoints.length-1].ret);
+    const last = endpoints[endpoints.length - 1];
+    if (last) {
+      setVisualUrl(`localhost:8080${last.path}`);
+      setVisualRes(last.hasReturn ? last.ret : '⚠️ no return statement found yet');
     } else {
       setVisualUrl(`localhost:8080/`);
       setVisualRes("");
@@ -263,7 +270,8 @@ export default function RestAPIBuilder() {
   }, [freeCode, phase]);
 
   const sentences = (reflection.match(/[.!?]+/g) || []).length;
-  const canSubmitP2 = parsedEndpoints.length >= 2 && p2Check1 && p2Check2 && p2Check3 && sentences >= 1;
+  const completeEndpointCount = parsedEndpoints.filter(e => e.hasReturn).length;
+  const canSubmitP2 = completeEndpointCount >= 2 && p2Check1 && p2Check2 && p2Check3 && sentences >= 1;
 
   useEffect(() => {
     if (submitted) {
@@ -272,10 +280,11 @@ export default function RestAPIBuilder() {
         window.parent.postMessage({
           type: 'HK_RESULT',
           version: '1',
-          exerciseId: 'm2-t1-s3-rest-api-builder',
+          exerciseId: 'm3-t1-s3-rest-api-builder',
+          exerciseType: 'interactive',
           status: 'completed',
           score: 3, maxScore: 3,
-          answers: { 
+          answers: {
             phase1: { domain, allBlanksCorrect, slot2Checked, slot3Checked },
             phase2: { controllerName: parsedClassName, endpoints: parsedEndpoints, checks: [p2Check1, p2Check2, p2Check3], reflection }
           },
@@ -539,7 +548,7 @@ export default function RestAPIBuilder() {
                 <p style={{ color: '#475569', fontSize: '0.95rem' }}>Replace your old controller code with this new code, restart your server, and test each endpoint.</p>
                 
                 <label className="checkbox-label" style={{ padding: '12px', marginTop: '12px' }}>
-                  <input type="checkbox" checked={p2Check1} onChange={e => { setP2Check1(e.target.checked); if(e.target.checked) play('add'); }} disabled={parsedEndpoints.length < 2} />
+                  <input type="checkbox" checked={p2Check1} onChange={e => { setP2Check1(e.target.checked); if(e.target.checked) play('add'); }} disabled={completeEndpointCount < 2} />
                   I have at least 2 @GetMapping endpoints
                 </label>
                 <label className="checkbox-label" style={{ padding: '12px', marginTop: '8px' }}>
@@ -622,7 +631,7 @@ export default function RestAPIBuilder() {
                     )}
                     {parsedEndpoints.map((ep, i) => (
                       <div key={i} className="route-card" style={{ animation: 'slideIn 0.3s' }}>
-                        <span className="method-badge badge-get">GET</span> {ep.path} <span className="route-card-arrow">→</span> <span style={{ color: '#4ADE80' }}>"{ep.ret}"</span>
+                        <span className="method-badge badge-get">GET</span> {ep.path} <span className="route-card-arrow">→</span> {ep.hasReturn ? <span style={{ color: '#4ADE80' }}>"{ep.ret}"</span> : <span style={{ color: '#F59E0B' }}>⚠️ no return yet</span>}
                       </div>
                     ))}
                   </>
@@ -647,8 +656,8 @@ export default function RestAPIBuilder() {
             {phase === 2 && (
               <div style={{ marginTop: '24px', padding: '16px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0', fontSize: '0.9rem', color: '#64748B' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span>Endpoints found:</span>
-                  <span style={{ fontWeight: 700, color: parsedEndpoints.length >= 2 ? '#10B981' : '#1E293B' }}>{parsedEndpoints.length}</span>
+                  <span>Complete endpoints:</span>
+                  <span style={{ fontWeight: 700, color: completeEndpointCount >= 2 ? '#10B981' : '#1E293B' }}>{completeEndpointCount} / {parsedEndpoints.length} found</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <span>Valid Controller:</span>

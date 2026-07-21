@@ -59,6 +59,7 @@ const STYLE = `
 
   .key-input-row { display: flex; align-items: center; gap: 8px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px 14px; margin: 12px 0; }
   .key-input-row input { flex: 1; border: none; background: transparent; outline: none; font-family: monospace; font-size: 0.85rem; }
+  .not-sent-badge { font-size: 0.76rem; color: #166534; background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 8px; padding: 8px 12px; margin: -6px 0 12px; animation: slideIn 0.3s; }
 
   /* Nesting visual (Slot 2 right) */
   .nest-box { background: linear-gradient(180deg,#B45309,#92400E); border-radius: 14px; padding: 22px; cursor: pointer; color: #FFFBEB; text-align: center; transition: all 0.2s; }
@@ -456,6 +457,11 @@ export default function GeminiAPISetup() {
                   onChange={(e) => setApiKeyInput(e.target.value)}
                 />
               </div>
+              {apiKeyInput.length > 0 && (
+                <div className="not-sent-badge">
+                  🔒 Not sent anywhere - this field has no submit action, no network request. It's here so you can practice the exact string you'll paste into application.properties, nothing more.
+                </div>
+              )}
 
               <label className="checklist-item">
                 <input type="checkbox" checked={keyAdded} onChange={() => { setKeyAdded(!keyAdded); play("add"); }} />

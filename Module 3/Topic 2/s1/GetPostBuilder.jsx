@@ -502,6 +502,7 @@ export default function GetPostBuilder() {
   const [pmUrl, setPmUrl] = useState('http://localhost:8080/gym/members');
   const [pmBody, setPmBody] = useState('"Ravi"');
   const [pmResponse, setPmResponse] = useState('');
+  const [pmStatusCode, setPmStatusCode] = useState(null);
   const [pmSent, setPmSent] = useState(false);
   const [s3Checked, setS3Checked] = useState(false);
   const [registerItems, setRegisterItems] = useState([]);
@@ -538,15 +539,16 @@ export default function GetPostBuilder() {
   const handlePmSend = () => {
     if (!pmUrl || !pmBody) return;
     setPmResponse('Loading...');
+    setPmStatusCode(null);
     setTimeout(() => {
       if (pmMethod === 'POST') {
         const raw = pmBody.trim();
         const isValidJsonString = /^"[^"]*"$/.test(raw);
-        if (!isValidJsonString) { setPmResponse(raw.length === 0 ? 'Error 400: empty body' : `Error 400: invalid JSON - a String body needs double quotes, e.g. "Ravi" (you sent ${raw})`); play('warn'); return; }
+        if (!isValidJsonString) { setPmResponse(raw.length === 0 ? 'Error 400: empty body' : `Error 400: invalid JSON - a String body needs double quotes, e.g. "Ravi" (you sent ${raw})`); setPmStatusCode(400); play('warn'); return; }
         const name = raw.slice(1, -1).trim();
-        if (name) { setPmResponse(`Member added: ${name}`); setRegisterItems(prev => [...prev, name]); fireSceneEvent('postman'); play('correct'); setTimeout(() => setPmSent(true), 500); }
-        else { setPmResponse('Error 400: empty string body'); play('warn'); }
-      } else { fireSceneEvent('get'); setPmResponse(JSON.stringify(registerItems)); play('correct'); }
+        if (name) { setPmResponse(`Member added: ${name}`); setPmStatusCode(200); setRegisterItems(prev => [...prev, name]); fireSceneEvent('postman'); play('correct'); setTimeout(() => setPmSent(true), 500); }
+        else { setPmResponse('Error 400: empty string body'); setPmStatusCode(400); play('warn'); }
+      } else { fireSceneEvent('get'); setPmResponse(JSON.stringify(registerItems)); setPmStatusCode(200); play('correct'); }
     }, 600);
   };
   const handleS4Check = (num, setter) => { setter(true); if (num === 3) fireSceneEvent('restart'); play(num === 4 ? 'tick' : 'add'); };
@@ -564,16 +566,24 @@ export default function GetPostBuilder() {
     const generated = `@RestController\npublic class ${d}Controller {\n\n  // in-memory storage - resets on restart\n  // database connection comes in Topic 3\n  private List<String> ${items} = new ArrayList<>();\n\n  // GET - read all ${items}\n  @GetMapping("/${path}/${items}")\n  public List<String> get${items.charAt(0).toUpperCase()+items.slice(1)}() {\n      return ${items};\n  }\n\n  // POST - add a new ${item}\n  @PostMapping("/${path}/${items}")\n  public String add${item.charAt(0).toUpperCase()+item.slice(1)}(@RequestBody String name) {\n      ${items}.add(name);\n      return "${item.charAt(0).toUpperCase()+item.slice(1)} added: " + name;\n  }\n}`;
     setFreeCode(generated); setTemplateCode(generated); play('tick');
   };
-  const MIN_MEANINGFUL_EDIT_CHARS = 3;
-  function meaningfulEditDistance(a, b) {
-    const normA = a.replace(/\s+/g, ' ').trim(); const normB = b.replace(/\s+/g, ' ').trim();
-    if (normA === normB) return 0;
-    const lenDiff = Math.abs(normA.length - normB.length); let mismatches = 0;
-    const maxLen = Math.max(normA.length, normB.length);
-    for (let i = 0; i < maxLen; i++) { if (normA[i] !== normB[i]) mismatches++; }
-    return Math.max(lenDiff, mismatches);
+  // Require the edit to actually change a real token (a path string, variable, or
+  // method name) rather than just any N-character diff, which a student could satisfy
+  // by typing junk whitespace or a stray character without touching real code.
+  function extractTokens(code) {
+    const paths = [...code.matchAll(/"([^"]+)"/g)].map(m => m[1]);
+    const idents = [...code.matchAll(/\b(?:private|public)\s+(?:List<String>\s+)?(\w+)/g)].map(m => m[1]);
+    const methodNames = [...code.matchAll(/\b(?:public\s+\S+\s+)(\w+)\s*\(/g)].map(m => m[1]);
+    return new Set([...paths, ...idents, ...methodNames]);
   }
-  const codeWasEdited = meaningfulEditDistance(freeCode, templateCode) >= MIN_MEANINGFUL_EDIT_CHARS;
+  function codeHasRealEdit(current, template) {
+    if (current.trim() === template.trim()) return false;
+    const currentTokens = extractTokens(current);
+    const templateTokens = extractTokens(template);
+    for (const t of currentTokens) if (!templateTokens.has(t)) return true;
+    for (const t of templateTokens) if (!currentTokens.has(t)) return true;
+    return false;
+  }
+  const codeWasEdited = codeHasRealEdit(freeCode, templateCode);
   useEffect(() => {
     if (!freeCode) return;
     const gm = freeCode.match(/@GetMapping\("([^"]+)"\)/);
@@ -586,7 +596,7 @@ export default function GetPostBuilder() {
   useEffect(() => {
     if (!submitted) return;
     try {
-      window.parent.postMessage({ type: 'HK_RESULT', version: '1', exerciseId: 'm2-t2-s1-get-post-builder', status: 'completed', score: 3, maxScore: 3, answers: { phase1: { getReturnType: retType, postMapping: b1, requestBody: b2, postmanUsed: pmSent, registerItems, allChecked: allS4 }, phase2: { domain, freeCode, parsedGet, parsedPost, checks: [p2c1,p2c2,p2c3,p2c4], reflection } }, metadata: { subtopicId, taskId }, completedAt: new Date().toISOString() }, '*');
+      window.parent.postMessage({ type: 'HK_RESULT', version: '1', exerciseId: 'm3-t2-s1-get-post-builder', exerciseType: 'interactive', status: 'completed', score: 3, maxScore: 3, answers: { phase1: { getReturnType: retType, postMapping: b1, requestBody: b2, postmanUsed: pmSent, registerItems, allChecked: allS4 }, phase2: { domain, freeCode, parsedGet, parsedPost, checks: [p2c1,p2c2,p2c3,p2c4], reflection } }, metadata: { subtopicId, taskId }, completedAt: new Date().toISOString() }, '*');
     } catch(e) {}
   }, [submitted]);
 
@@ -752,8 +762,18 @@ export default function GetPostBuilder() {
                         </div>
                         {pmResponse && (
                           <div className={`postman-response${pmResponse.startsWith('Error') ? ' error' : ''}`}>
-                            <div className="postman-res-label">Response</div>
+                            <div className="postman-res-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              Response
+                              {pmStatusCode && (
+                                <span style={{ fontWeight: 800, padding: '1px 8px', borderRadius: 10, fontSize: '0.72rem', background: pmStatusCode === 200 ? '#DCFCE7' : '#FEE2E2', color: pmStatusCode === 200 ? '#15803D' : '#B91C1C' }}>
+                                  {pmStatusCode} {pmStatusCode === 200 ? 'OK' : 'Bad Request'}
+                                </span>
+                              )}
+                            </div>
                             {pmResponse}
+                            {pmStatusCode === 200 && pmMethod === 'POST' && (
+                              <div style={{ marginTop: 8, fontSize: '0.75rem', color: '#6B7280' }}>Your controller returns plain String, so Spring defaults to 200 OK. The more precise status for "created something new" is 201 Created — you will use that explicitly with ResponseEntity later.</div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -857,7 +877,7 @@ export default function GetPostBuilder() {
                     {domain === 'Chai' && "Your chai shop needs: GET /chai/orders → order list. POST /chai/orders → adds an order."}
                   </div>
                   <textarea className="free-editor" value={freeCode} onChange={e => setFreeCode(e.target.value)} onPaste={e => e.preventDefault()} onContextMenu={e => e.preventDefault()} spellCheck="false" />
-                  {!codeWasEdited && <div className="warn-msg" style={{ marginTop: 10 }}>✏️ This is the auto-filled starting point - before continuing, make a real change (a few characters isn't enough): rename a variable, adjust a path, or add a comment in your own words.</div>}
+                  {!codeWasEdited && <div className="warn-msg" style={{ marginTop: 10 }}>✏️ This is the auto-filled starting point - before continuing, make a real change: rename a variable, change a path string, or rename a method. Adding stray characters won't count.</div>}
                 </>
               )}
               {domain && (

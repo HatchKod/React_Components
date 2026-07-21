@@ -1,71 +1,71 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 const STYLE = `
-  .rb-root { font-family: system-ui, -apple-system, sans-serif; background: #0B0F19; min-height: 100vh; padding: 20px 16px 60px; color: #E2E8F0; line-height: 1.5; }
+  .rb-root { font-family: system-ui, -apple-system, sans-serif; background: #F9FAFB; min-height: 100vh; padding: 20px 16px 60px; color: #1E293B; line-height: 1.5; }
   .rb-root * { box-sizing: border-box; }
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; max-width: 1280px; margin-left: auto; margin-right: auto; }
-  .header h1 { color: #F1F5F9; }
-  .mute-btn { background: #1E293B; color: #E2E8F0; border: 1px solid #334155; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .header h1 { color: #1E293B; }
+  .mute-btn { background: #fff; color: #1E293B; border: 1px solid #E2E8F0; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
   .rail-track { display: flex; align-items: center; justify-content: center; gap: 4px; max-width: 1280px; margin: 0 auto 18px; flex-wrap: wrap; }
-  .rail-dot { width: 10px; height: 10px; border-radius: 50%; background: #334155; transition: all 0.3s; }
+  .rail-dot { width: 10px; height: 10px; border-radius: 50%; background: #E2E8F0; transition: all 0.3s; }
   .rail-dot.done { background: #10B981; }
   .rail-dot.active { background: #3B82F6; width: 22px; border-radius: 6px; }
-  .rail-lbl { font-size: 0.66rem; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 4px; }
-  .rail-lbl.active-lbl { color: #93C5FD; }
-  .rail-lbl.done-lbl { color: #6EE7B7; }
+  .rail-lbl { font-size: 0.66rem; color: #94A3B8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 4px; }
+  .rail-lbl.active-lbl { color: #2563EB; }
+  .rail-lbl.done-lbl { color: #16A34A; }
 
   /* ── MAIN STAGE: machine + table always visible, big ── */
   .stage-wrap { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start; }
   @media(max-width: 980px) { .stage-wrap { grid-template-columns: 1fr; } }
 
   /* left rail: thin, scrollable, one step's code/question visible */
-  .rail-col { background: #111827; border: 1px solid #1F2937; border-radius: 14px; padding: 18px; max-height: 80vh; overflow-y: auto; position: sticky; top: 16px; }
+  .rail-col { background: #fff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; max-height: 80vh; overflow-y: auto; position: sticky; top: 16px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
   @media(max-width: 980px) { .rail-col { position: static; max-height: none; } }
-  .rail-step-title { font-size: 1.02rem; font-weight: 800; color: #F1F5F9; margin: 0 0 10px; }
-  .rail-prose { font-size: 0.82rem; color: #94A3B8; line-height: 1.7; margin-bottom: 12px; }
-  .rail-prose b { color: #CBD5E1; }
+  .rail-step-title { font-size: 1.02rem; font-weight: 800; color: #1E293B; margin: 0 0 10px; }
+  .rail-prose { font-size: 0.82rem; color: #64748B; line-height: 1.7; margin-bottom: 12px; }
+  .rail-prose b { color: #1E293B; }
 
-  .mini-analogy { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 10px 12px; font-size: 0.78rem; color: #FCD34D; line-height: 1.6; margin-bottom: 12px; }
-  .mini-blue { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 10px 12px; font-size: 0.78rem; color: #93C5FD; line-height: 1.6; margin-bottom: 12px; }
-  .mini-green { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 10px 12px; font-size: 0.78rem; color: #6EE7B7; line-height: 1.6; margin-bottom: 12px; }
+  .mini-analogy { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 10px 12px; font-size: 0.78rem; color: #78350F; line-height: 1.6; margin-bottom: 12px; }
+  .mini-blue { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 10px 12px; font-size: 0.78rem; color: #1E40AF; line-height: 1.6; margin-bottom: 12px; }
+  .mini-green { background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 8px; padding: 10px 12px; font-size: 0.78rem; color: #14532D; line-height: 1.6; margin-bottom: 12px; }
 
-  .rail-code { background: #0B0F19; border: 1px solid #1F2937; border-radius: 8px; padding: 12px 14px; font-family: 'Courier New', monospace; font-size: 0.72rem; line-height: 1.65; color: #CBD5E1; margin: 8px 0; overflow-x: auto; white-space: pre-wrap; position: relative; }
-  .rail-copy { position: absolute; top: 6px; right: 6px; background: #1E293B; color: #94A3B8; border: none; border-radius: 5px; padding: 2px 8px; font-size: 0.62rem; cursor: pointer; }
-  .rc-tag { color: #93C5FD; } .rc-comment { color: #475569; } .rc-blank-done { color: #6EE7B7; font-weight: 700; }
+  .rail-code { background: #1E293B; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.8rem; line-height: 1.7; color: #E2E8F0; margin: 8px 0; overflow-x: auto; white-space: pre-wrap; position: relative; }
+  .rail-copy { position: absolute; top: 6px; right: 6px; background: #334155; color: #E2E8F0; border: none; border-radius: 5px; padding: 2px 8px; font-size: 0.62rem; cursor: pointer; }
+  .rc-tag { color: #93C5FD; } .rc-comment { color: #64748B; } .rc-blank-done { color: #6EE7B7; font-weight: 700; }
 
-  .rail-blank { background: #1E293B; border: 1.5px solid #334155; border-radius: 8px; padding: 10px 12px; margin: 8px 0; }
-  .rail-blank-q { font-size: 0.76rem; color: #FCD34D; margin-bottom: 8px; line-height: 1.5; }
+  .rail-blank { background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 8px; padding: 10px 12px; margin: 8px 0; }
+  .rail-blank-q { font-size: 0.76rem; color: #92400E; margin-bottom: 8px; line-height: 1.5; }
   .rail-opts { display: flex; gap: 6px; flex-wrap: wrap; }
-  .rail-opt-btn { background: #0B0F19; color: #E2E8F0; border: 1.5px solid #334155; border-radius: 6px; padding: 6px 12px; font-family: monospace; font-size: 0.74rem; font-weight: 700; cursor: pointer; }
-  .rail-opt-btn:hover { border-color: #64748B; }
-  .rail-opt-btn.correct { background: rgba(16,185,129,0.2); border-color: #10B981; color: #6EE7B7; }
-  .rail-opt-btn.wrong { background: rgba(239,68,68,0.2); border-color: #DC2626; color: #FCA5A5; animation: shake 0.3s; }
+  .rail-opt-btn { background: #fff; color: #1E293B; border: 1.5px solid #E2E8F0; border-radius: 6px; padding: 6px 12px; font-family: monospace; font-size: 0.74rem; font-weight: 700; cursor: pointer; }
+  .rail-opt-btn:hover { border-color: #94A3B8; }
+  .rail-opt-btn.correct { background: #F0FDF4; border-color: #16A34A; color: #14532D; }
+  .rail-opt-btn.wrong { background: #FEF2F2; border-color: #DC2626; color: #7F1D1D; animation: shake 0.3s; }
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
   .rail-input-row { display: flex; gap: 6px; }
-  .rail-text-input { background: #0B0F19; color: #E2E8F0; border: 1.5px solid #334155; border-radius: 6px; padding: 7px 10px; font-family: monospace; font-size: 0.76rem; flex: 1; }
+  .rail-text-input { background: #fff; color: #1E293B; border: 1.5px solid #E2E8F0; border-radius: 6px; padding: 7px 10px; font-family: monospace; font-size: 0.76rem; flex: 1; }
   .rail-submit-btn { background: #3B82F6; color: #fff; border: none; border-radius: 6px; padding: 7px 14px; font-weight: 700; cursor: pointer; font-size: 0.76rem; }
   .rail-feedback { margin-top: 6px; font-size: 0.72rem; }
-  .rail-feedback.wrong { color: #FCA5A5; }
-  .rail-feedback.correct { color: #6EE7B7; }
+  .rail-feedback.wrong { color: #DC2626; }
+  .rail-feedback.correct { color: #16A34A; }
 
   .rail-tf-row { display: flex; gap: 8px; margin: 10px 0; }
-  .rail-tf-btn { flex: 1; padding: 9px; border-radius: 7px; font-weight: 800; border: 1.5px solid #334155; background: #0B0F19; color: #E2E8F0; cursor: pointer; font-size: 0.8rem; }
-  .rail-tf-btn.correct { background: rgba(16,185,129,0.2); border-color: #10B981; color: #6EE7B7; }
-  .rail-tf-btn.wrong { background: rgba(239,68,68,0.2); border-color: #DC2626; color: #FCA5A5; animation: shake 0.3s; }
+  .rail-tf-btn { flex: 1; padding: 9px; border-radius: 7px; font-weight: 800; border: 1.5px solid #E2E8F0; background: #fff; color: #1E293B; cursor: pointer; font-size: 0.8rem; }
+  .rail-tf-btn.correct { background: #F0FDF4; border-color: #16A34A; color: #14532D; }
+  .rail-tf-btn.wrong { background: #FEF2F2; border-color: #DC2626; color: #7F1D1D; animation: shake 0.3s; }
 
   .rail-btn { background: #3B82F6; color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-size: 0.85rem; font-weight: 700; cursor: pointer; width: 100%; margin-top: 12px; }
-  .rail-btn:disabled { background: #334155; color: #64748B; cursor: not-allowed; }
-  .rail-btn.green { background: #10B981; }
-  .rail-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: #1E293B; cursor: pointer; font-weight: 700; font-size: 0.8rem; color: #E2E8F0; }
-  .rail-check.checked { background: rgba(16,185,129,0.12); color: #6EE7B7; }
+  .rail-btn:disabled { background: #CBD5E1; color: #94A3B8; cursor: not-allowed; }
+  .rail-btn.green { background: #16A34A; }
+  .rail-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: #F8FAFC; cursor: pointer; font-weight: 700; font-size: 0.8rem; color: #1E293B; }
+  .rail-check.checked { background: #F0FDF4; color: #14532D; }
   .rail-check input { width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
-  .replay-mini { background: none; border: 1.5px solid #334155; color: #64748B; border-radius: 16px; padding: 3px 10px; font-size: 0.66rem; font-weight: 700; cursor: pointer; margin-left: 8px; }
-  .replay-mini:hover { border-color: #3B82F6; color: #93C5FD; }
+  .replay-mini { background: none; border: 1.5px solid #E2E8F0; color: #64748B; border-radius: 16px; padding: 3px 10px; font-size: 0.66rem; font-weight: 700; cursor: pointer; margin-left: 8px; }
+  .replay-mini:hover { border-color: #3B82F6; color: #2563EB; }
 
   /* ── THE MACHINE (right, big stage) ── */
-  .machine-col { background: linear-gradient(180deg, #111827 0%, #0B0F19 100%); border: 1px solid #1F2937; border-radius: 16px; padding: 28px 24px; min-height: 560px; }
-  .machine-stage-label { text-align: center; font-size: 0.7rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
+  .machine-col { background: #fff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 28px 24px; min-height: 560px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+  .machine-stage-label { text-align: center; font-size: 0.7rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
 
   .grinder-stage { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; padding: 20px 0 30px; }
   @media(max-width: 600px) { .grinder-stage { gap: 12px; } }
@@ -115,43 +115,43 @@ const STYLE = `
 
   /* bean/autowired mini-visual embedded in machine stage */
   .bean-flow-stage { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; padding: 10px 0 20px; }
-  .bean-box { flex: 1; min-width: 110px; max-width: 150px; background: #111827; border: 1.5px solid #1F2937; border-radius: 10px; padding: 14px 10px; text-align: center; font-size: 0.72rem; color: #94A3B8; transition: all 0.4s ease; }
-  .bean-box.glow { background: rgba(59,130,246,0.1); border-color: #3B82F6; color: #93C5FD; box-shadow: 0 0 16px rgba(59,130,246,0.25); }
+  .bean-box { flex: 1; min-width: 110px; max-width: 150px; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 14px 10px; text-align: center; font-size: 0.72rem; color: #64748B; transition: all 0.4s ease; }
+  .bean-box.glow { background: #EFF6FF; border-color: #3B82F6; color: #1E40AF; box-shadow: 0 0 16px rgba(59,130,246,0.2); }
   .bean-box-icon { font-size: 1.8rem; margin-bottom: 6px; }
-  .bean-arrow { font-size: 1.2rem; color: #334155; }
+  .bean-arrow { font-size: 1.2rem; color: #CBD5E1; }
 
   /* door stage (SecurityConfig) */
   .door-stage { display: flex; align-items: center; justify-content: center; gap: 30px; padding: 16px 0 24px; flex-wrap: wrap; }
-  .door-shape-big { width: 90px; height: 130px; border-radius: 8px; border: 2.5px solid #DC2626; background: rgba(239,68,68,0.06); display: flex; align-items: center; justify-content: center; font-size: 2rem; transition: all 0.5s ease; position: relative; }
-  .door-shape-big.opened { border-color: #10B981; background: rgba(16,185,129,0.08); }
+  .door-shape-big { width: 90px; height: 130px; border-radius: 8px; border: 2.5px solid #DC2626; background: #FEF2F2; display: flex; align-items: center; justify-content: center; font-size: 2rem; transition: all 0.5s ease; position: relative; }
+  .door-shape-big.opened { border-color: #10B981; background: #F0FDF4; }
   @keyframes doorFlashRed { 0%,100% { box-shadow: none; } 50% { box-shadow: 0 0 0 5px rgba(220,38,38,0.3); } }
   .door-shape-big.flashing { animation: doorFlashRed 0.8s ease 2; }
-  .door-lbl-big { font-size: 0.74rem; color: #94A3B8; margin-top: 10px; text-align: center; font-family: monospace; }
+  .door-lbl-big { font-size: 0.74rem; color: #64748B; margin-top: 10px; text-align: center; font-family: monospace; }
   .door-status-big { font-size: 0.68rem; font-weight: 800; margin-top: 2px; text-align: center; }
-  .door-status-big.open-txt { color: #10B981; }
+  .door-status-big.open-txt { color: #16A34A; }
   .door-status-big.locked-txt { color: #DC2626; }
   @keyframes attackerBounceBig { 0% { transform: translateX(-50px); } 45% { transform: translateX(10px); } 60% { transform: translateX(-8px); } 100% { transform: translateX(-50px); opacity: 0.5; } }
   .attacker-bounce-big { position: absolute; left: -40px; top: 50%; transform: translateY(-50%); font-size: 1.6rem; animation: attackerBounceBig 1.4s ease-in-out infinite; }
-  .knock-401-tag { position: absolute; top: -14px; right: -10px; background: rgba(220,38,38,0.15); color: #FCA5A5; font-size: 0.6rem; font-weight: 800; padding: 2px 7px; border-radius: 8px; }
-  .knock-200-tag { position: absolute; top: -14px; right: -10px; background: rgba(16,185,129,0.15); color: #6EE7B7; font-size: 0.6rem; font-weight: 800; padding: 2px 7px; border-radius: 8px; animation: xPop 0.3s ease; }
+  .knock-401-tag { position: absolute; top: -14px; right: -10px; background: #FEE2E2; color: #DC2626; font-size: 0.6rem; font-weight: 800; padding: 2px 7px; border-radius: 8px; }
+  .knock-200-tag { position: absolute; top: -14px; right: -10px; background: #DCFCE7; color: #16A34A; font-size: 0.6rem; font-weight: 800; padding: 2px 7px; border-radius: 8px; animation: xPop 0.3s ease; }
 
   /* register flow stage */
   .regflow-stage { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 0 22px; flex-wrap: wrap; }
-  .regflow-node { background: #111827; border: 1.5px solid #1F2937; border-radius: 10px; padding: 12px 14px; font-size: 0.72rem; color: #94A3B8; text-align: center; min-width: 90px; transition: all 0.3s; }
-  .regflow-node.lit { background: rgba(16,185,129,0.1); border-color: #10B981; color: #6EE7B7; }
-  .regflow-arrow { color: #334155; font-size: 1.1rem; }
+  .regflow-node { background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px 14px; font-size: 0.72rem; color: #64748B; text-align: center; min-width: 90px; transition: all 0.3s; }
+  .regflow-node.lit { background: #F0FDF4; border-color: #16A34A; color: #14532D; }
+  .regflow-arrow { color: #CBD5E1; font-size: 1.1rem; }
 
-  .payoff-banner { text-align: center; margin-top: 18px; padding: 16px; border-radius: 10px; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.02)); border: 1px solid rgba(16,185,129,0.3); }
-  .payoff-line { font-size: 0.86rem; color: #A7F3D0; opacity: 0; animation: fadeInUp 0.4s ease forwards; }
+  .payoff-banner { text-align: center; margin-top: 18px; padding: 16px; border-radius: 10px; background: linear-gradient(135deg, #F0FDF4, #FFFFFF); border: 1px solid #86EFAC; }
+  .payoff-line { font-size: 0.86rem; color: #14532D; opacity: 0; animation: fadeInUp 0.4s ease forwards; }
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .reveal-strip { max-width: 1280px; margin: 24px auto 0; background: #111827; border: 1px solid #1F2937; border-left: 4px solid #F59E0B; border-radius: 12px; padding: 24px; }
-  .reveal-line-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 0.88rem; color: #E2E8F0; animation: fadeInUp 0.4s ease; }
-  .reveal-line-item b { color: #FCD34D; }
+  .reveal-strip { max-width: 1280px; margin: 24px auto 0; background: #FFFBEB; border: 1px solid #FDE68A; border-left: 4px solid #F59E0B; border-radius: 12px; padding: 24px; }
+  .reveal-line-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 0.88rem; color: #1E293B; animation: fadeInUp 0.4s ease; }
+  .reveal-line-item b { color: #92400E; }
 
   .qcheck-note-r { font-size: 0.76rem; margin-top: 8px; padding: 8px 10px; border-radius: 7px; }
-  .qcheck-note-r.wrong { background: rgba(239,68,68,0.1); color: #FCA5A5; }
-  .qcheck-note-r.correct { background: rgba(16,185,129,0.1); color: #6EE7B7; }
+  .qcheck-note-r.wrong { background: #FEF2F2; color: #991B1B; }
+  .qcheck-note-r.correct { background: #F0FDF4; color: #14532D; }
 
   /* Phase 2 */
   .phase2-wrap { max-width: 900px; margin: 20px auto 0; background: #fff; color: #1E293B; border-radius: 16px; padding: 28px; }
@@ -231,6 +231,14 @@ const DOMAINS = [
   { key: 'Chai', label: '☕ Chai' },
   { key: 'Other', label: '🏪 Other' },
 ];
+
+const DOMAIN_OWNER_USERNAME = {
+  Gym: 'gymowner',
+  Mess: 'messowner',
+  Hotel: 'hotelowner',
+  Chai: 'chaiowner',
+  Other: 'owner',
+};
 
 const DOMAIN_NOTES = {
   Gym: 'Your users table stores login accounts (gymowner, members who log in). Separate from gym_member table which stores business data. users = who can log in, gym_member = what the business tracks.',
@@ -430,7 +438,7 @@ export default function RegisterBuilder() {
     try {
       window.parent.postMessage({
         type: 'HK_RESULT', version: '1',
-        exerciseId: 'm3-t1-s3-register-builder',
+        exerciseId: 'm4-t1-s3-register-builder',
         exerciseType: 'interactive',
         status: 'completed', score: 3, maxScore: 3,
         answers: {
@@ -499,7 +507,7 @@ export default function RegisterBuilder() {
                       <div className="mini-green" style={{ marginTop: 14 }}>
                         MySQL stores only the powder. If someone breaks in, they find '$2a$10$...' - not 'gym@123'. Your users are safe.
                       </div>
-                      <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>True or false: BCrypt can reverse a hash back to the original password.</p>
+                      <p className="rail-prose" style={{ fontWeight: 700, color: '#1E293B' }}>True or false: BCrypt can reverse a hash back to the original password.</p>
                       <div className="rail-tf-row">
                         <button className={`rail-tf-btn${tfAnswer === 'true' ? ' wrong' : ''}`} disabled={!!tfAnswer} onClick={() => answerTF('true')}>TRUE</button>
                         <button className={`rail-tf-btn${tfAnswer === 'false' ? ' correct' : ''}`} disabled={!!tfAnswer} onClick={() => answerTF('false')}>FALSE</button>
@@ -541,15 +549,15 @@ export default function RegisterBuilder() {
 
                   {passwordType === 'String' && (
                     <>
-                      <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>UserRepository - familiar pattern:</p>
+                      <p className="rail-prose" style={{ fontWeight: 700, color: '#1E293B' }}>UserRepository - familiar pattern:</p>
                       <CopyBlock code={`public interface UserRepository extends JpaRepository<User, Long> {\n}`}>
                         public interface UserRepository{'\n'}{'    '}extends JpaRepository{'<User, Long>'} {'{'}{'\n'}{'}'}{'\n'}
                         <span className="rc-comment">// same pattern as GymMemberRepository</span>
                       </CopyBlock>
-                      <div className={`rail-check${step2Done ? ' checked' : ''}`} onClick={toggleStep2}>
-                        <input type="checkbox" checked={step2Done} onChange={toggleStep2} readOnly />
+                      <label className={`rail-check${step2Done ? ' checked' : ''}`}>
+                        <input type="checkbox" checked={step2Done} onChange={toggleStep2} />
                         ✅ User.java + UserRepository.java created
-                      </div>
+                      </label>
                     </>
                   )}
                 </>
@@ -569,7 +577,7 @@ export default function RegisterBuilder() {
                   </CopyBlock>
                   <p className="rail-prose">Without @Bean → Spring Boot doesn't know this object exists. @Autowired would fail. With @Bean → created once, available everywhere.</p>
 
-                  <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>Which creates the object?</p>
+                  <p className="rail-prose" style={{ fontWeight: 700, color: '#1E293B' }}>Which creates the object?</p>
                   <div className="rail-opts">
                     <button className={`rail-opt-btn${beanAnswer === '@Bean' ? ' correct' : ''}`} disabled={beanAnswer === '@Bean'} onClick={() => answerBean('@Bean')}>@BEAN</button>
                     <button className={`rail-opt-btn${beanAnswer === '@Autowired' ? ' wrong' : ''}`} disabled={beanAnswer === '@Bean'} onClick={() => answerBean('@Autowired')}>@AUTOWIRED</button>
@@ -628,10 +636,10 @@ export default function RegisterBuilder() {
                     </div>
                   )}
                   {configCardIdx >= 4 && (
-                    <div className={`rail-check${step4Done ? ' checked' : ''}`} onClick={toggleStep4}>
-                      <input type="checkbox" checked={step4Done} onChange={toggleStep4} readOnly />
+                    <label className={`rail-check${step4Done ? ' checked' : ''}`}>
+                      <input type="checkbox" checked={step4Done} onChange={toggleStep4} />
                       ✅ SecurityConfig.java created
-                    </div>
+                    </label>
                   )}
                 </>
               )}
@@ -670,10 +678,10 @@ export default function RegisterBuilder() {
                   {encodeAnswer === 'encode' && (
                     <>
                       <button className="replay-mini" onClick={() => { setTraceKey(k => k + 1); play('tick'); }}>↻ replay flow</button>
-                      <div className={`rail-check${step5Done ? ' checked' : ''}`} onClick={toggleStep5} style={{ marginTop: 12 }}>
-                        <input type="checkbox" checked={step5Done} onChange={toggleStep5} readOnly />
+                      <label className={`rail-check${step5Done ? ' checked' : ''}`} style={{ marginTop: 12 }}>
+                        <input type="checkbox" checked={step5Done} onChange={toggleStep5} />
                         ✅ AuthController.java created
-                      </div>
+                      </label>
                     </>
                   )}
                 </>
@@ -682,26 +690,26 @@ export default function RegisterBuilder() {
               {step === 6 && (
                 <>
                   <h2 className="rail-step-title">Test - see BCrypt in MySQL</h2>
-                  <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1' }}>Test 1 - Register in Postman:</p>
+                  <p className="rail-prose" style={{ fontWeight: 700, color: '#1E293B' }}>Test 1 - Register in Postman:</p>
                   <CopyBlock code={`POST localhost:8080/auth/register\n\n{\n  "username": "gymowner",\n  "password": "gym@123"\n}`}>
                     POST /auth/register{'\n\n'}{'{'}{'\n'}{'  '}"username": "gymowner",{'\n'}{'  '}"password": "gym@123"{'\n'}{'}'}
                   </CopyBlock>
                   <p className="rail-prose">Expected: "Registered: gymowner" - no 401, because /auth/** is now open.</p>
-                  <div className={`rail-check${test1Done ? ' checked' : ''}`} onClick={toggleTest1}>
-                    <input type="checkbox" checked={test1Done} onChange={toggleTest1} readOnly />
+                  <label className={`rail-check${test1Done ? ' checked' : ''}`}>
+                    <input type="checkbox" checked={test1Done} onChange={toggleTest1} />
                     ✅ Register returned "Registered: gymowner"
-                  </div>
+                  </label>
 
                   {test1Done && (
                     <>
-                      <p className="rail-prose" style={{ fontWeight: 700, color: '#CBD5E1', marginTop: 16 }}>Test 2 - THE PAYOFF (check MySQL):</p>
+                      <p className="rail-prose" style={{ fontWeight: 700, color: '#1E293B', marginTop: 16 }}>Test 2 - THE PAYOFF (check MySQL):</p>
                       <CopyBlock code={`mysql -u root -p\nUSE gymapp;\nSELECT * FROM users;`}>
                         mysql -u root -p{'\n'}USE gymapp;{'\n'}SELECT * FROM users;
                       </CopyBlock>
-                      <div className={`rail-check${test2Done ? ' checked' : ''}`} onClick={toggleTest2}>
-                        <input type="checkbox" checked={test2Done} onChange={toggleTest2} readOnly />
+                      <label className={`rail-check${test2Done ? ' checked' : ''}`}>
+                        <input type="checkbox" checked={test2Done} onChange={toggleTest2} />
                         ✅ MySQL shows hash - not plain password
-                      </div>
+                      </label>
                     </>
                   )}
 
@@ -732,7 +740,7 @@ export default function RegisterBuilder() {
                     </div>
                     <div className="g-arrow">→</div>
                     <div className="g-item machine-body-wrap">
-                      <svg className={`machine-svg machine-glow${grinding ? ' active' : ''}`} width="90" height="90" viewBox="0 0 100 100">
+                      <svg className={`machine-svg machine-glow${grinding ? ' active' : ''}`} width="200" height="200" viewBox="0 0 100 100">
                         <rect x="18" y="18" width="64" height="64" rx="10" fill="#1E293B" stroke="#334155" strokeWidth="2" />
                         <g className={`gear-spin${grinding ? ' spinning' : ''}`}>
                           <circle cx="50" cy="50" r="18" fill="#334155" />
@@ -820,7 +828,7 @@ export default function RegisterBuilder() {
 
           {revealCount > 0 && (
             <div className="reveal-strip">
-              <h3 style={{ margin: '0 0 16px', color: '#FCD34D' }}>What you just learned</h3>
+              <h3 style={{ margin: '0 0 16px', color: '#92400E' }}>What you just learned</h3>
               {revealCount >= 1 && <div className="reveal-line-item">✅ <span><b>BCrypt</b> → one-way grinder - plain password in, hash out, cannot reverse</span></div>}
               {revealCount >= 2 && <div className="reveal-line-item">✅ <span><b>encode()</b> → grinds plain password → BCrypt hash</span></div>}
               {revealCount >= 3 && <div className="reveal-line-item">✅ <span><b>@Bean</b> → creates an object and registers it with Spring Boot</span></div>}
@@ -830,7 +838,7 @@ export default function RegisterBuilder() {
               {revealCount >= 7 && <div className="reveal-line-item">✅ <span><b>@RequestMapping("/auth")</b> → class-level URL prefix - all endpoints start with /auth</span></div>}
               {revealCount >= 7 && (
                 <>
-                  <p style={{ textAlign: 'center', fontWeight: 700, marginTop: 16, color: '#F1F5F9', lineHeight: 1.8 }}>
+                  <p style={{ textAlign: 'center', fontWeight: 700, marginTop: 16, color: '#1E293B', lineHeight: 1.8 }}>
                     Register is working. Passwords are BCrypt protected.<br /><br />
                     @Bean creates the grinder. @Autowired delivers it. SecurityConfig opens the door.<br /><br />
                     Next - Login. matches() checks the password. Users prove who they are.
@@ -879,6 +887,14 @@ export default function RegisterBuilder() {
                 <input type="checkbox" checked={tested.hashConfirmed} onChange={() => toggleTested('hashConfirmed')} />
                 MySQL shows $2a$10$ hash - not plain password
               </label>
+
+              {(tested.registerWorks || tested.hashConfirmed) && (
+                <LiveUsersTable
+                  rows={tested.hashConfirmed ? [{ id: 1, username: DOMAIN_OWNER_USERNAME[domain], hash: '$2a$10$xJt8aZ...', plain: `${domain.toLowerCase()}@123` }] : []}
+                  showEmpty={!tested.hashConfirmed}
+                  pulse={tested.hashConfirmed}
+                />
+              )}
 
               <h3 style={{ fontSize: '1rem', margin: '20px 0 6px' }}>Task 3 - Commit</h3>
               <CopyBlock code={`git add .\ngit commit -m "add User entity, SecurityConfig, and Register endpoint with BCrypt"\ngit push origin main`} cls="p2-code" btnCls="p2-copy">

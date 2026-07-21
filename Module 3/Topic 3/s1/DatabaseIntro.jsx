@@ -197,7 +197,10 @@ export default function DatabaseIntro() {
   const [submitted, setSubmitted] = useState(false);
   const sentences = (reflection.match(/[.!?]+/g)||[]).length;
   const allQ = qAnswers[0]==='B' && qAnswers[1]==='B' && qAnswers[2]==='B';
-  const tableOk = domain && tableRows.every(r=>r.c && r.t);
+  // Require every non-auto column to have a real, non-blank, MySQL-legal
+  // name and a type actually selected - a row left at its default/blank
+  // state, or holding an invalid column name, should not silently pass.
+  const tableOk = domain && tableRows.length > 0 && tableRows.every(r => r.auto || (r.t && !columnNameIssue(r.c)));
   const canSubmit = allQ && tableOk && sentences>=1 && !submitted;
 
   const chooseDomain = (d) => {
@@ -205,6 +208,18 @@ export default function DatabaseIntro() {
     setTableRows(DOMAIN_FIELDS[d].map(r=>({...r})));
     play('tick');
   };
+
+  // Real MySQL column-naming rules - not just "is it non-empty":
+  // no spaces, no reserved words, must start with a letter.
+  const MYSQL_RESERVED = new Set(['select','table','group','order','where','from','key','index']);
+  function columnNameIssue(name) {
+    const v = (name || '').trim();
+    if (!v) return 'Column name cannot be empty.';
+    if (/\s/.test(v)) return 'No spaces allowed - use underscores, e.g. room_number.';
+    if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(v)) return 'Must start with a letter and use only letters, numbers, underscores.';
+    if (MYSQL_RESERVED.has(v.toLowerCase())) return `"${v}" is a MySQL reserved word - pick a different name.`;
+    return null;
+  }
   const answerQ = (qi, ans) => {
     if (qAnswers[qi]) return;
     if (ans === MCQ[qi].correct) { setQAnswers(p=>({...p,[qi]:ans})); play('correct'); }
@@ -215,7 +230,8 @@ export default function DatabaseIntro() {
     if (!submitted) return;
     try {
       window.parent.postMessage({
-        type:'HK_RESULT', version:'1', exerciseId:'m2-t3-s1-database-intro',
+        type:'HK_RESULT', version:'1', exerciseId:'m3-t3-s1-database-intro',
+        exerciseType:'interactive',
         status:'completed', score:3, maxScore:3,
         answers:{ phase1:{ allTapped:true }, phase2:{ domain, tableRows, questions:qAnswers, reflection } },
         metadata:{ subtopicId:params.get('subtopicId'), taskId:params.get('taskId') },
@@ -815,17 +831,29 @@ export default function DatabaseIntro() {
               <div style={{ fontSize:'0.8rem', color:'#64748B', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.05em', display:'grid', gridTemplateColumns:'1.2fr 24px 1.2fr 24px 1fr', gap:8, marginBottom:8 }}>
                 <span>Java Field</span><span></span><span>Column Name</span><span></span><span>MySQL Type</span>
               </div>
-              {tableRows.map((row, i) => (
-                <div key={i} className="builder-row">
-                  <div className="b-field"><span style={{ color:'#0284C7' }}>{row.type}</span> {row.f}</div>
-                  <div className="b-arrow">→</div>
-                  <input className="b-input" value={row.c} disabled={row.auto} onChange={e => { const r=[...tableRows]; r[i]={...r[i],c:e.target.value}; setTableRows(r); }} />
-                  <div className="b-arrow">→</div>
-                  <select className="b-select" value={row.t} disabled={row.auto} onChange={e => { const r=[...tableRows]; r[i]={...r[i],t:e.target.value}; setTableRows(r); play('add'); }}>
-                    <option>BIGINT</option><option>VARCHAR</option><option>INTEGER</option><option>DECIMAL</option><option>TINYINT</option>
-                  </select>
-                </div>
-              ))}
+              {tableRows.map((row, i) => {
+                const issue = !row.auto && columnNameIssue(row.c);
+                return (
+                  <div key={i}>
+                    <div className="builder-row">
+                      <div className="b-field"><span style={{ color:'#0284C7' }}>{row.type}</span> {row.f}</div>
+                      <div className="b-arrow">→</div>
+                      <input
+                        className="b-input"
+                        style={issue ? { borderColor: '#EF4444' } : row.c && !row.auto ? { borderColor: '#10B981' } : undefined}
+                        value={row.c}
+                        disabled={row.auto}
+                        onChange={e => { const r=[...tableRows]; r[i]={...r[i],c:e.target.value}; setTableRows(r); }}
+                      />
+                      <div className="b-arrow">→</div>
+                      <select className="b-select" value={row.t} disabled={row.auto} onChange={e => { const r=[...tableRows]; r[i]={...r[i],t:e.target.value}; setTableRows(r); play('add'); }}>
+                        <option>BIGINT</option><option>VARCHAR</option><option>INTEGER</option><option>DECIMAL</option><option>TINYINT</option>
+                      </select>
+                    </div>
+                    {issue && <div style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: -6, marginBottom: 10, paddingLeft: 4 }}>⚠️ {issue}</div>}
+                  </div>
+                );
+              })}
 
               {tableOk && (
                 <div style={{ marginTop:28, animation:'slide-up 0.3s' }}>

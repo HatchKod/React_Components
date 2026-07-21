@@ -32,6 +32,10 @@ const STYLE = `
   .code-line { white-space: pre; padding: 1px 6px; border-radius: 4px; color: #94A3B8; }
   .code-line.same { background: rgba(16,185,129,0.16); color: #6EE7B7; font-weight: 600; }
   .code-line.diff { background: rgba(245,158,11,0.16); color: #FCD34D; font-weight: 600; }
+  .code-line.guessable { cursor: pointer; }
+  .code-line.guessable:hover { background: rgba(148,163,184,0.15); }
+  .code-line.guess-correct { background: rgba(245,158,11,0.25); color: #FCD34D; font-weight: 700; }
+  .code-line.guess-wrong { background: rgba(239,68,68,0.18); color: #FCA5A5; text-decoration: line-through; opacity: 0.7; }
 
   .legend-row { display: flex; gap: 20px; flex-wrap: wrap; margin: 14px 0; font-size: 0.82rem; }
   .legend-item { display: flex; align-items: center; gap: 7px; font-weight: 600; color: #374151; }
@@ -204,12 +208,24 @@ const GEMINI_LINES = [
   { t: "const data = await response.json();", k: "same" },
 ];
 
-function CodeBlock({ lines }) {
+function CodeBlock({ lines, guessMode, guessed, onGuess }) {
   return (
     <div className="code-block">
-      {lines.map((l, i) => (
-        <div key={i} className={`code-line${l.k !== "plain" ? " " + l.k : ""}`}>{l.t}</div>
-      ))}
+      {lines.map((l, i) => {
+        if (!guessMode) return <div key={i} className={`code-line${l.k !== "plain" ? " " + l.k : ""}`}>{l.t}</div>;
+        const isGuessed = guessed.has(i);
+        const isActuallyDiff = l.k === "diff";
+        const cls = isGuessed ? (isActuallyDiff ? " diff guess-correct" : " guess-wrong") : "";
+        return (
+          <div
+            key={i}
+            className={`code-line guessable${cls}`}
+            onClick={() => !isGuessed && onGuess(i)}
+          >
+            {l.t}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -391,6 +407,16 @@ export default function AIAPIIntro() {
     return () => clearInterval(iv);
   }, [scene]);
 
+  // Scene 2 - "spot what's different" guessing game before the legend reveals it
+  const [springGuessed, setSpringGuessed] = useState(new Set());
+  const springDiffCount = SPRING_LINES.filter((l) => l.k === "diff").length;
+  const springGuessedCorrect = [...springGuessed].filter((i) => SPRING_LINES[i].k === "diff").length;
+  const springGuessDone = springGuessedCorrect >= springDiffCount;
+  function guessSpringLine(i) {
+    setSpringGuessed((s) => new Set(s).add(i));
+    play(SPRING_LINES[i].k === "diff" ? "correct" : "warn");
+  }
+
   // Scene 3 - wrong/correct key demo
   const [keyState, setKeyState] = useState(0); // 0 idle, 1 wrong shown, 2 correct shown
   const showWrong = () => { play("warn"); setKeyState(1); };
@@ -490,28 +516,35 @@ export default function AIAPIIntro() {
               <h2 className="card-header">Your Spring Boot call vs Gemini call</h2>
               <p className="card-sub">Same pattern. Different URL.</p>
 
+              <p style={{ fontWeight: 700, color: "#374151" }}>Before we show you Gemini's version — click the lines in YOUR Spring Boot call below that you think would need to change for a different API ({springGuessedCorrect}/{springDiffCount} found):</p>
               <div className="code-compare">
                 <div>
                   <div className="code-col-title">Your Spring Boot</div>
-                  <CodeBlock lines={SPRING_LINES} />
+                  <CodeBlock lines={SPRING_LINES} guessMode={!springGuessDone} guessed={springGuessed} onGuess={guessSpringLine} />
                 </div>
-                <div>
-                  <div className="code-col-title">Gemini AI</div>
-                  <CodeBlock lines={GEMINI_LINES} />
-                </div>
+                {springGuessDone && (
+                  <div>
+                    <div className="code-col-title">Gemini AI</div>
+                    <CodeBlock lines={GEMINI_LINES} />
+                  </div>
+                )}
               </div>
 
-              <div className="legend-row">
-                <span className="legend-item"><span className="legend-dot same" /> await fetch() / method / headers / response.json()</span>
-                <span className="legend-item"><span className="legend-dot diff" /> URL, body structure, auth (JWT vs API key)</span>
-              </div>
+              {springGuessDone && (
+                <>
+                  <div className="legend-row">
+                    <span className="legend-item"><span className="legend-dot same" /> await fetch() / method / headers / response.json()</span>
+                    <span className="legend-item"><span className="legend-dot diff" /> URL, body structure, auth (JWT vs API key)</span>
+                  </div>
 
-              <p style={{ color: "#374151" }}>
-                Same pattern. Different URL. Different body structure.<br /><br />
-                You know this pattern. You have used it 20 times.<br /><br />
-                <b>An AI API is just another endpoint.</b>
-              </p>
-              <button className="btn" onClick={() => goScene(3)}>Where does the call go? →</button>
+                  <p style={{ color: "#374151" }}>
+                    Same pattern. Different URL. Different body structure.<br /><br />
+                    You know this pattern. You have used it 20 times.<br /><br />
+                    <b>An AI API is just another endpoint.</b>
+                  </p>
+                  <button className="btn" onClick={() => goScene(3)}>Where does the call go? →</button>
+                </>
+              )}
             </div>
           )}
 

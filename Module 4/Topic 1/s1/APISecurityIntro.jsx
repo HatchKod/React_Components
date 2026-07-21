@@ -9,6 +9,8 @@ const STYLE = `
   .btn:disabled { background: #CBD5E1; cursor: not-allowed; }
   .btn.green { background: #16A34A; }
   .btn.green:hover { background: #15803D; }
+  .mute-btn { background: #fff; color: #475569; border: 1.5px solid #E2E8F0; border-radius: 20px; padding: 8px 18px; font-weight: 700; font-size: 0.85rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: all 0.2s; }
+  .mute-btn:hover { border-color: #94A3B8; color: #1E293B; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
 
   /* Layout: left attacker console, right live dashboard */
   .attack-layout { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; max-width: 1200px; margin: 0 auto; align-items: start; }
@@ -417,7 +419,7 @@ export default function APISecurityIntro() {
     try {
       window.parent.postMessage({
         type: 'HK_RESULT', version: '1',
-        exerciseId: 'm3-t1-s1-api-security-intro',
+        exerciseId: 'm4-t1-s1-api-security-intro',
         exerciseType: 'interactive',
         status: 'completed', score: 3, maxScore: 3,
         answers: {
@@ -445,7 +447,7 @@ export default function APISecurityIntro() {
       <style>{STYLE}</style>
       <div className="header">
         <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 800 }}>API Security Intro</h1>
-        <button className="btn" style={{ background: 'white', color: '#1E293B', border: '1px solid #E2E8F0', padding: '8px 16px' }} onClick={toggleMute}>
+        <button className="mute-btn" onClick={toggleMute}>
           {isMuted ? '🔇 Unmute' : '🔊 Mute'}
         </button>
       </div>
@@ -537,7 +539,14 @@ export default function APISecurityIntro() {
           </div>
 
           {!showReplay && (
-            <div className="point-card">
+            <div className="point-card" style={{ display: 'flex', gap: 20, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+              <div style={{ flexShrink: 0, textAlign: 'center', minWidth: 90 }}>
+                <MiniGate stage={pointIndex} />
+                <div style={{ fontSize: '0.7rem', fontWeight: 700, marginTop: 6, color: pointIndex >= 2 ? '#10B981' : '#94A3B8' }}>
+                  {pointIndex === 0 ? 'still open' : pointIndex === 1 ? 'keys defined' : 'ready to lock'}
+                </div>
+              </div>
+              <div style={{ flex: 1, minWidth: 200 }}>
               {pointIndex === 0 && (
                 <>
                   <div className="point-icon">🔒</div>
@@ -577,6 +586,7 @@ export default function APISecurityIntro() {
               </button>
               <div className="point-dots">
                 {[0,1,2].map(i => <div key={i} className={`point-dot${i <= pointIndex ? ' active' : ''}`} />)}
+              </div>
               </div>
             </div>
           )}
@@ -804,6 +814,31 @@ function DashboardPanel({ gateOpen, currentAttack, termShown, termDone, isReplay
         </div>
       </div>
     </div>
+  );
+}
+
+// Small gate that visually progresses through the 3 explainer points:
+// 0 = wide open door, 1 = a key appears next to it, 2 = door swings shut and locks.
+function MiniGate({ stage }) {
+  const locked = stage >= 2;
+  return (
+    <svg width="52" height="52" viewBox="0 0 52 52">
+      <rect x="8" y="8" width="36" height="36" rx="4" fill="none" stroke={locked ? '#10B981' : '#EF4444'} strokeWidth="2.5" style={{ transition: 'stroke 0.4s' }} />
+      {!locked ? (
+        <path
+          d="M26 8 L44 12 L44 44 L26 44 Z"
+          fill="rgba(239,68,68,0.12)" stroke="#EF4444" strokeWidth="2"
+          style={{ transformOrigin: '26px 26px', transform: stage >= 1 ? 'rotateY(25deg)' : 'rotateY(0deg)', transition: 'transform 0.4s' }}
+        />
+      ) : (
+        <>
+          <rect x="8" y="8" width="36" height="36" rx="4" fill="rgba(16,185,129,0.1)" />
+          <circle cx="26" cy="26" r="7" fill="none" stroke="#10B981" strokeWidth="2.5" />
+          <rect x="23" y="26" width="6" height="9" rx="1.5" fill="#10B981" />
+        </>
+      )}
+      {stage === 1 && <text x="26" y="20" fontSize="14" textAnchor="middle">🔑</text>}
+    </svg>
   );
 }
 

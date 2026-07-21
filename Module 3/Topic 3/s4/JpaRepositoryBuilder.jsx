@@ -7,6 +7,7 @@ function useSound() {
   const ctx = useRef(null);
   const getCtx = () => {
     if (!ctx.current) ctx.current = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.current.state === "suspended") ctx.current.resume();
     return ctx.current;
   };
 
@@ -50,6 +51,7 @@ const SLOTS = [
   { id: 4, label: "@Autowired" },
   { id: 5, label: "Replace" },
   { id: 6, label: "Payoff" },
+  { id: 7, label: "Your Project" },
 ];
 
 function ProgressBar({ active }) {
@@ -1125,7 +1127,7 @@ function Slot5({ onAdvance, play }) {
 /* ═══════════════════════════════════════════
    SLOT 6 - PAYOFF
 ═══════════════════════════════════════════ */
-function Slot6({ play }) {
+function Slot6({ play, onAdvance }) {
   const [step, setStep] = useState(0);
   const [particles, setParticles] = useState([]);
 
@@ -1229,6 +1231,13 @@ function Slot6({ play }) {
                   JPA + MySQL handled every operation.<br/>
                   <strong style={{ color: "#14532D" }}>This is JpaRepository in action.</strong>
                 </div>
+                <button onClick={() => { play("payoff"); onAdvance(); }} style={{
+                  marginTop: "18px", background: "#16A34A", border: "none",
+                  borderRadius: "10px", padding: "13px 20px",
+                  color: "#fff", cursor: "pointer", fontSize: "14px", fontWeight: 700, width: "100%",
+                }}>
+                  Do this for YOUR project →
+                </button>
               </div>
             )}
           </div>
@@ -1307,14 +1316,185 @@ function Slot6({ play }) {
   );
 }
 
+/* ─────────────────────────────────────────────
+   SLOT 7 - APPLY TO YOUR PROJECT + SUBMIT
+───────────────────────────────────────────── */
+const DOMAINS = {
+  Gym: { entity: "GymMember", repo: "GymMemberRepository", table: "gym_member" },
+  Hotel: { entity: "Room", repo: "RoomRepository", table: "room" },
+  Mess: { entity: "MessEntry", repo: "MessEntryRepository", table: "mess_entry" },
+  Chai: { entity: "ChaiOrder", repo: "ChaiOrderRepository", table: "chai_order" },
+};
+
+function Slot7({ play, onSubmit }) {
+  const [domain, setDomain] = useState(null);
+  const [checks, setChecks] = useState({ c1: false, c2: false, c3: false, c4: false });
+  const [reflection, setReflection] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  function toggle(key) {
+    setChecks(c => { const nv = !c[key]; if (nv) play("add"); return { ...c, [key]: nv }; });
+  }
+
+  const d = domain ? DOMAINS[domain] : null;
+  const allChecked = Object.values(checks).every(Boolean);
+  const sentences = reflection.trim().split(/[.!?]+/).filter(s => s.trim().length > 3).length;
+  const canSubmit = domain && allChecked && sentences >= 1 && !submitted;
+
+  function handleSubmit() {
+    if (!canSubmit) return;
+    play("payoff");
+    setSubmitted(true);
+    onSubmit({ domain, checks, reflection });
+  }
+
+  return (
+    <SlotShell
+      subtitle="Slot 7 of 7 - Apply to your project"
+      title="Do this for YOUR project."
+      left={
+        <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            {Object.keys(DOMAINS).map(name => (
+              <button key={name} onClick={() => { setDomain(name); play("tick"); }} style={{
+                padding: "10px 18px", borderRadius: "20px",
+                border: `1.5px solid ${domain === name ? "#3B82F6" : "#E2E8F0"}`,
+                background: domain === name ? "#3B82F6" : "#FFFFFF",
+                color: domain === name ? "#fff" : "#475569",
+                fontWeight: 700, cursor: "pointer", fontSize: "0.9rem",
+              }}>{name}</button>
+            ))}
+          </div>
+
+          {d && (
+            <>
+              <div style={{ background: "#F0FDF4", border: "1px solid #86EFAC", borderRadius: "12px", padding: "16px" }}>
+                <div style={{ fontWeight: 700, color: "#16A34A", fontSize: "13px", marginBottom: 8 }}>Your repository:</div>
+                <code style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#166534" }}>
+                  public interface {d.repo} extends JpaRepository&lt;{d.entity}, Long&gt; {"{}"}
+                </code>
+              </div>
+
+              {[
+                ["c1", `Created ${d.repo} extending JpaRepository<${d.entity}, Long>`],
+                ["c2", `@Autowired ${d.repo} into my controller`],
+                ["c3", "Replaced List<> logic with repo.save() / findAll() / findById() / deleteById()"],
+                ["c4", "Restarted server and confirmed data survives - it's still in MySQL"],
+              ].map(([key, label]) => (
+                <label key={key} onClick={() => toggle(key)} style={{
+                  display: "flex", alignItems: "center", gap: "12px", cursor: "pointer",
+                  background: checks[key] ? "rgba(22,163,74,0.08)" : "#FFFFFF",
+                  border: `1px solid ${checks[key] ? "#16A34A" : "#E2E8F0"}`,
+                  borderRadius: "10px", padding: "12px 14px",
+                }}>
+                  <div style={{
+                    width: 18, height: 18, borderRadius: 4, flexShrink: 0,
+                    background: checks[key] ? "#16A34A" : "transparent",
+                    border: `2px solid ${checks[key] ? "#16A34A" : "#CBD5E1"}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: "#fff", fontSize: 11, fontWeight: 900,
+                  }}>{checks[key] && "✓"}</div>
+                  <span style={{ fontSize: "13px", color: checks[key] ? "#166534" : "#475569", fontWeight: 600 }}>{label}</span>
+                </label>
+              ))}
+
+              {allChecked && (
+                <div style={{ animation: "floatUp 0.01s" }}>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#1E293B", marginBottom: 8 }}>
+                    In one sentence - why does JpaRepository save you from writing SQL yourself?
+                  </div>
+                  <textarea
+                    value={reflection}
+                    onChange={e => setReflection(e.target.value)}
+                    onPaste={e => e.preventDefault()}
+                    placeholder="JpaRepository saves me from writing SQL because..."
+                    style={{
+                      width: "100%", minHeight: 80, border: "1.5px solid #E2E8F0",
+                      borderRadius: 10, padding: 12, fontFamily: "inherit", fontSize: 13,
+                      resize: "vertical", outline: "none",
+                    }}
+                  />
+                  <div style={{ textAlign: "right", fontSize: 12, fontWeight: 700, color: sentences >= 1 ? "#16A34A" : "#94A3B8", marginTop: 4 }}>
+                    {sentences} / 1 sentence minimum
+                  </div>
+
+                  <button onClick={handleSubmit} disabled={!canSubmit} style={{
+                    marginTop: 16, width: "100%", padding: "14px",
+                    background: canSubmit ? "#16A34A" : "#CBD5E1",
+                    border: "none", borderRadius: 10, color: "#fff",
+                    fontWeight: 800, fontSize: 14, cursor: canSubmit ? "pointer" : "not-allowed",
+                  }}>
+                    {submitted ? "Completed ✅" : "My project uses JpaRepository →"}
+                  </button>
+
+                  {submitted && (
+                    <div style={{ marginTop: 16, padding: 18, background: "#DCFCE7", border: "1px solid #4ADE80", borderRadius: 12, color: "#166534", fontSize: 13, lineHeight: 1.7 }}>
+                      <b style={{ color: "#14532D" }}>Persistence complete. 🎉</b><br />
+                      Your data survives restarts forever now.<br />
+                      Next module - authentication and securing your API.
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      }
+      right={
+        <VisualCard glow="#3b82f6">
+          <div style={{ fontSize: "12px", color: "#3b82f6", fontWeight: 700, marginBottom: "10px" }}>YOUR STACK</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            {[
+              ["Domain", domain || "-"],
+              ["Entity", d?.entity || "-"],
+              ["Repository", d?.repo || "-"],
+              ["Table", d?.table || "-"],
+            ].map(([k, v]) => (
+              <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 12 }}>
+                <span style={{ color: "#94A3B8" }}>{k}</span>
+                <span style={{ color: "#1E293B", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{v}</span>
+              </div>
+            ))}
+          </div>
+        </VisualCard>
+      }
+    />
+  );
+}
+
 /* ═══════════════════════════════════════════
    ROOT COMPONENT
 ═══════════════════════════════════════════ */
 export default function JpaRepositoryBuilder() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [slot, setSlot] = useState(1);
+  const [submitted, setSubmitted] = useState(false);
   const play = useSound();
 
-  const advance = () => setSlot(s => Math.min(s + 1, 6));
+  const advance = () => setSlot(s => Math.min(s + 1, 7));
+
+  function handleFinalSubmit(payload) {
+    setSubmitted(true);
+    try {
+      window.parent.postMessage({
+        type: "HK_RESULT",
+        version: "1",
+        exerciseId: "m3-t3-s4-jpa-repository-builder",
+        exerciseType: "interactive",
+        status: "completed",
+        score: 3, maxScore: 3,
+        answers: {
+          phase1: { completedAllSlots: true },
+          phase2: { domainSelected: payload.domain, checks: payload.checks, reflectionText: payload.reflection },
+        },
+        metadata: { subtopicId, taskId },
+        completedAt: new Date().toISOString(),
+      }, "*");
+    } catch (e) {}
+  }
 
   return (
     <div style={{
@@ -1345,7 +1525,8 @@ export default function JpaRepositoryBuilder() {
         {slot === 3 && <Slot3 onAdvance={advance} play={play} />}
         {slot === 4 && <Slot4 onAdvance={advance} play={play} />}
         {slot === 5 && <Slot5 onAdvance={advance} play={play} />}
-        {slot === 6 && <Slot6 play={play} />}
+        {slot === 6 && <Slot6 play={play} onAdvance={advance} />}
+        {slot === 7 && <Slot7 play={play} onSubmit={handleFinalSubmit} />}
       </div>
     </div>
   );

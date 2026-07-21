@@ -506,15 +506,21 @@ function Phase2({
           value={tableInputName} onChange={e => setTableInputName(e.target.value)}
           placeholder={`e.g. ${tableName}`}
           style={{
-            width: '100%', background: '#0a0e1a', border: '1.5px solid #1e293b',
+            width: '100%', background: '#0a0e1a',
+            border: `1.5px solid ${tableInputName ? (tableInputName.trim().toLowerCase() === tableName.toLowerCase() ? '#059669' : '#dc2626') : '#1e293b'}`,
             borderRadius: '8px', padding: '10px 14px', color: '#f0f6ff',
             fontFamily: "'JetBrains Mono', monospace", fontSize: '13px', outline: 'none',
           }}
         />
         <div style={{ fontSize: '11px', color: '#334155', marginTop: '6px' }}>
-          JPA: GymMember → gym_member (CamelCase → snake_case)
+          JPA: {entityName} → {tableName} (CamelCase → snake_case)
         </div>
-        {tableInputName && (
+        {tableInputName && tableInputName.trim().toLowerCase() !== tableName.toLowerCase() && (
+          <div style={{ fontSize: '12px', color: '#fca5a5', marginTop: '6px', fontWeight: 700 }}>
+            That doesn't match what JPA would actually generate for {entityName}. Check the CamelCase → snake_case rule above.
+          </div>
+        )}
+        {tableInputName && tableInputName.trim().toLowerCase() === tableName.toLowerCase() && (
           <CheckLabel checked={p2c3} onChange={() => toggle(p2c3, setP2c3)}>
             ✓ I see {tableInputName} in SHOW TABLES
           </CheckLabel>

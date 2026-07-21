@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 const STYLE = `
-  .sss-root { font-family: system-ui, -apple-system, sans-serif; background: #F9FAFB; min-height: 100vh; padding: 24px 16px; color: #1E293B; line-height: 1.5; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;700&display=swap');
+
+  .sss-root { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #F9FAFB; min-height: 100vh; padding: 24px 16px; color: #1E293B; line-height: 1.5; }
   .sss-root * { box-sizing: border-box; }
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; max-width: 1200px; margin-left: auto; margin-right: auto; }
   .mute-btn { background: white; color: #1E293B; border: 1px solid #E2E8F0; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
@@ -18,9 +20,9 @@ const STYLE = `
   .layout > .right-col { align-self: stretch; }
   @media(max-width:960px) { .layout { grid-template-columns: 1fr; } .layout > .right-col { align-self: auto; } }
 
-  .step-card { background: #fff; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); padding: 22px; margin-bottom: 20px; border-left: 4px solid #CBD5E1; opacity: 0.5; }
-  .step-card.active { border-left-color: #3B82F6; opacity: 1; }
-  .step-card.complete { border-left-color: #16A34A; opacity: 1; }
+  .step-card { background: #F8FAFC; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); padding: 22px; margin-bottom: 20px; border-left: 4px solid #CBD5E1; color: #94A3B8; pointer-events: none; filter: saturate(0.6); }
+  .step-card.active { background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.06); border-left-color: #3B82F6; color: #1E293B; pointer-events: auto; filter: none; }
+  .step-card.complete { background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.06); border-left-color: #16A34A; color: #1E293B; pointer-events: auto; filter: none; }
 
   .analogy-card { background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; color: #78350F; font-size: 0.88rem; line-height: 1.7; }
   .prep-card { background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; color: #14532D; font-size: 0.88rem; line-height: 1.7; }
@@ -28,7 +30,7 @@ const STYLE = `
   .win-green { background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; color: #14532D; font-size: 0.88rem; line-height: 1.7; }
   .important-amber { background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 10px; padding: 16px 18px; margin-top: 16px; color: #78350F; font-size: 0.85rem; line-height: 1.7; }
 
-  .code-block { background: #1E293B; color: #E2E8F0; border-radius: 10px; padding: 16px 18px; font-family: 'Courier New', monospace; font-size: 0.82rem; line-height: 1.7; margin: 10px 0; overflow-x: auto; position: relative; white-space: pre-wrap; }
+  .code-block { background: #1E293B; color: #E2E8F0; border-radius: 10px; padding: 16px 18px; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.82rem; line-height: 1.7; margin: 10px 0; overflow-x: auto; position: relative; white-space: pre-wrap; }
   .copy-btn { position: absolute; top: 10px; right: 10px; background: #334155; color: #E2E8F0; border: none; border-radius: 6px; padding: 4px 10px; font-size: 0.7rem; cursor: pointer; font-weight: 700; }
   .copy-btn:hover { background: #475569; }
   .code-tag { color: #93C5FD; }
@@ -47,22 +49,22 @@ const STYLE = `
   .checkbox-row input { width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
 
   .pw-input-wrap { margin: 12px 0; }
-  .pw-input { width: 100%; border: 1.5px solid #E2E8F0; border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; font-family: monospace; }
+  .pw-input { width: 100%; border: 1.5px solid #E2E8F0; border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; font-family: 'Fira Code', monospace; }
   .pw-hint { font-size: 0.76rem; color: #94A3B8; margin-top: 4px; }
 
-  .console-block { background: #1E293B; border-radius: 10px; padding: 16px 18px; font-family: monospace; font-size: 0.8rem; color: #4ADE80; line-height: 1.9; margin: 12px 0; position: relative; }
+  .console-block { background: #1E293B; border-radius: 10px; padding: 16px 18px; font-family: 'Fira Code', monospace; font-size: 0.8rem; color: #4ADE80; line-height: 1.9; margin: 12px 0; position: relative; }
   .console-pw-line { background: rgba(250,204,21,0.18); border-radius: 4px; padding: 2px 6px; color: #FDE047; font-weight: 700; }
   .console-pw-label { color: #FCA5A5; font-size: 0.7rem; font-weight: 800; margin-top: 6px; }
 
   .contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
   @media(max-width:600px) { .contrast-grid { grid-template-columns: 1fr; } }
-  .contrast-col { border-radius: 10px; padding: 14px 16px; font-size: 0.82rem; line-height: 1.8; font-family: monospace; }
+  .contrast-col { border-radius: 10px; padding: 14px 16px; font-size: 0.82rem; line-height: 1.8; font-family: 'Fira Code', monospace; }
   .contrast-col.before { background: #F8FAFC; border-left: 4px solid #DC2626; color: #475569; }
   .contrast-col.after { background: #F0FDF4; border-left: 4px solid #16A34A; color: #14532D; }
   .contrast-title { font-weight: 800; font-family: system-ui, sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
 
   .postman-mock { background: #fff; border: 1.5px solid #E2E8F0; border-radius: 10px; overflow: hidden; margin: 12px 0; }
-  .pm-url-row { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #E2E8F0; font-family: monospace; font-size: 0.82rem; background: #F8FAFC; }
+  .pm-url-row { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #E2E8F0; font-family: 'Fira Code', monospace; font-size: 0.82rem; background: #F8FAFC; }
   .pm-method { background: #16A34A; color: #fff; font-weight: 800; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; }
   .pm-tabs { display: flex; gap: 0; border-bottom: 1px solid #E2E8F0; }
   .pm-tab { padding: 8px 16px; font-size: 0.78rem; font-weight: 700; color: #94A3B8; cursor: default; }
@@ -70,10 +72,10 @@ const STYLE = `
   .pm-auth-body { padding: 14px 16px; }
   .pm-field-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .pm-field-label { font-size: 0.78rem; font-weight: 700; color: #64748B; width: 70px; }
-  .pm-field-value { flex: 1; border: 1px solid #E2E8F0; border-radius: 6px; padding: 7px 10px; font-family: monospace; font-size: 0.82rem; background: #F8FAFC; }
+  .pm-field-value { flex: 1; border: 1px solid #E2E8F0; border-radius: 6px; padding: 7px 10px; font-family: 'Fira Code', monospace; font-size: 0.82rem; background: #F8FAFC; }
   .pm-send-btn { background: #FF6C37; color: #fff; border: none; padding: 8px 22px; border-radius: 6px; font-weight: 800; font-size: 0.82rem; margin-top: 6px; }
 
-  .response-preview { border-radius: 10px; padding: 14px 16px; font-family: monospace; font-size: 0.82rem; margin: 12px 0; }
+  .response-preview { border-radius: 10px; padding: 14px 16px; font-family: 'Fira Code', monospace; font-size: 0.82rem; margin: 12px 0; }
   .response-preview.status-401 { background: #1E293B; color: #F87171; }
   .response-preview.status-200 { background: #1E293B; color: #4ADE80; }
 
@@ -253,7 +255,10 @@ export default function SpringSecuritySetup() {
     setStep1Done(d => !d);
   }
   function toggleStep2() {
-    if (!step2Done) play('add');
+    if (!step2Done) {
+      if (pwInput.trim().length < 8) { play('warn'); return; }
+      play('add');
+    }
     setStep2Done(d => !d);
   }
   function toggleStep3() {
@@ -331,7 +336,7 @@ export default function SpringSecuritySetup() {
     try {
       window.parent.postMessage({
         type: 'HK_RESULT', version: '1',
-        exerciseId: 'm3-t1-s2-spring-security-setup',
+        exerciseId: 'm4-t1-s2-spring-security-setup',
         exerciseType: 'interactive',
         status: 'completed', score: 3, maxScore: 3,
         answers: {
@@ -433,6 +438,9 @@ export default function SpringSecuritySetup() {
               <label style={{ fontSize: '0.85rem', fontWeight: 700, display: 'block', marginBottom: 6 }}>Paste your generated password here (just for this subtopic - so we can help you test):</label>
               <input className="pw-input" type="text" placeholder="paste your password here" value={pwInput} onChange={e => setPwInput(e.target.value)} />
               <div className="pw-hint">from the console - the long string after "Using generated security password:"</div>
+              {pwInput.trim().length > 0 && pwInput.trim().length < 8 && (
+                <div className="pw-hint" style={{ color: '#DC2626', fontWeight: 700 }}>That's too short to be the real generated password - it's a long random string, not a word.</div>
+              )}
             </div>
 
             <div className="important-amber">
@@ -441,8 +449,8 @@ export default function SpringSecuritySetup() {
               These are TEMPORARY. Real users come in 3.1.3.
             </div>
 
-            <label className={`checkbox-row${step2Done ? ' checked' : ''}`}>
-              <input type="checkbox" checked={step2Done} onChange={toggleStep2} />
+            <label className={`checkbox-row${step2Done ? ' checked' : ''}`} style={{ opacity: pwInput.trim().length >= 8 || step2Done ? 1 : 0.5 }}>
+              <input type="checkbox" checked={step2Done} onChange={toggleStep2} disabled={pwInput.trim().length < 8 && !step2Done} />
               ✅ Server restarted - I found the generated password
             </label>
           </div>
@@ -699,7 +707,14 @@ function BuildingPanel({ step1Done, step2Done, step3Done, step4Done, actorEvent,
   const installFiredRef = useRef(false);
 
   useEffect(() => {
-    if (!step1Done || installFiredRef.current) return;
+    if (!step1Done) {
+      // step unchecked — reset so re-checking replays the lock sequence
+      installFiredRef.current = false;
+      setLockedCount(0);
+      setInstalling(false);
+      return;
+    }
+    if (installFiredRef.current) return;
     installFiredRef.current = true;
     setInstalling(true);
     DOORS.forEach((_, i) => {
