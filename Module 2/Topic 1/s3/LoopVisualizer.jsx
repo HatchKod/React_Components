@@ -257,6 +257,10 @@ function AnnotatedCode({ muted }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function LoopVisualizer() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const members = ["Ravi", "Suresh", "Priya", "Anitha"];
 
   const [muted, setMuted] = useState(false);
@@ -376,6 +380,25 @@ export default function LoopVisualizer() {
     playSound("submit", muted);
     setSubmitted(true);
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: "HK_RESULT",
+      version: "1",
+      exerciseId: "m2-t1-s3-loop-visualizer",
+      exerciseType: "interactive",
+      status: "completed",
+      score: 3,
+      maxScore: 3,
+      answers: {
+        code,
+        reflectionText: reflection,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, "*");
+  }, [submitted]);
 
   // ─── render helpers ───────────────────────────────────────────────────────
 

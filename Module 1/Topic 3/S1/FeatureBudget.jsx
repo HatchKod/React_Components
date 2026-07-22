@@ -578,12 +578,17 @@ body {
 `;
 
 export default function FeatureBudget() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [muted, setMuted] = useState(false);
   const [domain, setDomain] = useState('');
   const [otherDomainText, setOtherDomainText] = useState('');
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [stage, setStage] = useState(1); // 1: Select, 2: Commit, 3: Final
   const [justifications, setJustifications] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     // Inject styles
@@ -681,7 +686,29 @@ export default function FeatureBudget() {
   const submitFinal = () => {
     playSound('submit', muted);
     setStage(3);
+    setSubmitted(true);
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: 'HK_RESULT',
+      version: '1',
+      exerciseId: 'm1-t3-s1-feature-budget',
+      exerciseType: 'interactive',
+      status: 'completed',
+      score: 3,
+      maxScore: 3,
+      answers: {
+        domain,
+        otherDomainText,
+        selectedFeatures,
+        justifications,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, '*');
+  }, [submitted]);
 
   const preventCopyPaste = (e) => {
     e.preventDefault();

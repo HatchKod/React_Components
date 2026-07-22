@@ -276,6 +276,10 @@ function AnnotatedMethod() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function MethodBuilder() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [muted, setMuted] = useState(false);
 
   // Part A/B
@@ -465,6 +469,25 @@ export default function MethodBuilder() {
     playSound("submit", muted);
     setSubmitted(true);
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: "HK_RESULT",
+      version: "1",
+      exerciseId: "m2-t1-s4-method-builder",
+      exerciseType: "interactive",
+      status: "completed",
+      score: 3,
+      maxScore: 3,
+      answers: {
+        code,
+        reflectionText: reflection,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, "*");
+  }, [submitted]);
 
   return (
     <div

@@ -425,6 +425,10 @@ function parseProjectVars(code) {
 const emptySlot = () => ({ type: "", name: "", value: "", boolTouched: false });
 
 export default function VariableExplorer() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const { play, setMuted } = useSounds();
   const [isMuted, setIsMuted] = useState(false);
 
@@ -526,6 +530,26 @@ export default function VariableExplorer() {
     play("submit");
     setSubmitted(true);
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: "HK_RESULT",
+      version: "1",
+      exerciseId: "m2-t1-s1-variable-explorer",
+      exerciseType: "interactive",
+      status: "completed",
+      score: 3,
+      maxScore: 3,
+      answers: {
+        editorCode,
+        reflectionText: plainText,
+        projectVars,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, "*");
+  }, [submitted]);
 
   const fullProgVars = slots.map((s) => ({ type: s.type, name: s.name, value: s.value }));
 

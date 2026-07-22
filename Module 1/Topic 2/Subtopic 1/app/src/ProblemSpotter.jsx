@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SCENES = [
   {
@@ -129,6 +129,10 @@ const SCENES = [
 ];
 
 export default function ProblemSpotter() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [currentSceneIdx, setCurrentSceneIdx] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [showSummary, setShowSummary] = useState(false);
@@ -160,6 +164,25 @@ export default function ProblemSpotter() {
   const handlePrevent = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (!isSubmitted) return;
+    window.parent.postMessage({
+      type: 'HK_RESULT',
+      version: '1',
+      exerciseId: 'm1-t2-s1-problem-spotter',
+      exerciseType: 'interactive',
+      status: 'completed',
+      score: 3,
+      maxScore: 3,
+      answers: {
+        reflectionText,
+        sentenceCount,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, '*');
+  }, [isSubmitted]);
 
   return (
     <div className="problem-spotter-container">

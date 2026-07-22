@@ -457,6 +457,10 @@ function CodeEditor({ value, onChange }) {
 
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function BlueprintBuilder() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [muted, setMuted] = useState(false);
   const soundRef = useRef(null);
   const playSound = (t) => {
@@ -523,6 +527,26 @@ export default function BlueprintBuilder() {
     playSound("submit");
     setSubmitted(true);
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: "HK_RESULT",
+      version: "1",
+      exerciseId: "m2-t2-s1-blueprint-builder",
+      exerciseType: "interactive",
+      status: "completed",
+      score: 3,
+      maxScore: 3,
+      answers: {
+        domain,
+        code,
+        reflectionText: reflection,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, "*");
+  }, [submitted]);
 
   return (
     <div style={{ fontFamily: "'Segoe UI', sans-serif", background: "#F8FAFC", minHeight: "100vh", color: "#1E293B" }}>

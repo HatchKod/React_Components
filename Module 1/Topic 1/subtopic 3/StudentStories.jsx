@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const stories = [
   {
@@ -37,6 +37,10 @@ const stories = [
 ];
 
 export default function StudentStories() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [reflection, setReflection] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -74,6 +78,26 @@ export default function StudentStories() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: 'HK_RESULT',
+      version: '1',
+      exerciseId: 'm1-t1-s3-student-stories',
+      exerciseType: 'interactive',
+      status: 'completed',
+      score: 3,
+      maxScore: 3,
+      answers: {
+        reflectionText: reflection,
+        sentenceCount,
+        hasReadLast,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, '*');
+  }, [submitted]);
 
   return (
     <div className="hatchkod-student-stories">

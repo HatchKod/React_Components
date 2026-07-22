@@ -5,6 +5,10 @@
 import React, { useState, useEffect } from "react";
 
 export default function FullStackSimulator() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   // ---------- basic input ----------
   const [name, setName] = useState("");
   const [started, setStarted] = useState(false);
@@ -72,7 +76,7 @@ export default function FullStackSimulator() {
         setTimeout(() => setRevealLines((prev) => [...prev, line]), 200 + i * 400);
       });
       // final line after the three
-      setTimeout(() => setRevealLines((prev) => [...prev, "Frontend + Backend + Database = Full Stack App"], 200 + lines.length * 400 + 400);
+      setTimeout(() => setRevealLines((prev) => [...prev, "Frontend + Backend + Database = Full Stack App"]), 200 + lines.length * 400 + 400);
     }, 6200);
   };
 
@@ -89,6 +93,27 @@ export default function FullStackSimulator() {
     setSentCount(0);
     setSubmitted(false);
   };
+
+  // ---------- report completion to LMS ----------
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: "HK_RESULT",
+      version: "1",
+      exerciseId: "m1-t1-s1-full-stack-simulator",
+      exerciseType: "interactive",
+      status: "completed",
+      score: 3,
+      maxScore: 3,
+      answers: {
+        name,
+        reflectionText: answer,
+        sentenceCount: sentCount,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, "*");
+  }, [submitted]);
 
   // ---------- answer handling ----------
   useEffect(() => {

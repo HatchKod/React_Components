@@ -66,6 +66,10 @@ const STEPS = [
 ];
 
 export default function ChaiStallConversation() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [history, setHistory] = useState([]);
@@ -75,6 +79,24 @@ export default function ChaiStallConversation() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history, selectedOption, isComplete]);
+
+  useEffect(() => {
+    if (!isComplete) return;
+    window.parent.postMessage({
+      type: 'HK_RESULT',
+      version: '1',
+      exerciseId: 'm1-t2-s2-chai-stall-conversation',
+      exerciseType: 'interactive',
+      status: 'completed',
+      score: 3,
+      maxScore: 3,
+      answers: {
+        conversationHistory: history,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, '*');
+  }, [isComplete]);
 
   const handleSelect = (option) => {
     if (selectedOption) return;

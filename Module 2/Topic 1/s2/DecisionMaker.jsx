@@ -345,6 +345,10 @@ function parseDecision(code) {
 
 /* ─── Main component ───────────────────────────────────── */
 export default function DecisionMaker() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const soundRef = useRef(null);
   const [muted, setMuted] = useState(false);
 
@@ -463,6 +467,26 @@ export default function DecisionMaker() {
     play("submit");
     setSubmitted(true);
   }
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: "HK_RESULT",
+      version: "1",
+      exerciseId: "m2-t1-s2-decision-maker",
+      exerciseType: "interactive",
+      status: "completed",
+      score: 3,
+      maxScore: 3,
+      answers: {
+        code: code2,
+        reflectionText: plain2,
+        sentenceCount: sentences,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, "*");
+  }, [submitted]);
 
   return (
     <div className="dm-root">

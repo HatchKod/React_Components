@@ -550,6 +550,10 @@ function Canvas({ nodes, arrows, onAddNode, onRemoveNode, onAddArrow, onRemoveAr
 // MAIN COMPONENT
 // ─────────────────────────────────────────────
 function AppFlowBuilder() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [muted, setMuted] = useState(false);
   const [domain, setDomain] = useState('');
   const [canvasNodes, setCanvasNodes] = useState([]);
@@ -652,6 +656,28 @@ function AppFlowBuilder() {
     playSound('submit', muted);
     setSubmitted(true);
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: 'HK_RESULT',
+      version: '1',
+      exerciseId: 'm1-t3-s2-app-flow-builder',
+      exerciseType: 'interactive',
+      status: 'completed',
+      score: 3,
+      maxScore: 3,
+      answers: {
+        domain,
+        canvasNodes,
+        arrows,
+        flowText,
+        sentenceCount,
+      },
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, '*');
+  }, [submitted]);
 
   const screens = domain ? screenData[domain] : [];
 

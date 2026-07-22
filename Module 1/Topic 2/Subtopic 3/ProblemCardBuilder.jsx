@@ -49,6 +49,10 @@ const SECTION_LABELS = [
 ];
 
 export default function ProblemCardBuilder() {
+  const params = new URLSearchParams(window.location.search);
+  const subtopicId = params.get("subtopicId");
+  const taskId = params.get("taskId");
+
   const [currentStep, setCurrentStep] = useState(1);
   const [answers, setAnswers] = useState({ 1: "", 2: "", 3: "", 4: "", 5: "" });
   const [view, setView] = useState("builder"); // "builder" | "review" | "submitted"
@@ -56,6 +60,7 @@ export default function ProblemCardBuilder() {
   const [opacity, setOpacity] = useState(1);
   const [revealNote, setRevealNote] = useState(false);
   const [noteOpacity, setNoteOpacity] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (view === "review") {
@@ -106,8 +111,25 @@ export default function ProblemCardBuilder() {
     setTimeout(() => {
       setView("submitted");
       setOpacity(1);
+      setSubmitted(true);
     }, 220);
   }
+
+  useEffect(() => {
+    if (!submitted) return;
+    window.parent.postMessage({
+      type: "HK_RESULT",
+      version: "1",
+      exerciseId: "m1-t2-s3-problem-card-builder",
+      exerciseType: "interactive",
+      status: "completed",
+      score: 3,
+      maxScore: 3,
+      answers,
+      metadata: { subtopicId, taskId },
+      completedAt: new Date().toISOString(),
+    }, "*");
+  }, [submitted]);
 
   const styles = {
     wrapper: {
