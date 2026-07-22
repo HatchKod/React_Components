@@ -1,3 +1,13 @@
 node_modules/
 dist/
 .vite/
+site-dist/
+.DS_Store
+*.zip
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
