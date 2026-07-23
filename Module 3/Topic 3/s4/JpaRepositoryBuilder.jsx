@@ -1472,12 +1472,21 @@ export default function JpaRepositoryBuilder() {
 
   const [slot, setSlot] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [finalPayload, setFinalPayload] = useState(null);
   const play = useSound();
 
   const advance = () => setSlot(s => Math.min(s + 1, 7));
 
   function handleFinalSubmit(payload) {
+    setFinalPayload(payload);
     setSubmitted(true);
+  }
+
+  // Fire HK_RESULT exactly once, gated on `submitted` flipping true - matches
+  // the mandated useEffect pattern instead of posting inline from the click
+  // handler above.
+  useEffect(() => {
+    if (!submitted || !finalPayload) return;
     try {
       window.parent.postMessage({
         type: "HK_RESULT",
@@ -1488,13 +1497,13 @@ export default function JpaRepositoryBuilder() {
         score: 3, maxScore: 3,
         answers: {
           phase1: { completedAllSlots: true },
-          phase2: { domainSelected: payload.domain, checks: payload.checks, reflectionText: payload.reflection },
+          phase2: { domainSelected: finalPayload.domain, checks: finalPayload.checks, reflectionText: finalPayload.reflection },
         },
         metadata: { subtopicId, taskId },
         completedAt: new Date().toISOString(),
       }, "*");
     } catch (e) {}
-  }
+  }, [submitted, finalPayload]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{
