@@ -133,6 +133,7 @@ function main() {
 
   const manifest = [];
   const bySlug = new Map();
+  const failures = [];
 
   for (const { dir: buildRoot, entryFile } of found.sort((a, b) => a.dir.localeCompare(b.dir))) {
     const slug = deriveSlug(buildRoot);
@@ -146,12 +147,18 @@ function main() {
     console.log(`\n=== ${DRY_RUN ? 'Resolving' : 'Building'} ${slug} (${path.relative(ROOT, buildRoot)}) ===`);
 
     if (!DRY_RUN) {
-      const { outputDir, entryFile: outEntryFile } = buildOne(buildRoot, entryFile);
-      const destDir = path.join(OUT_DIR, slug);
-      mkdirSync(destDir, { recursive: true });
-      cpSync(outputDir, destDir, { recursive: true });
-      if (outEntryFile !== 'index.html') {
-        copyFileSync(path.join(destDir, outEntryFile), path.join(destDir, 'index.html'));
+      try {
+        const { outputDir, entryFile: outEntryFile } = buildOne(buildRoot, entryFile);
+        const destDir = path.join(OUT_DIR, slug);
+        mkdirSync(destDir, { recursive: true });
+        cpSync(outputDir, destDir, { recursive: true });
+        if (outEntryFile !== 'index.html') {
+          copyFileSync(path.join(destDir, outEntryFile), path.join(destDir, 'index.html'));
+        }
+      } catch (err) {
+        console.error(`\n!!! Failed to build ${slug} (${path.relative(ROOT, buildRoot)}): ${err.message}`);
+        failures.push({ slug, sourcePath: path.relative(ROOT, buildRoot), error: err.message });
+        continue;
       }
     }
 
@@ -180,6 +187,16 @@ function main() {
   console.log(`\nBuilt ${manifest.length} subtopics into ${path.relative(ROOT, OUT_DIR)}/`);
   console.log('Deploy with: npx wrangler pages deploy site-dist --project-name=<your-project-name>');
   console.log('Then run: node scripts/print-urls.mjs <your-project-name>.pages.dev');
+
+  if (failures.length > 0) {
+    console.error(`\n!!! ${failures.length} subtopic(s) FAILED to build and were skipped (the other ${manifest.length} still deployed):`);
+    for (const f of failures) {
+      console.error(`  - ${f.slug} (${f.sourcePath}): ${f.error}`);
+    }
+    // Exit 0 on purpose: a broken subtopic should not take the other
+    // successfully built subtopics down with it. The failure list above
+    // is printed loudly so it shows up in the Cloudflare build log.
+  }
 }
 
 main();
