@@ -5,7 +5,12 @@ const STYLE = `
   .sim-root * { box-sizing: border-box; }
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; max-width: 1100px; margin-left: auto; margin-right: auto; }
   .split-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; max-width: 1100px; margin: 0 auto; }
-  @media(max-width:900px) { .split-layout { grid-template-columns: 1fr; } }
+  .split-layout > .split-right-col { align-self: stretch; }
+  .sticky-panel { position: sticky; top: 24px; }
+  @media(max-width:900px) {
+    .split-layout { grid-template-columns: 1fr; }
+    .sticky-panel { position: static; }
+  }
 
   .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 24px; margin-bottom: 24px; border-left: 4px solid transparent; transition: all 0.3s; }
   .card.active { border-left-color: #3B82F6; box-shadow: 0 8px 24px rgba(59,130,246,0.15); }

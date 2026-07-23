@@ -100,7 +100,7 @@ export default function FullStackSimulator() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m1-t1-s1-full-stack-simulator",
+      exerciseId: "m1-t1-s1-fullstack-simulator",
       exerciseType: "interactive",
       status: "completed",
       score: 3,
