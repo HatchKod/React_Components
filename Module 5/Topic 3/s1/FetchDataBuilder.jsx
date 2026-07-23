@@ -960,7 +960,7 @@ export default function FetchDataBuilder() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t2-s1-fetch-data-builder",
+      exerciseId: "m5-t3-s1-fetch-data-builder",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

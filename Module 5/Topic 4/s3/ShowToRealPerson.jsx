@@ -772,7 +772,7 @@ export default function ShowToRealPerson() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t3-s3-show-to-real-person",
+      exerciseId: "m5-t4-s3-show-to-real-person",
       exerciseType: "interactive",
       status: "completed",
       score: 4,

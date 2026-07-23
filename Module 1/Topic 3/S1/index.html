@@ -192,12 +192,17 @@ body { margin: 0; background-color: #f8fafc; }
 const { useState, useEffect } = React;
 
 function FeatureBudget() {
+  const params     = new URLSearchParams(window.location.search);
+  const subtopicId = params.get('subtopicId');
+  const taskId     = params.get('taskId');
+
   const [muted, setMuted] = useState(false);
   const [domain, setDomain] = useState('');
   const [otherDomainText, setOtherDomainText] = useState('');
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [stage, setStage] = useState(1);
   const [justifications, setJustifications] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const tag = document.createElement('style');
@@ -254,6 +259,30 @@ function FeatureBudget() {
     const t = (justifications[f.id] || '').trim();
     return t.length > 15 && t.split(' ').length > 3;
   });
+
+  // Report completion to the LMS - fires exactly once when submitted flips true.
+  useEffect(() => {
+    if (!submitted) return;
+    try {
+      window.parent.postMessage({
+        type: 'HK_RESULT',
+        version: '1',
+        exerciseId: 'm1-t3-s1-feature-budget',
+        exerciseType: 'interactive',
+        status: 'completed',
+        score: 3,
+        maxScore: 3,
+        answers: {
+          domain,
+          otherDomainText,
+          selectedFeatures,
+          justifications,
+        },
+        metadata: { subtopicId, taskId },
+        completedAt: new Date().toISOString(),
+      }, '*');
+    } catch (e) {}
+  }, [submitted]);
 
   const badgeIcon = (comp) => comp === 'Simple' ? '🟢' : comp === 'Medium' ? '🟡' : '🔴';
 
@@ -395,7 +424,7 @@ function FeatureBudget() {
             </div>
           ))}
           <button className="fb-btn-primary" disabled={!allJustified} style={{ marginTop: '2rem' }}
-            onClick={() => { playSound('submit', muted); setStage(3); }}>
+            onClick={() => { playSound('submit', muted); setStage(3); setSubmitted(true); }}>
             My MVP is locked - let's build it →
           </button>
         </div>

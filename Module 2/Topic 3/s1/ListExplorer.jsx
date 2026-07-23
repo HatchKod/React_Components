@@ -750,7 +750,7 @@ export default function ListExplorer() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m1-t3-s1-list-explorer",
+      exerciseId: "m2-t3-s1-list-explorer",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

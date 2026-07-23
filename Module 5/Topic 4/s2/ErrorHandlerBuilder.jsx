@@ -1105,7 +1105,7 @@ export default function ErrorHandlerBuilder() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t3-s2-error-handler-builder",
+      exerciseId: "m5-t4-s2-error-handler-builder",
       exerciseType: "interactive",
       status: "completed",
       score: 5,

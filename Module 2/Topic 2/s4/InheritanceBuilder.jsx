@@ -775,7 +775,7 @@ export default function InheritanceBuilder() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m1-t2-s3-inheritance-builder",
+      exerciseId: "m2-t2-s4-inheritance-builder",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

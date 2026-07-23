@@ -845,7 +845,7 @@ export default function EncapsulationGuard() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m1-t2-s2-encapsulation-guard",
+      exerciseId: "m2-t2-s3-encapsulation-guard",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

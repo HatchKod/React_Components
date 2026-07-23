@@ -812,7 +812,7 @@ export default function ConstructorBuilder() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m1-t2-s1b-constructor-builder",
+      exerciseId: "m2-t2-s2-constructor-builder",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

@@ -975,7 +975,7 @@ export default function AllScreensBuilder() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t3-s1-all-screens-builder",
+      exerciseId: "m5-t4-s1-all-screens-builder",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

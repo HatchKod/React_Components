@@ -919,7 +919,7 @@ export default function ComponentsBuilder() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t1-s2-components-builder",
+      exerciseId: "m5-t2-s2-components-builder",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

@@ -691,7 +691,7 @@ export default function TryCatchGuard() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m1-t3-s3-try-catch-guard",
+      exerciseId: "m2-t3-s3-try-catch-guard",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

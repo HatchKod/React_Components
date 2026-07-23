@@ -679,6 +679,10 @@ export default function SpringBootMySQL() {
     if (submitted) return;
     play('payoff');
     setSubmitted(true);
+  };
+
+  useEffect(() => {
+    if (!submitted) return;
     try {
       window.parent.postMessage({
         type: 'HK_RESULT', version: '1',
@@ -693,7 +697,8 @@ export default function SpringBootMySQL() {
         completedAt: new Date().toISOString(),
       }, '*');
     } catch (_) {}
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [submitted]);
 
   const checks = [s1, s2, s3done, s4];
 

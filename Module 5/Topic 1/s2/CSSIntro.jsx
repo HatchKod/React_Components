@@ -1330,7 +1330,7 @@ export default function CSSIntro() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t0-s2-css-intro",
+      exerciseId: "m5-t1-s2-css-intro",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

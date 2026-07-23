@@ -579,7 +579,7 @@ export default function ReactIntro() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t1-s1-react-intro",
+      exerciseId: "m5-t2-s1-react-intro",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

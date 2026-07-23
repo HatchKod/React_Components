@@ -791,7 +791,7 @@ export default function MapExplorer() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m1-t3-s2-map-explorer",
+      exerciseId: "m2-t3-s2-map-explorer",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

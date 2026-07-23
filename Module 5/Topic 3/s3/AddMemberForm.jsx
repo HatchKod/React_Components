@@ -951,7 +951,7 @@ export default function AddMemberForm() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t2-s3-add-member-form",
+      exerciseId: "m5-t3-s3-add-member-form",
       exerciseType: "interactive",
       status: "completed",
       score: 3,

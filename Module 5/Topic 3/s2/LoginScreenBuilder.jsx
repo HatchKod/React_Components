@@ -1002,7 +1002,7 @@ export default function LoginScreenBuilder() {
     window.parent.postMessage({
       type: "HK_RESULT",
       version: "1",
-      exerciseId: "m4-t2-s2-login-screen-builder",
+      exerciseId: "m5-t3-s2-login-screen-builder",
       exerciseType: "interactive",
       status: "completed",
       score: 3,
