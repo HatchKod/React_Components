@@ -168,6 +168,7 @@ export default function APIWindowSimulator() {
       answers: {
         scenario:          selectedScenario,
         stepsCompleted:    progress,
+        reflectionText:    taskText,
         reflectionLength:  taskText.length,
         sentenceCount:     sentenceCount,
       },

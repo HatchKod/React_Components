@@ -432,6 +432,12 @@ Tech stack. Live URL. GitHub.
             step3: { allChecklistItems: allChecklistDone, demoRecorded, demoLink },
             step4: { linkAddedToReadme: readmeChecks.linkAdded, committed: readmeChecks.committed },
           },
+          phase2: {
+            demoRecorded: p2Recorded,
+            demoLink: p2Link,
+            committedToGitHub: p2Committed,
+            reflectionText: reflection,
+          },
         },
         metadata: { subtopicId, taskId },
         completedAt: new Date().toISOString(),
