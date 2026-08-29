@@ -193,27 +193,29 @@ function Confetti({ active }) {
    ============================================================ */
 
 const BRUTE_CODE_LINES = [
-  { text: 'function twoSum(prices, target) {', kind: 'plain' },
-  { text: '  for (let i = 0; i < prices.length; i++) {', kind: 'loop-i' },
-  { text: '    for (let j = i + 1; j < prices.length; j++) {', kind: 'loop-j' },
-  { text: '      if (prices[i] + prices[j] === target) {', kind: 'check' },
-  { text: '        return [i, j];', kind: 'return' },
+  { text: 'public static int[] twoSum(int[] prices, int target) {', kind: 'plain' },
+  { text: '  for (int i = 0; i < prices.length; i++) {', kind: 'loop-i' },
+  { text: '    for (int j = i + 1; j < prices.length; j++) {', kind: 'loop-j' },
+  { text: '      if (prices[i] + prices[j] == target) {', kind: 'check' },
+  { text: '        return new int[]{i, j};', kind: 'return' },
   { text: '      }', kind: 'plain' },
   { text: '    }', kind: 'plain' },
   { text: '  }', kind: 'plain' },
+  { text: '  return null;', kind: 'plain' },
   { text: '}', kind: 'plain' },
 ];
 
 const OPTIMAL_CODE_LINES = [
-  { text: 'function twoSum(prices, target) {', kind: 'plain' },
-  { text: '  const seen = new Map();', kind: 'plain' },
-  { text: '  for (let i = 0; i < prices.length; i++) {', kind: 'loop-i' },
-  { text: '    const complement = target - prices[i];', kind: 'complement' },
-  { text: '    if (seen.has(complement)) {', kind: 'check' },
-  { text: '      return [seen.get(complement), i];', kind: 'return' },
+  { text: 'public static int[] twoSum(int[] prices, int target) {', kind: 'plain' },
+  { text: '  Map<Integer, Integer> seen = new HashMap<>();', kind: 'plain' },
+  { text: '  for (int i = 0; i < prices.length; i++) {', kind: 'loop-i' },
+  { text: '    int complement = target - prices[i];', kind: 'complement' },
+  { text: '    if (seen.containsKey(complement)) {', kind: 'check' },
+  { text: '      return new int[]{seen.get(complement), i};', kind: 'return' },
   { text: '    }', kind: 'plain' },
-  { text: '    seen.set(prices[i], i);', kind: 'set' },
+  { text: '    seen.put(prices[i], i);', kind: 'set' },
   { text: '  }', kind: 'plain' },
+  { text: '  return null;', kind: 'plain' },
   { text: '}', kind: 'plain' },
 ];
 
@@ -244,7 +246,7 @@ function notebookBeforeStep(stepIdx) {
 function highlightSyntax(text) {
   // very small, dependency-free syntax coloring for the fixed snippets above
   const parts = [];
-  const tokenRe = /(\/\/.*$)|('.*?')|(\b\d+\b)|(\bfunction\b|\bfor\b|\blet\b|\bconst\b|\breturn\b|\bif\b|\bnew\b)/g;
+  const tokenRe = /(\/\/.*$)|('.*?')|(\b\d+\b)|(\bpublic\b|\bstatic\b|\bint\b|\bfor\b|\breturn\b|\bif\b|\bnew\b|\bnull\b)/g;
   let lastIndex = 0;
   let match;
   while ((match = tokenRe.exec(text))) {
@@ -313,7 +315,7 @@ function CodePanel({
           { label: 'i', value: step.i },
           { label: 'prices[i]', value: MENU[step.i].price },
           { label: 'complement', value: step.complement },
-          { label: 'seen.has(complement)', value: step.isMatch ? 'true' : 'false', tone: step.isMatch ? 'good' : 'bad' },
+          { label: 'seen.containsKey(complement)', value: step.isMatch ? 'true' : 'false', tone: step.isMatch ? 'good' : 'bad' },
         ];
 
   return (
