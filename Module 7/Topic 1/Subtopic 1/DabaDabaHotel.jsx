@@ -847,20 +847,25 @@ export default function DabaDabaHotel() {
                   const isGold = bruteFlashState === 'match' && currentBruteStep && (idx === currentBruteStep.i || idx === currentBruteStep.j);
                   const isRed = bruteFlashState === 'no-match' && currentBruteStep && (idx === currentBruteStep.i || idx === currentBruteStep.j);
                   return (
-                    <div
-                      key={item.id}
-                      className={
-                        'ddh-array-box' +
-                        (isOuter ? ' ddh-box-current' : '') +
-                        (isInner ? ' ddh-box-checking' : '') +
-                        (isDoneBox ? ' ddh-box-done' : '') +
-                        (isGold ? ' ddh-box-gold' : '') +
-                        (isRed ? ' ddh-box-red' : '')
-                      }
-                    >
-                      <div className="ddh-box-index">{idx}</div>
-                      <div className="ddh-box-value">₹{item.price}</div>
-                      <div className="ddh-box-label">{item.name}</div>
+                    <div key={item.id} className="ddh-array-slot">
+                      <div className="ddh-array-pointer-row">
+                        {isOuter && <span className="ddh-mini-pointer ddh-pointer-i">i</span>}
+                        {isInner && <span className="ddh-mini-pointer ddh-pointer-j">j</span>}
+                      </div>
+                      <div
+                        className={
+                          'ddh-array-box' +
+                          (isOuter ? ' ddh-box-current' : '') +
+                          (isInner ? ' ddh-box-checking' : '') +
+                          (isDoneBox ? ' ddh-box-done' : '') +
+                          (isGold ? ' ddh-box-gold' : '') +
+                          (isRed ? ' ddh-box-red' : '')
+                        }
+                      >
+                        <div className="ddh-box-index">{idx}</div>
+                        <div className="ddh-box-value">₹{item.price}</div>
+                        <div className="ddh-box-label">{item.name}</div>
+                      </div>
                     </div>
                   );
                 })}
@@ -931,19 +936,26 @@ export default function DabaDabaHotel() {
                     optFlashState === 'match' && currentOptStep && currentOptStep.foundIndex === idx;
                   const isDoneBox = idx < (currentOptStep ? currentOptStep.i : optDone ? MENU.length : -1);
                   return (
-                    <div
-                      key={item.id}
-                      className={
-                        'ddh-array-box' +
-                        (isCurrent ? ' ddh-box-current' : '') +
-                        (isDoneBox ? ' ddh-box-done' : '') +
-                        (isMatchedSource || isMatchedTarget ? ' ddh-box-gold' : '') +
-                        (optFlashState === 'no-match' && isCurrent ? ' ddh-box-red' : '')
-                      }
-                    >
-                      <div className="ddh-box-index">{idx}</div>
-                      <div className="ddh-box-value">₹{item.price}</div>
-                      <div className="ddh-box-label">{item.name}</div>
+                    <div key={item.id} className="ddh-array-slot">
+                      <div className="ddh-array-pointer-row">
+                        {isCurrent && <span className="ddh-mini-pointer ddh-pointer-i">i</span>}
+                        {isMatchedTarget && !isCurrent && (
+                          <span className="ddh-mini-pointer ddh-pointer-found">✓</span>
+                        )}
+                      </div>
+                      <div
+                        className={
+                          'ddh-array-box' +
+                          (isCurrent ? ' ddh-box-current' : '') +
+                          (isDoneBox ? ' ddh-box-done' : '') +
+                          (isMatchedSource || isMatchedTarget ? ' ddh-box-gold' : '') +
+                          (optFlashState === 'no-match' && isCurrent ? ' ddh-box-red' : '')
+                        }
+                      >
+                        <div className="ddh-box-index">{idx}</div>
+                        <div className="ddh-box-value">₹{item.price}</div>
+                        <div className="ddh-box-label">{item.name}</div>
+                      </div>
                     </div>
                   );
                 })}
@@ -1196,6 +1208,9 @@ const STYLES = `
   flex-wrap: wrap;
   justify-content: center;
 }
+.ddh-array-slot { display: flex; flex-direction: column; align-items: center; }
+.ddh-array-pointer-row { height: 22px; display: flex; align-items: flex-end; gap: 4px; }
+.ddh-pointer-found { background: #ffb703; color: #3d2b00; }
 .ddh-array-box {
   min-width: 76px;
   min-height: 76px;
@@ -1213,8 +1228,18 @@ const STYLES = `
 .ddh-box-index { font-size: 11px; color: #999; }
 .ddh-box-value { font-weight: 700; font-size: 15px; }
 .ddh-box-label { font-size: 10px; color: #6b5340; }
-.ddh-box-current { border-color: #2a9d8f; box-shadow: 0 0 0 3px rgba(42,157,143,0.3); }
-.ddh-box-checking { border-color: #ff8c42; }
+.ddh-box-current { border-color: #2a9d8f; box-shadow: 0 0 0 3px rgba(42,157,143,0.3); transform: scale(1.05); }
+.ddh-box-checking {
+  border-color: #ff8c42;
+  border-width: 3px;
+  box-shadow: 0 0 0 4px rgba(255,140,66,0.35);
+  transform: scale(1.08);
+  animation: ddh-checking-pulse 0.6s ease-in-out infinite;
+}
+@keyframes ddh-checking-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255,140,66,0.35); }
+  50% { box-shadow: 0 0 0 7px rgba(255,140,66,0.15); }
+}
 .ddh-box-done { opacity: 0.45; }
 .ddh-box-gold { border-color: #ffd166; box-shadow: 0 0 0 4px rgba(255,209,102,0.5); background: #fff8e1; }
 .ddh-box-red { animation: ddh-shake 0.35s ease; border-color: #e63946; }
@@ -1480,7 +1505,8 @@ const STYLES = `
 
 @media (prefers-reduced-motion: reduce) {
   .ddh-storefront, .ddh-menu-item, .ddh-box-red, .ddh-pulse, .ddh-char,
-  .ddh-code-line-active, .ddh-var-pop, .ddh-combo-log-row, .ddh-mini-pointer {
+  .ddh-code-line-active, .ddh-var-pop, .ddh-combo-log-row, .ddh-mini-pointer,
+  .ddh-box-checking {
     animation: none !important;
     transition-duration: 0.01ms !important;
   }

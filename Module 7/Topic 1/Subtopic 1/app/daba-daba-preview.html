@@ -640,13 +640,22 @@ var DDH = (() => {
       const isRed = bruteFlashState === "no-match" && currentBruteStep && (idx === currentBruteStep.i || idx === currentBruteStep.j);
       return /* @__PURE__ */ React.createElement(
         "div",
-        {
-          key: item.id,
-          className: "ddh-array-box" + (isOuter ? " ddh-box-current" : "") + (isInner ? " ddh-box-checking" : "") + (isDoneBox ? " ddh-box-done" : "") + (isGold ? " ddh-box-gold" : "") + (isRed ? " ddh-box-red" : "")
-        },
-        /* @__PURE__ */ React.createElement("div", { className: "ddh-box-index" }, idx),
-        /* @__PURE__ */ React.createElement("div", { className: "ddh-box-value" }, "\u20B9", item.price),
-        /* @__PURE__ */ React.createElement("div", { className: "ddh-box-label" }, item.name)
+        { key: item.id, className: "ddh-array-slot" },
+        /* @__PURE__ */ React.createElement(
+          "div",
+          { className: "ddh-array-pointer-row" },
+          isOuter && /* @__PURE__ */ React.createElement("span", { className: "ddh-mini-pointer ddh-pointer-i" }, "i"),
+          isInner && /* @__PURE__ */ React.createElement("span", { className: "ddh-mini-pointer ddh-pointer-j" }, "j")
+        ),
+        /* @__PURE__ */ React.createElement(
+          "div",
+          {
+            className: "ddh-array-box" + (isOuter ? " ddh-box-current" : "") + (isInner ? " ddh-box-checking" : "") + (isDoneBox ? " ddh-box-done" : "") + (isGold ? " ddh-box-gold" : "") + (isRed ? " ddh-box-red" : "")
+          },
+          /* @__PURE__ */ React.createElement("div", { className: "ddh-box-index" }, idx),
+          /* @__PURE__ */ React.createElement("div", { className: "ddh-box-value" }, "\u20B9", item.price),
+          /* @__PURE__ */ React.createElement("div", { className: "ddh-box-label" }, item.name)
+        )
       );
     })), bruteHistory.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "ddh-combo-log" }, /* @__PURE__ */ React.createElement("div", { className: "ddh-notebook-title" }, "\u{1F9FE} Combos checked"), /* @__PURE__ */ React.createElement("div", { className: "ddh-notebook-entries" }, bruteHistory.map((h, idx) => /* @__PURE__ */ React.createElement(
       "div",
@@ -667,13 +676,22 @@ var DDH = (() => {
       const isDoneBox = idx < (currentOptStep ? currentOptStep.i : optDone ? MENU.length : -1);
       return /* @__PURE__ */ React.createElement(
         "div",
-        {
-          key: item.id,
-          className: "ddh-array-box" + (isCurrent ? " ddh-box-current" : "") + (isDoneBox ? " ddh-box-done" : "") + (isMatchedSource || isMatchedTarget ? " ddh-box-gold" : "") + (optFlashState === "no-match" && isCurrent ? " ddh-box-red" : "")
-        },
-        /* @__PURE__ */ React.createElement("div", { className: "ddh-box-index" }, idx),
-        /* @__PURE__ */ React.createElement("div", { className: "ddh-box-value" }, "\u20B9", item.price),
-        /* @__PURE__ */ React.createElement("div", { className: "ddh-box-label" }, item.name)
+        { key: item.id, className: "ddh-array-slot" },
+        /* @__PURE__ */ React.createElement(
+          "div",
+          { className: "ddh-array-pointer-row" },
+          isCurrent && /* @__PURE__ */ React.createElement("span", { className: "ddh-mini-pointer ddh-pointer-i" }, "i"),
+          isMatchedTarget && !isCurrent && /* @__PURE__ */ React.createElement("span", { className: "ddh-mini-pointer ddh-pointer-found" }, "\u2713")
+        ),
+        /* @__PURE__ */ React.createElement(
+          "div",
+          {
+            className: "ddh-array-box" + (isCurrent ? " ddh-box-current" : "") + (isDoneBox ? " ddh-box-done" : "") + (isMatchedSource || isMatchedTarget ? " ddh-box-gold" : "") + (optFlashState === "no-match" && isCurrent ? " ddh-box-red" : "")
+          },
+          /* @__PURE__ */ React.createElement("div", { className: "ddh-box-index" }, idx),
+          /* @__PURE__ */ React.createElement("div", { className: "ddh-box-value" }, "\u20B9", item.price),
+          /* @__PURE__ */ React.createElement("div", { className: "ddh-box-label" }, item.name)
+        )
       );
     })), /* @__PURE__ */ React.createElement("div", { className: "ddh-notebook" }, /* @__PURE__ */ React.createElement("div", { className: "ddh-notebook-title" }, "\u{1F4D3} ", CHAR_NAME, "'s Notebook"), /* @__PURE__ */ React.createElement("div", { className: "ddh-notebook-entries" }, Object.keys(notebook).length === 0 && /* @__PURE__ */ React.createElement("div", { className: "ddh-notebook-empty" }, "Empty"), Object.entries(notebook).map(([price, idx]) => /* @__PURE__ */ React.createElement(
       "div",
@@ -852,6 +870,9 @@ var DDH = (() => {
   flex-wrap: wrap;
   justify-content: center;
 }
+.ddh-array-slot { display: flex; flex-direction: column; align-items: center; }
+.ddh-array-pointer-row { height: 22px; display: flex; align-items: flex-end; gap: 4px; }
+.ddh-pointer-found { background: #ffb703; color: #3d2b00; }
 .ddh-array-box {
   min-width: 76px;
   min-height: 76px;
@@ -869,8 +890,18 @@ var DDH = (() => {
 .ddh-box-index { font-size: 11px; color: #999; }
 .ddh-box-value { font-weight: 700; font-size: 15px; }
 .ddh-box-label { font-size: 10px; color: #6b5340; }
-.ddh-box-current { border-color: #2a9d8f; box-shadow: 0 0 0 3px rgba(42,157,143,0.3); }
-.ddh-box-checking { border-color: #ff8c42; }
+.ddh-box-current { border-color: #2a9d8f; box-shadow: 0 0 0 3px rgba(42,157,143,0.3); transform: scale(1.05); }
+.ddh-box-checking {
+  border-color: #ff8c42;
+  border-width: 3px;
+  box-shadow: 0 0 0 4px rgba(255,140,66,0.35);
+  transform: scale(1.08);
+  animation: ddh-checking-pulse 0.6s ease-in-out infinite;
+}
+@keyframes ddh-checking-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255,140,66,0.35); }
+  50% { box-shadow: 0 0 0 7px rgba(255,140,66,0.15); }
+}
 .ddh-box-done { opacity: 0.45; }
 .ddh-box-gold { border-color: #ffd166; box-shadow: 0 0 0 4px rgba(255,209,102,0.5); background: #fff8e1; }
 .ddh-box-red { animation: ddh-shake 0.35s ease; border-color: #e63946; }
@@ -1136,7 +1167,8 @@ var DDH = (() => {
 
 @media (prefers-reduced-motion: reduce) {
   .ddh-storefront, .ddh-menu-item, .ddh-box-red, .ddh-pulse, .ddh-char,
-  .ddh-code-line-active, .ddh-var-pop, .ddh-combo-log-row, .ddh-mini-pointer {
+  .ddh-code-line-active, .ddh-var-pop, .ddh-combo-log-row, .ddh-mini-pointer,
+  .ddh-box-checking {
     animation: none !important;
     transition-duration: 0.01ms !important;
   }
